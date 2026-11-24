@@ -1,48 +1,48 @@
-<!-- A0 taslak, A1 son hali (P hattında A2'de çekirdek döngü / öğrenme hedefi bölümünü game-/learning-designer ekler) | sahip: planner | hedef: docs/BRIEF.md | kapı: E-A0 (taslak), E-A1 -> K1 (P: K1 sunumu bu belgeden) -->
-<!-- P hattında: tek sayfa; tüm bölümler 1-3 satır. Ü hattında asıl belge SPEC'tir; BRIEF A0 girdisi olarak kalır, Ü K1 sunumu SPEC'ten çıkar. Yer tutucu adı: <ad>. -->
-# BRIEF <ad>
+<!-- A0 draft, A1 final (on the P track, in A2 the game-/learning-designer adds the core loop / learning objective section) | owner: planner | target: docs/BRIEF.md | gate: E-A0 (draft), E-A1 -> K1 (P: the K1 presentation comes from this document) -->
+<!-- On the P track: one page; every section 1-3 lines. On the U track the main document is SPEC; BRIEF stays as an A0 input, the U K1 presentation comes from SPEC. Placeholder name: <name>. -->
+# BRIEF <name>
 
-## Ürün tanımı
-<!-- doldurma talimatı: TEK cümle: "<kimin için> <ne yapan> <ürün türü>". Kaynak: state/INTAKE.md. -->
-<tek cümle>
+## Product definition
+<!-- fill-in instruction: ONE sentence: "<for whom> <doing what> <product type>". Source: state/INTAKE.md. -->
+<one sentence>
 
-## Problem ve kitle
-<!-- doldurma talimatı: 2-4 cümle: çözülen problem, kimin yaşadığı. Kaynak: INTAKE.md; bilinmeyen varsayımı Açık sorulara taşı. -->
-<problem> / <kime>
+## Problem and audience
+<!-- fill-in instruction: 2-4 sentences: the problem solved, who experiences it. Source: INTAKE.md; move unknown assumptions to Open questions. -->
+<problem> / <for whom>
 
-## Etiketler
-<!-- doldurma talimatı: sözlük değerleri aynen. mod yalnız Ü hattında; P'de "-". tur'da oyunlaştırma varsa +oyun eki (ör. egitim+oyun). -->
-tur: <oyun/egitim/ogrenme/kisisel-gelisim>[+oyun] | kitle: <cocuk/genc/yetiskin> | profil: <web/mobil/masaustu-motor> | hat: <prototip/urun> | mod: <hafif/orta/tam/->
+## Labels
+<!-- fill-in instruction: glossary values verbatim. mode only on the U track; "-" in P. If the type includes gamification, add the +game suffix (e.g. education+game). -->
+type: <game/education/learning/self-development>[+game] | audience: <child/teen/adult> | profile: <web/mobile/desktop-engine> | track: <prototype/product> | mode: <light/medium/full/->
 
-## Çekirdek döngü / öğrenme vaadi
-<!-- doldurma talimatı: oyun/oyunlaştırma için 1 cümle çekirdek döngü (eylem -> geri bildirim -> ödül); eğitim/öğrenme için 1 cümle vaat ("... sonunda ... yapabilir"). P'de A2'de tasarımcı bu bölümü genişletir. -->
-<döngü veya vaat>
+## Core loop / learning promise
+<!-- fill-in instruction: for game/gamification, 1 sentence core loop (action -> feedback -> reward); for education/learning, 1 sentence promise ("by the end ... can do ..."). In P the designer expands this section in A2. -->
+<loop or promise>
 
-## Kapsam
-<!-- doldurma talimatı: 3-5 madde; her biri özellik kimliği (F-01, F-02...) ve doğrulanabilir tek satır. Ü'de bu kimlikler SPEC'e aynen taşınır. -->
-- F-01: <kapsam 1>
+## Scope
+<!-- fill-in instruction: 3-5 items; each has a feature ID (F-01, F-02...) and one verifiable line. On U these IDs are carried to SPEC verbatim. -->
+- F-01: <scope 1>
 
-## Yapılmayacaklar
-<!-- doldurma talimatı: en az 3 madde; INTAKE'teki "yapılmayacaklar" ve kapsam kaymasına açık konular. -->
-- <yapılmayacak 1>
+## Non-goals
+<!-- fill-in instruction: at least 3 items; the "non-goals" from INTAKE and topics prone to scope creep. -->
+- <non-goal 1>
 
-## Başarı sinyali
-<!-- doldurma talimatı: 1-3 gözlenebilir sinyal (sayı ya da evet/hayır); P'de hipotezi sınar. -->
-- <sinyal>
+## Success signal
+<!-- fill-in instruction: 1-3 observable signals (a number or yes/no); in P it tests the hypothesis. -->
+- <signal>
 
-## Prototip hipotezi ve hafif tasarım (yalnız P hattı)
-<!-- doldurma talimatı: hipotez 1 cümle ("X olursa Y beğenilir"); çekirdek döngü / öğrenme hedefi (LH-01...) 2-3 cümle; 1 akış (≤8 adım); görsel/ses yönü 1 satır; kitle cocuk: + erişilebilirlik ve çocuk güvenliği notu (≤6 satır: renk çifti + oran, klavye yolu, odak, dokunma hedefi ≥48 px, zaman sınırı yok, veri toplanmaz); oyunsa: test kancası gereksinimi 1 satır (`?debug=1&seed=N`, `window.__game.getState()`). P'de UX.md/ART_AUDIO.md yoktur, her şey burada. Doğrudan Ü'de bölümü sil; terfide KORU (A2 girdisi). -->
-Hipotez: <hipotez>
-Akış: <1 -> 2 -> 3>
+## Prototype hypothesis and light design (P track only)
+<!-- fill-in instruction: hypothesis 1 sentence ("if X then Y is liked"); core loop / learning objective (LO-01...) 2-3 sentences; 1 flow (<=8 steps); visual/audio direction 1 line; audience child: + accessibility and child safety note (<=6 lines: color pair + ratio, keyboard path, focus, touch target >=48 px, no time limit, no data collected); for games: test hook requirement 1 line (`?debug=1&seed=N`, `window.__game.getState()`). In P there is no UX.md/ART_AUDIO.md, everything is here. Delete the section if going directly to U; KEEP on promotion (A2 input). -->
+Hypothesis: <hypothesis>
+Flow: <1 -> 2 -> 3>
 
-## Tetiklenen koşullu kapılar
-<!-- doldurma talimatı: SKILL.md tetikleyici tablosuna göre C-COCUK, C-YAS, C-ALAN, C-GUV, C-ERISIM, C-PERF; her biri tek satır gerekçe. Yoksa "yok". PHASE kosullu: satırı bununla aynı olur. -->
-<C-... : gerekçe>
+## Triggered conditional gates
+<!-- fill-in instruction: per the SKILL.md trigger table: C-CHILD, C-AGE, C-DOMAIN, C-SEC, C-ACCESS, C-PERF; one line of rationale each. If none, "none". The PHASE conditional: line becomes identical to this. -->
+<C-... : rationale>
 
-## Riskler
-<!-- doldurma talimatı: en çok 5; her biri "risk -> önlem". K1 sunumunda ilk 2'si kullanılır. -->
-- <risk -> önlem>
+## Risks
+<!-- fill-in instruction: at most 5; each "risk -> mitigation". The first 2 are used in the K1 presentation. -->
+- <risk -> mitigation>
 
-## Açık sorular
-<!-- doldurma talimatı: kullanıcıya sorulacaklar; yoksa "-". -->
-- <soru>
+## Open questions
+<!-- fill-in instruction: things to ask the user; "-" if none. -->
+- <question>

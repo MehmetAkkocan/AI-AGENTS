@@ -1,49 +1,49 @@
-<!-- A1 | sahip: planner (critic denetler) | hedef: docs/SPEC.md (Ü hattı) | kapı: E-A1 -> K1 (K1 sunumu bu belgeden: Ürün tanımı, Etiketler, Kapsam, Yapılmayacaklar, Koşullu kapılar, Riskler) -->
-<!-- Ü/hafif minimum: Ürün tanımı, Etiketler, Hedefler, Özellikler, Kapsam dışı, Kısıtlar, Başarı ölçütleri, Koşullu kapılar, Riskler. Orta/tam: "Kısıtlar" docs/CONSTRAINTS.md'ye taşınır, burada işaretçi kalır. Kilometre taşları yalnız tam modda. Yer tutucu adı: <ad>. -->
-# SPEC <ad>
+<!-- A1 | owner: planner (critic reviews) | target: docs/SPEC.md (U track) | gate: E-A1 -> K1 (the K1 presentation comes from this document: Product definition, Labels, Scope, Non-goals, Conditional gates, Risks) -->
+<!-- U/light minimum: Product definition, Labels, Goals, Features, Out of scope, Constraints, Success criteria, Conditional gates, Risks. Medium/full: "Constraints" moves to docs/CONSTRAINTS.md, a pointer stays here. Milestones only in full mode. Placeholder name: <name>. -->
+# SPEC <name>
 
-## Ürün tanımı
-<!-- doldurma talimatı: TEK cümle: "<kimin için> <ne yapan> <ürün türü>". Kaynak: BRIEF.md ya da onaylı konsept belgesi. -->
-<tek cümle>
+## Product definition
+<!-- fill-in instruction: ONE sentence: "<for whom> <doing what> <product type>". Source: BRIEF.md or the approved concept document. -->
+<one sentence>
 
-## Etiketler
-<!-- doldurma talimatı: sözlük değerleri aynen; hat bu belgede "urun". -->
-tur: <...>[+oyun] | kitle: <cocuk/genc/yetiskin> | profil: <web/mobil/masaustu-motor> | hat: urun | mod: <hafif/orta/tam>
+## Labels
+<!-- fill-in instruction: glossary values verbatim; the track in this document is "product". -->
+type: <...>[+game] | audience: <child/teen/adult> | profile: <web/mobile/desktop-engine> | track: product | mode: <light/medium/full>
 
-## Hedefler
-<!-- doldurma talimatı: 3-5 madde; her biri ürünün neden var olduğunu söyler. -->
-- <hedef>
+## Goals
+<!-- fill-in instruction: 3-5 items; each says why the product exists. -->
+- <goal>
 
-## Özellikler ve kabul ölçütleri
-<!-- doldurma talimatı: her özellik F-01, F-02... kimliği alır (başka biçim yok); kabul ölçütü ALT MADDE F-01.a, F-01.b ve test edilebilir ("verilen X ise Y gözlenir"). Kimlikler GDD/LEARNING_DESIGN/UX/TEST_PLAN/VERIFICATION'da aynen anılır; yeniden numaralama yok. -->
-| Kimlik | Özellik / hikâye | Kabul ölçütü (F-xx.a) | Öncelik |
+## Features and acceptance criteria
+<!-- fill-in instruction: each feature gets an ID F-01, F-02... (no other format); acceptance criteria are SUB-ITEMS F-01.a, F-01.b and testable ("given X, Y is observed"). IDs are cited verbatim in GDD/LEARNING_DESIGN/UX/TEST_PLAN/VERIFICATION; no renumbering. -->
+| ID | Feature / story | Acceptance criterion (F-xx.a) | Priority |
 |---|---|---|---|
-| F-01 | <Kullanıcı olarak ... istiyorum> | F-01.a: <Verilen ... olduğunda ... görünür> | <ZORUNLU/ISTEGE> |
+| F-01 | <As a user, I want ...> | F-01.a: <Given ..., ... is shown> | <REQUIRED/OPTIONAL> |
 
-## Kapsam dışı
-<!-- doldurma talimatı: bilinçle dışarıda kalanlar, en az 3 madde (K1'de "Yapılmayacaklar" olarak sunulur). -->
-- <kapsam dışı>
+## Out of scope
+<!-- fill-in instruction: things deliberately left out, at least 3 items (presented as "Non-goals" at K1). -->
+- <out of scope>
 
-## Kısıtlar
-<!-- doldurma talimatı: platform/profil, host (host'ta yalnız git, Podman, PowerShell 5.1: derleme ve çalıştırma konteynerde), teknoloji sabitleri, veri/gizlilik sınırları, dil. -->
-- Platform: <web/mobil/masaustu-motor>; host: konteyner (Podman)
+## Constraints
+<!-- fill-in instruction: platform/profile, host (only git, Podman, PowerShell 5.1 on the host: build and run in containers), technology constants, data/privacy limits, language. -->
+- Platform: <web/mobile/desktop-engine>; host: container (Podman)
 
-## Başarı ölçütleri
-<!-- doldurma talimatı: ürün düzeyinde ölçülebilir 3-6 madde (ör. "run.ps1 -E2E yeşil", "3 persona görevleri tamamlar"); A6 VERIFICATION kapsama satırları bunlara bağlanır. -->
-- <ölçüt>
+## Success criteria
+<!-- fill-in instruction: 3-6 measurable product-level items (e.g. "run.ps1 -E2E green", "3 personas complete their tasks"); the A6 VERIFICATION coverage rows link to these. -->
+- <criterion>
 
-## Koşullu kapılar
-<!-- doldurma talimatı: SKILL.md tetikleyici tablosuna göre tetiklenen C-* kimlikleri + tek satır gerekçe (mod koşullu kapıyı kaldırmaz; hat=urun'da C-GUV ve C-ERISIM her zaman). PHASE kosullu: satırı buradan. -->
-- <C-GUV: gerekçe>
+## Conditional gates
+<!-- fill-in instruction: per the SKILL.md trigger table, the triggered C-* IDs + one line of rationale (mode does not remove a conditional gate; on track=product C-SEC and C-ACCESS always apply). The PHASE conditional: line comes from here. -->
+- <C-SEC: rationale>
 
-## Riskler
-<!-- doldurma talimatı: en çok 5; "risk -> önlem". K1 sunumunda ilk 2'si kullanılır. -->
-- <risk -> önlem>
+## Risks
+<!-- fill-in instruction: at most 5; "risk -> mitigation". The first 2 are used in the K1 presentation. -->
+- <risk -> mitigation>
 
-## Kilometre taşları (yalnız tam mod)
-<!-- doldurma talimatı: 3-6 taş: ad, içerdiği F-kimlikleri, tahmini dilim sayısı. Diğer modlarda bölümü sil. -->
-- <KT-1: F-01..F-03>
+## Milestones (full mode only)
+<!-- fill-in instruction: 3-6 milestones: name, F-IDs included, estimated slice count. Delete the section in other modes. -->
+- <MS-1: F-01..F-03>
 
-## Açık sorular
-<!-- doldurma talimatı: yoksa "-". -->
-- <soru>
+## Open questions
+<!-- fill-in instruction: "-" if none. -->
+- <question>

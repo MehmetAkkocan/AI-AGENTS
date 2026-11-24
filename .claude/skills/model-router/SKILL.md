@@ -1,14 +1,14 @@
 ---
 name: model-router
-description: Seviye 5 — Görev tipi ve team/budget.json'daki limit durumuna göre hangi ajanın hangi modelle (opus/sonnet/haiku/gemini) çalışacağını seçer. Lider her delegasyondan önce uygular. "Üstte akıllı, altta ucuz" ilkesi.
+description: Level 5 — Chooses which agent runs with which model (opus/sonnet/haiku/gemini) based on the task type and the limit status in team/budget.json. The lead applies it before every delegation. The "smart on top, cheap underneath" principle.
 ---
 
-# Model yönlendirici
+# Model router
 
-Videodaki CodexBar (macOS menü çubuğu limit göstergesi) Windows'ta yok. Yerine kullanıcı limit
-uyarısı gördüğünde `team/budget.json`'ı elle günceller; lider her delegasyonda bu dosyaya bakar.
+CodexBar from the video (a macOS menu-bar limit indicator) does not exist on Windows. In its place, when the user
+sees a limit warning they update `team/budget.json` by hand; the lead looks at this file at every delegation.
 
-## Bütçe durumunu oku / güncelle
+## Read / update the budget status
 
 ```
 powershell -ExecutionPolicy Bypass -File ".claude/skills/model-router/scripts/budget.ps1"
@@ -16,56 +16,56 @@ powershell -ExecutionPolicy Bypass -File ".claude/skills/model-router/scripts/bu
 powershell -ExecutionPolicy Bypass -File ".claude/skills/model-router/scripts/budget.ps1" -Reset
 ```
 
-Değerler: `ok` (normal), `tight` (uyarı geldi, %20'den az kaldı), `exhausted` (limit doldu).
+Values: `ok` (normal), `tight` (a warning came, less than 20% left), `exhausted` (limit used up).
 
-Lider bu scripti çalıştırmaz: `team/budget.json`'ı Read ile okur. Scripti kullanıcı elle çalıştırır
-veya lider bir ajana (genelde tester) çalıştırtır.
+The lead does not run this script: it reads `team/budget.json` with Read. The user runs the script by hand
+or the lead has an agent (usually the tester) run it.
 
-## Karar tablosu
+## Decision table
 
-| Görev tipi | claude=ok | claude=tight | claude=exhausted |
+| Task type | claude=ok | claude=tight | claude=exhausted |
 |---|---|---|---|
-| Planlama (planner) | opus | sonnet | DUR |
-| Eleştiri, tekil parça incelemesi (critic; `Kapı: yok`, A7 danışma dahil) | sonnet | sonnet | DUR |
-| Eleştiri, aşama kapısı `E-A<n>` / koşullu `C-*` / kullanıcı kapısı öncesi son inceleme (critic) | opus | sonnet | DUR |
-| Eleştiri, aynı parçada 2. REVISE'dan sonraki 3. tur (critic + üretici ajan bir üst modele) | opus | terfi yok (BLOKE) | DUR |
-| Oyun / öğrenme tasarımı (game-designer, learning-designer) | opus | sonnet | DUR |
-| UX tasarımı (ux-designer) | sonnet | sonnet | DUR |
-| Kod, görsel/ses uygulaması (coder) | sonnet | sonnet | DUR |
-| İçerik (writer) | sonnet | sonnet | DUR |
-| Playtest (playtester) | sonnet | sonnet (az persona) | DUR |
-| Araştırma (researcher) | haiku | haiku | DUR |
-| Test koşma (tester) | haiku | haiku | DUR |
-| Görsel/ses yön önerisi, uzun doküman, ikinci görüş | gemini plan (isteğe bağlı; tester koşturur) | gemini plan (isteğe bağlı; tester koşturur) | kullanıcı elle |
+| Planning (planner) | opus | sonnet | STOP |
+| Critique, single-task review (critic; `Gate: none`, A7 consultation included) | sonnet | sonnet | STOP |
+| Critique, stage gate `E-A<n>` / conditional `C-*` / final review before a user gate (critic) | opus | sonnet | STOP |
+| Critique, 3rd round after the 2nd REVISE on the same task (critic + producing agent one model up) | opus | no promotion (BLOCKED) | STOP |
+| Game / learning design (game-designer, learning-designer) | opus | sonnet | STOP |
+| UX design (ux-designer) | sonnet | sonnet | STOP |
+| Code, visual/audio implementation (coder) | sonnet | sonnet | STOP |
+| Content (writer) | sonnet | sonnet | STOP |
+| Playtest (playtester) | sonnet | sonnet (fewer personas) | STOP |
+| Research (researcher) | haiku | haiku | STOP |
+| Running tests (tester) | haiku | haiku | STOP |
+| Visual/audio direction suggestion, long document, second opinion | gemini plan (optional; tester runs it) | gemini plan (optional; tester runs it) | user by hand |
 
-Not: tablodaki tüm roller (game-designer, learning-designer, ux-designer, playtester dahil) `.claude/agents/`
-altında tanımlıdır.
+Note: all roles in the table (game-designer, learning-designer, ux-designer, playtester included) are defined under
+`.claude/agents/`.
 
-claude=exhausted: ekip durur; lider son iş olarak proje durumunu proje HANDOFF'una, bütçe durumunu küresel HANDOFF'a yazar ve kullanıcıya bildirir.
-Kullanıcı isterse `agy-run.ps1`'i elle `-Mode plan` ile (`-Project <ad>` ya da `-Merkez`, tam biri) çalıştırıp taslak/öneri alabilir; çıktı limit
-açılınca coder/writer tarafından uygulanır.
+claude=exhausted: the team stops; as its last job the lead writes the project status to the project HANDOFF and the budget status to the global HANDOFF and notifies the user.
+If the user wishes, they can run `agy-run.ps1` by hand with `-Mode plan` (`-Project <name>` or `-Hub`, exactly one) to get a draft/suggestion; the output is applied
+by the coder/writer when the limit reopens.
 
-Gemini bu host'ta dosya yazamaz (yalnız plan/öneri modunda metin üretir). `gemini` de `exhausted` ise
-yalnız ikinci görüş kaybolur; ekip Claude ile sürer.
+Gemini cannot write files on this host (it produces text only, in plan/suggestion mode). If `gemini` is also `exhausted`,
+only the second opinion is lost; the team continues with Claude.
 
-Görsel/ses kodla üretilir (coder: SVG/CSS/prosedürel/sentez ses); Gemini yalnız isteğe bağlı ikinci görüş/öneri verir.
+Visuals/audio are produced with code (coder: SVG/CSS/procedural/synthesized audio); Gemini only gives an optional second opinion/suggestion.
 
-## Nasıl uygulanır
+## How to apply
 
-1. Ajan dosyalarındaki `model:` alanı `claude=ok` durumunun varsayılanıdır.
-2. Tablo farklı bir model gerektiriyorsa Agent aracına `model` parametresiyle override ver
-   (örn. `tight` iken planner'ı `model: sonnet` ile çağır). Kademeli critic: `critic.md` varsayılanı opus'tur;
-   tekil parça incelemesinde (`Kapı: yok`) `model: sonnet` ver, kapı çağrısında (`E-A<n>`, `C-*`, kullanıcı
-   kapısı öncesi son inceleme) `ok` iken verme, `tight` iken `model: sonnet` ver. `budget.ps1` da aynı ayrımı
-   basar: "elestiri (parca)=sonnet, elestiri (kapi)=<opus|sonnet>".
-3. `gemini plan` seçildiyse Agent yerine `antigravity` skill'ini `-Mode plan` ile kullan; rol talimatını
-   (planner/critic dosyasının gövdesini) prompt'a kopyala ki Gemini aynı formatta cevap versin.
-   Gemini çıktısı öneridir; dosyaya yazmaz. Uygulamayı coder/writer yapar, ardından critic.
-4. Seçimi `projects/<ad>/state/TASKS.md`'deki Model sütununa yaz; böylece ne zaman hangi model kullanıldı izlenir.
+1. The `model:` field in the agent files is the default for the `claude=ok` state.
+2. If the table requires a different model, override with the Agent tool's `model` parameter
+   (e.g. call the planner with `model: sonnet` when `tight`). Tiered critic: the `critic.md` default is opus;
+   for a single-task review (`Gate: none`) give `model: sonnet`, for a gate call (`E-A<n>`, `C-*`, final review before
+   a user gate) do not give it when `ok`, give `model: sonnet` when `tight`. `budget.ps1` prints the same distinction:
+   "critique (task)=sonnet, critique (gate)=<opus|sonnet>".
+3. If `gemini plan` is selected, use the `antigravity` skill with `-Mode plan` instead of Agent; copy the role instructions
+   (the body of the planner/critic file) into the prompt so Gemini answers in the same format.
+   Gemini output is a suggestion; it writes no files. The coder/writer applies it, then the critic.
+4. Write the choice into the Model column of `projects/<name>/state/TASKS.md`; this way you can track when which model was used.
 
-## İlkeler
+## Principles
 
-- Üstte akıllı, altta ucuz: karar veren (planner, kapı critic'i) en iyi modeli alır; mekanik iş (tarama, test) en ucuzunu.
-- Aynı parça 2 kez REVISE yerse 3. turda critic opus olur ve üretici ajan bir üst modele çıkar (haiku→sonnet→opus; zaten opus ise aynı). Hâlâ REVISE ise `BLOKE`, kullanıcıya sorulur. Kapı critic'i zaten opus'tur: 2 tur REVISE → terfi yok → `BLOKE`. `tight` iken terfi yok: 2 tur sonra `BLOKE`.
-- Aynı modelde ardışık turlar aynı ajanla (SendMessage) sürer; model değişen turda yeni Agent çağrısı yapılır ve önceki rapor yolları verilir.
-- Limiti korumak için önce ucuz model dene; kalite yetmezse yükselt. Tersi israf.
+- Smart on top, cheap underneath: the decision-makers (planner, gate critic) get the best model; mechanical work (scanning, testing) the cheapest.
+- If the same task gets REVISE twice, in round 3 the critic becomes opus and the producing agent moves up one model (haiku→sonnet→opus; the same if already opus). If still REVISE, `BLOCKED`, and the user is asked. The gate critic is already opus: 2 rounds of REVISE → no promotion → `BLOCKED`. When `tight` there is no promotion: after 2 rounds `BLOCKED`.
+- Consecutive rounds on the same model continue with the same agent (SendMessage); for a round where the model changes, a new Agent call is made and the previous report paths are given.
+- To protect the limit, try the cheap model first; raise it if quality is not enough. The reverse is waste.

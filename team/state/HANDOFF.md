@@ -1,26 +1,26 @@
-# Devir Notu — merkez (compaction / yeni oturum için)
+# Handoff Note - hub (for compaction / new session)
 
-Bu dosya yalnız merkezin durumunu tutar. Projeye özel her şey `projects/` altındadır.
+This file holds only the state of the hub. Everything project-specific lives under `projects/`.
 
-## Son güncelleme
-2026-11-11 — Merkez temiz başlangıç durumunda. Sızıntı düzeltmesi (merkez bakımı) tamamlandı; bakım raporları
-silindi (`team/reports/` yalnız README.md).
+## Last update
+2026-11-11 - The hub is in a clean starting state. The leak fix (hub maintenance) is complete; the maintenance reports
+were deleted (`team/reports/` contains only README.md).
 
-## Projeler
-- Bu dosyaya proje adı, aşaması, kararı ya da açık sorusu yazılmaz. Kayıt defteri ve `Aktif proje:` işaretçisi
-  `projects/PROJECTS.md` dosyasındadır; dosya yoksa henüz proje yoktur (ilk `/proje yeni <ad> "<fikir>"` oluşturur).
+## Projects
+- No project name, stage, decision, or open question is written in this file. The registry and the `Active project:` marker
+  are in `projects/PROJECTS.md`; if that file does not exist, there is no project yet (the first `/project new <name> "<idea>"` creates it).
 
-## Süren merkez bakımı
-- Yok.
+## Ongoing hub maintenance
+- None.
 
-## Açık sorular / kullanıcıdan beklenen
-- Yok.
+## Open questions / awaited from the user
+- None.
 
-## Bilinen sınırlar
-- Prototip hattı (A6 → K3 → A8), çocuk kapıları, terfi ve mobil / masaüstü-motor profilleri yalnız masa başında ve
-  script testleriyle sınandı; gerçek projede henüz denenmedi. Yeni proje iskeleti yalnız geçici klasörde kuruldu.
-- `phase-gate.ps1` rapor yolunda klasör bağlantısını (junction / symlink) çözmez; ISTISNA satırında yol taramaz.
-- Sınırdaki dosyalar: `hat-gecisleri.md` 60/60, `phases/a3-mimari.md` 70/70, `sozluk.md` 209/210 (ekleme = sıkıştırma).
+## Known limits
+- The prototype track (A6 -> K3 -> A8), child gates, promotion, and the mobile / desktop-engine profiles were tested only
+  at the desk and with script tests; they have not yet been tried on a real project. A new project skeleton was built only in a temporary folder.
+- `phase-gate.ps1` does not resolve directory links (junction / symlink) in a report path; it does not scan the path on an EXCEPTION row.
+- Files at their size limit: `track-transitions.md` 60/60, `phases/a3-architecture.md` 70/70, `glossary.md` 209/210 (adding = compressing).
 
-## Bütçe durumu
-claude: ok, gemini: ok (kaynak: `team/budget.json`)
+## Budget status
+claude: ok, gemini: ok (source: `team/budget.json`)

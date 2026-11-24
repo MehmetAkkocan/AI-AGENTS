@@ -1,34 +1,34 @@
-<!-- P: P/A6 playtestinden önce hazır; Ü: A4 başı (Ü/A6'da güncellenir) | sahip: playtester doldurur, BRIEF kitlesinden | hedef: docs/PERSONAS.md | kapı: girdi P-A4 (Ü)/P-A6, C-ERISIM. Hafif mod: persona sayısı §1 tablosuna göre; P'de 1-2. -->
-# PERSONAS: <ad>
-Hat: <prototip/urun> | Mod: <hafif/orta/tam/-> | Kitle: <cocuk/genc/yetiskin>
+<!-- P: ready before the P/A6 playtest; U: start of A4 (updated in U/A6) | owner: playtester fills, from the BRIEF audience | target: docs/PERSONAS.md | gate: input to P-A4 (U)/P-A6, C-ACCESS. Light mode: persona count per the §1 table; 1-2 in P. -->
+# PERSONAS: <name>
+Track: <prototype/product> | Mode: <light/medium/full/-> | Audience: <child/teen/adult>
 
-## 1. Persona sayısı
-<!-- Moda göre en az: P 1-2 · hafif 2 · orta 3 · tam 4+. Her sette en az bir erişilebilirlik personası. -->
-| Hat/mod | Sayı | Bu projede |
+## 1. Persona count
+<!-- Minimum by mode: P 1-2 · light 2 · medium 3 · full 4+. Each set has at least one accessibility persona. -->
+| Track/mode | Count | In this project |
 |---|---|---|
 | P | 1-2 | <n> |
-| Ü hafif / orta / tam | 2 / 3 / 4+ | <n> |
+| U light / medium / full | 2 / 3 / 4+ | <n> |
 
-## 2. Hazır setler
-<!-- Yalnız projenin kitlesine ait seti bırak, kalanları sil; BRIEF kitlesine göre uyarla. Persona yapay oyuncudur, gerçek kullanıcı yerine geçmez. -->
-- cocuk: PC1 7-9 yaş yeni okur · PC2 10-12 yaş · PC3 ebeveyn/öğretmen · PC-A erişilebilirlik (yalnız klavye / düşük görme)
-- genc: PG1 sabırsız mobil kullanıcı · PG2 <ikinci profil> · PG-A erişilebilirlik (yalnız klavye / düşük görme)
-- yetiskin: PY1 acemi · PY2 deneyimli · PY-A erişilebilirlik (yalnız klavye / düşük görme)
+## 2. Ready-made sets
+<!-- Keep only the set for the project's audience, delete the rest; adapt per the BRIEF audience. A persona is an artificial player and does not replace a real user. -->
+- child: PC1 age 7-9 new reader · PC2 age 10-12 · PC3 parent/teacher · PC-A accessibility (keyboard only / low vision)
+- teen: PG1 impatient mobile user · PG2 <second profile> · PG-A accessibility (keyboard only / low vision)
+- adult: PY1 beginner · PY2 experienced · PY-A accessibility (keyboard only / low vision)
 
-## 3. Persona kartları
-<!-- Kart başına bu yedi alan; sabır: düşük / orta / yüksek (kaç başarısız denemeden sonra bırakır). -->
-### <Kod>
-- Kod: <PC1> · Kim: <tek cümle>
-- Yaş: <...> · Beceri: <teknoloji/alan düzeyi>
-- Hedef: <ürünle ne yapmak ister>
-- Kısıt: <cihaz, okuma düzeyi, motor/görme sınırı>
-- Sabır: <düşük/orta/yüksek> + <bırakma eşiği>
+## 3. Persona cards
+<!-- These seven fields per card; patience: low / medium / high (after how many failed attempts they give up). -->
+### <Code>
+- Code: <PC1> · Who: <one sentence>
+- Age: <...> · Skill: <technology/domain level>
+- Goal: <what they want to do with the product>
+- Constraint: <device, reading level, motor/vision limit>
+- Patience: <low/medium/high> + <give-up threshold>
 
-## 4. Erişilebilirlik personası
-<!-- Her sette zorunlu. Yalnız klavye: fare yok, Tab/Enter ile her görev. Düşük görme: %200 yakınlaştırma, yüksek kontrast, ekran okuyucu etiketleri (erişilebilirlik ağacından sınanır). -->
-- Kod: <PC-A/PG-A/PY-A> · Tür: <yalnız klavye/düşük görme> · Sınanan: <erisilebilirlik.md madde numaraları>
+## 4. Accessibility persona
+<!-- Mandatory in every set. Keyboard only: no mouse, every task with Tab/Enter. Low vision: 200% zoom, high contrast, screen reader labels (tested from the accessibility tree). -->
+- Code: <PC-A/PG-A/PY-A> · Type: <keyboard only/low vision> · Tested: <accessibility.md item numbers>
 
-## 5. Görevler
-<!-- Görevler burada TUTULMAZ: kaynak TEST_PLAN §3 (yoksa BRIEF/SPEC kabul ölçütlerinden playtester türetir ve PLAYTEST_REPORT'a yazar). Burada yalnız hangi persona hangi görev grubunu yürütür. -->
-| Persona | Görev grubu (TEST_PLAN §3 / F-xx) |
+## 5. Tasks
+<!-- Tasks are NOT kept here: the source is TEST_PLAN §3 (if absent, the playtester derives them from the BRIEF/SPEC acceptance criteria and writes them to PLAYTEST_REPORT). Here only which persona runs which task group. -->
+| Persona | Task group (TEST_PLAN §3 / F-xx) |
 |---|---|

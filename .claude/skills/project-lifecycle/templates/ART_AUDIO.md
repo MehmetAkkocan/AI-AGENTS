@@ -1,31 +1,31 @@
-<!-- A2 Tasarım | sahip: ux-designer doldurur (oyunda game-designer'ın GDD §8 ihtiyaç listesiyle) | uygulayan: coder | hedef: docs/ART_AUDIO.md | kapı: E-A2 (+ K2 orta/tam). Hafif mod: Ü/hafif'te ayrı belge yok, kısa varlık listesi docs/DESIGN.md'ye; tam modda ayrıntılı. P'de yok. -->
-# ART_AUDIO: <ad>
+<!-- A2 Design | owner: ux-designer fills (for games, with the game-designer's GDD §8 needs list) | implemented by: coder | target: docs/ART_AUDIO.md | gate: E-A2 (+ K2 medium/full). Light mode: no separate document in U/light, a short asset list goes into docs/DESIGN.md; detailed in full mode. Not present in P. -->
+# ART_AUDIO: <name>
 
-## 1. Kapsam ve lisans
-<!-- Her varlık proje içinde kodla üretilir; dış varlık indirilmez. Raster görsel ve kayıtlı ses KAPSAM DIŞI. -->
-Tüm görsel ve sesler SVG / CSS / prosedürel çizim / sentez ses ile üretilir; üçüncü taraf lisansı yoktur.
+## 1. Scope and license
+<!-- Every asset is produced in code inside the project; no external asset is downloaded. Raster images and recorded audio are OUT OF SCOPE. -->
+All visuals and sounds are produced with SVG / CSS / procedural drawing / synthesized sound; there is no third-party license.
 
-## 2. Varlık listesi
-<!-- Her satır bir varlık; GDD §8 ve UX ihtiyaçlarından türet. Boyut: px veya viewBox; ses için süre. -->
-| Ad | Tür (SVG / CSS / prosedürel / sentez ses) | Nerede kullanılır | Üretim tekniği | Boyut |
+## 2. Asset list
+<!-- Each row is one asset; derive from GDD §8 and UX needs. Size: px or viewBox; duration for sound. -->
+| Name | Type (SVG / CSS / procedural / synthesized sound) | Where used | Production technique | Size |
 |---|---|---|---|---|
-| <ad> | <tür> | <ekran/olay> | <teknik> | <boyut> |
+| <name> | <type> | <screen/event> | <technique> | <size> |
 
-## 3. Stil kuralları
-<!-- UX.md belirteçleriyle (--color-*, --radius-md) tutarlı; sabit renk kodu yazma, değişken adı ver. -->
-- Palet: <belirteç adları> · Çizgi/dolgu: <kural> · Animasyon: <süre, easing; prefers-reduced-motion'a saygı>
+## 3. Style rules
+<!-- Consistent with the UX.md tokens (--color-*, --radius-md); do not write fixed color codes, give the variable name. -->
+- Palette: <token names> · Stroke/fill: <rule> · Animation: <duration, easing; respect prefers-reduced-motion>
 
-## 4. Ses listesi
-<!-- Sentez ses (web: WebAudio; masaustu-motor/mobil: profil dosyasındaki karşılığı). Parametreler: dalga, frekans, süre, zarf. Ses kullanıcı eylemiyle başlar; sessiz mod ve ses kısma zorunlu. Ses duyma ekipçe doğrulanamaz: kullanıcı gözlemi. -->
-| Ses | Olay | Dalga | Frekans (Hz) | Süre (ms) | Zarf (A/D/S/R) |
+## 4. Sound list
+<!-- Synthesized sound (web: WebAudio; desktop-engine/mobile: the equivalent in the profile file). Parameters: waveform, frequency, duration, envelope. Sound starts with a user action; a mute mode and volume reduction are mandatory. Hearing the sound cannot be verified by the team: user observation. -->
+| Sound | Event | Waveform | Frequency (Hz) | Duration (ms) | Envelope (A/D/S/R) |
 |---|---|---|---|---|---|
-| <ad> | <olay> | <sine/square/...> | <...> | <...> | <...> |
+| <name> | <event> | <sine/square/...> | <...> | <...> | <...> |
 
-## 5. Gemini plan modu önerisi (isteğe bağlı)
-<!-- Yalnız ikinci görüş. Gemini dosya yazmaz; öneriyi dosyaya coder uygular. -->
-Prompt taslağı: `<Proje: <ad>, kitle: <kitle>, belirteçler: <liste>. Yalnız SVG/CSS/sentez ses ile uygulanabilir <varlık> için stil ve parametre önerisi ver; dosya yazma.>`
-Not: Öneri `reports/` altına alınır; kabul edilenleri coder koda, ux-designer bu belgeye işler.
+## 5. Gemini plan-mode suggestion (optional)
+<!-- Second opinion only. Gemini does not write files; the coder applies the suggestion to the file. -->
+Prompt draft: `<Project: <name>, audience: <audience>, tokens: <list>. Give a style and parameter suggestion for <asset> that can be implemented only with SVG/CSS/synthesized sound; do not write files.>`
+Note: The suggestion is saved under `reports/`; the coder applies accepted items to the code, the ux-designer records them in this document.
 
-## 6. Kapsam dışı
-<!-- Yalnız bu maddeleri koru; proje özel eleme varsa ekle. -->
-- Raster görsel (PNG/JPG), kayıtlı ses/müzik dosyası, hazır varlık paketi, dış CDN yazı tipi/ikon.
+## 6. Out of scope
+<!-- Keep only these items; add any project-specific exclusions. -->
+- Raster images (PNG/JPG), recorded sound/music files, ready-made asset packs, external CDN fonts/icons.

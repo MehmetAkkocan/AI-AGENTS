@@ -1,54 +1,54 @@
-<!-- A2 Tasarım (A4/A6'da güncellenir) | sahip: ux-designer doldurur | hedef: docs/UX.md | kapı: E-A2, C-ERISIM (A2'de critic, belge düzeyi) (+ K2 orta/tam). Hafif mod: Ü/hafif'te ayrı UX.md yok, akış + ekran tablosu docs/DESIGN.md'nin UX bölümüne yazılır (tasarımcıdan SONRA). -->
-# UX: <ad>
-Etiketler: profil=<web|mobil|masaustu-motor> | kitle=<cocuk|genc|yetiskin>
+<!-- A2 Design (updated in A4/A6) | owner: ux-designer fills | target: docs/UX.md | gate: E-A2, C-ACCESS (in A2 critic, document level) (+ K2 medium/full). Light mode: no separate UX.md in U/light, the flow + screen table go into the UX section of docs/DESIGN.md (AFTER the designer). -->
+# UX: <name>
+Labels: profile=<web|mobile|desktop-engine> | audience=<child|teen|adult>
 
-## 1. Kullanıcı akışları
-<!-- Ana görev başına bir akış, metin okla; başlangıç ve bitiş ekranı belli. -->
-- AK-01 <ad>: <Ekran A> -> <Ekran B> -> <Ekran C>
+## 1. User flows
+<!-- One flow per main task, text with arrows; start and end screen clear. -->
+- FL-01 <name>: <Screen A> -> <Screen B> -> <Screen C>
 
-## 2. Ekran envanteri
-<!-- Her ekran bir SPEC özelliğine (F-01 biçimi) bağlı; F-xx'siz ekran açma. -->
-| Ekran | Amaç | SPEC kimliği (F-xx) |
+## 2. Screen inventory
+<!-- Each screen is linked to a SPEC feature (F-01 format); do not open a screen without an F-xx. -->
+| Screen | Purpose | SPEC ID (F-xx) |
 |---|---|---|
-| <ad> | <amaç> | F-01 |
+| <name> | <purpose> | F-01 |
 
-## 3. Bileşenler ve durumlar
-<!-- Ekran başına bileşen listesi; her biri için dört durum yaz. Eksik durum = eksik tasarım. -->
-### <Ekran adı>
-- Bileşenler: <liste>
-- Boş: <metin/görünüm> · Yükleniyor: <...> · Hata: <...> · Başarı: <...>
+## 3. Components and states
+<!-- Component list per screen; write four states for each. A missing state = a missing design. -->
+### <Screen name>
+- Components: <list>
+- Empty: <text/view> · Loading: <...> · Error: <...> · Success: <...>
 
-## 4. Tel kafes
-<!-- Her ana ekran için metin tabanlı örnek (ASCII kutular); en az bir ekran. Tam modda her ekran için docs/ux/wireframes/NN-<ekran>.html üret ve burada yalnız yol satırı bırak. Diğer modlarda HTML yok. -->
+## 4. Wireframes
+<!-- A text-based example for each main screen (ASCII boxes); at least one screen. In full mode produce docs/ux/wireframes/NN-<screen>.html for each screen and leave only a path line here. No HTML in other modes. -->
 ```
 +----------------------+
-| <başlık>      <menü> |
-| <ana alan>           |
-| [ <birincil eylem> ] |
+| <title>       <menu> |
+| <main area>          |
+| [ <primary action> ] |
 +----------------------+
 ```
-Tam mod: `docs/ux/wireframes/NN-<ekran>.html` (ekran başına bir satır, ör. `01-ana-ekran.html`)
+Full mode: `docs/ux/wireframes/NN-<screen>.html` (one line per screen, e.g. `01-home-screen.html`)
 
-## 5. Tasarım belirteçleri
-<!-- CSS değişkeni adıyla; ART_AUDIO stil kuralları bunlara dayanır. Değer ve kullanım yeri yaz. -->
-| Belirteç | Değer | Kullanım |
+## 5. Design tokens
+<!-- By CSS variable name; ART_AUDIO style rules rely on these. Write value and where used. -->
+| Token | Value | Usage |
 |---|---|---|
-| --color-bg / --color-fg / --color-accent | <#...> | <yüzey/metin/vurgu> |
-| --font-base / --font-size-base | <...> | <gövde> |
-| --space-1..--space-6 | <4px ölçeği> | <boşluk> |
-| --radius-md | <...> | <köşe> |
+| --color-bg / --color-fg / --color-accent | <#...> | <surface/text/accent> |
+| --font-base / --font-size-base | <...> | <body> |
+| --space-1..--space-6 | <4px scale> | <spacing> |
+| --radius-md | <...> | <corner> |
 
-## 6. Erişilebilirlik hedefleri
-<!-- Kitleye göre: dokunma hedefi erisilebilirlik.md ER-08 ile aynı: >=44x44 CSS px; kitle=cocuk >=48 CSS px, sade dil. -->
-- Kontrast: <metin >=4.5:1, büyük metin >=3:1> · Klavye: <tüm eylemler Tab/Enter> · Odak: <görünür halka> · Dokunma hedefi: <>=44 CSS px; cocuk >=48>
+## 6. Accessibility targets
+<!-- By audience: touch target same as accessibility.md ER-08: >=44x44 CSS px; audience=child >=48 CSS px, plain language. -->
+- Contrast: <text >=4.5:1, large text >=3:1> · Keyboard: <all actions via Tab/Enter> · Focus: <visible ring> · Touch target: <>=44 CSS px; child >=48>
 
-## 7. Mikro metin üslubu
-<!-- Düğme, hata, boş durum metinleri; ton ve kitleye uygun dil; suçlamayan hata metni. -->
-<Üslup + 3 örnek>
-## 8. Duyarlı görünüm
-<!-- İki hedef: masaüstü ve 375x812 mobil. Ekran başına düzen değişimi. A4/A6'da ux-designer bu tabloyu kendi gördüğü görüntülerle (yoksa playtester Görsel kontrol tablosuyla) karşılaştırır. -->
-| Ekran | Masaüstü | 375x812 |
+## 7. Microcopy style
+<!-- Button, error, empty-state texts; tone and language suited to the audience; non-blaming error text. -->
+<Style + 3 examples>
+## 8. Responsive layout
+<!-- Two targets: desktop and 375x812 mobile. Layout change per screen. In A4/A6 the ux-designer compares this table with the images they see (if none, with the playtester Visual check table). -->
+| Screen | Desktop | 375x812 |
 |---|---|---|
-## 9. Açık riskler
-<!-- K2 sunumuna girer: en çok 2 risk, "risk -> önlem". -->
-- <risk -> önlem>
+## 9. Open risks
+<!-- Goes into the K2 presentation: at most 2 risks, "risk -> mitigation". -->
+- <risk -> mitigation>

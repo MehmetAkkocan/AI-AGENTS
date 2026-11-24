@@ -1,51 +1,51 @@
-<!-- A4 (Ü) / A5 (tam) / A6 | sahip: playtester doldurur | hedef: reports/<damga>-playtester-<konu>.md | kapı: P-A4 (yalnız Ü) / P-A5 (yalnız tam) / P-A6 (P hattında tek tur: K3 girdisi; Ü'de K4 girdisi). Ü/A6'da writer raporları docs/PLAYTEST.md'ye persona x görev özeti + bulgu sayılarıyla derler (P'de PLAYTEST.md yazılmaz). Hafif mod: P'de 1-2 persona + görsel kontrol; Ü/hafif 2 persona. -->
-# Playtest raporu: <konu>
-- Proje: <ad> · Aşama: <A4/A5/A6> · Yapı/commit: <kısa hash> · Tarih: <yyyy-MM-dd>
-- YONTEM: <TARAYICI/HTTP/MANUEL> · GORSEL: <KONTROL EDILDI/DOGRULANMADI> · Ortam: <adres, tarayıcı, 375x812 + masaüstü>
-- BULGU: ENGEL <n> · BUYUK <n> · KUCUK <n>
+<!-- A4 (U) / A5 (full) / A6 | owner: playtester fills | target: reports/<stamp>-playtester-<topic>.md | gate: P-A4 (U only) / P-A5 (full only) / P-A6 (single round on the P track: K3 input; on U, K4 input). In U/A6 the writer compiles reports into docs/PLAYTEST.md as a persona x task summary + finding counts (PLAYTEST.md is not written in P). Light mode: in P 1-2 personas + visual check; U/light 2 personas. -->
+# Playtest report: <topic>
+- Project: <name> · Stage: <A4/A5/A6> · Build/commit: <short hash> · Date: <yyyy-MM-dd>
+- METHOD: <BROWSER/HTTP/MANUAL> · VISUAL: <CHECKED/UNVERIFIED> · Environment: <address, browser, 375x812 + desktop>
+- FINDINGS: BLOCKER <n> · MAJOR <n> · MINOR <n>
 
-## Personalar
-<!-- docs/PERSONAS.md'den kodlar; her sette erişilebilirlik personası. -->
+## Personas
+<!-- Codes from docs/PERSONAS.md; each set has an accessibility persona. -->
 <PC1, PC-A, ...>
 
-## Görevler
-<!-- Kaynak: TEST_PLAN §3; TEST_PLAN yoksa (P, Ü/hafif) BRIEF/SPEC kabul ölçütlerinden (F-xx.a) türet. Her görevin ölçülebilir başarı ölçütü olsun. -->
-| Görev | Kaynak (TEST_PLAN / F-xx) | Başarı ölçütü |
+## Tasks
+<!-- Source: TEST_PLAN §3; if there is no TEST_PLAN (P, U/light) derive from the BRIEF/SPEC acceptance criteria (F-xx.a). Each task has a measurable success criterion. -->
+| Task | Source (TEST_PLAN / F-xx) | Success criterion |
 |---|---|---|
-| G1 | <madde> | <ölçüt> |
+| G1 | <item> | <criterion> |
 
-## Persona x görev matrisi
-<!-- Sonuç yalnız: BASARDI / ZORLANDI / BASARAMADI. Kanıt: görüntünün metin betimi + erişilebilirlik ağacı alıntısı + varsa ölçüm. Ekran görüntüsü dosyası isteğe bağlı (reports/shots/<damga>-<konu>-<ekran>.png). -->
-| Persona | Görev | Sonuç | Adım | Takıldığı yer | Kanıt (betim / ağaç alıntısı / ölçüm) |
+## Persona x task matrix
+<!-- Result only: SUCCEEDED / STRUGGLED / UNABLE. Evidence: text description of the view + accessibility tree excerpt + measurement if any. A screenshot file is optional (reports/shots/<stamp>-<topic>-<screen>.png). -->
+| Persona | Task | Result | Steps | Where stuck | Evidence (description / tree excerpt / measurement) |
 |---|---|---|---|---|---|
 
-## Bulgular
-<!-- Önem: ENGEL / BUYUK / KUCUK (hücrede tek değer). Yeniden üretme adımları numaralı ve kısa. -->
-| ID | Önem | Persona | Ekran/rota | Gözlem | Beklenti | Yeniden üretme | Önerilen sahip |
+## Findings
+<!-- Severity: BLOCKER / MAJOR / MINOR (a single value in the cell). Reproduction steps numbered and short. -->
+| ID | Severity | Persona | Screen/route | Observation | Expectation | Reproduction | Suggested owner |
 |---|---|---|---|---|---|---|---|
-| B-01 | <ENGEL/BUYUK/KUCUK> | <kod> | <rota> | <...> | <...> | 1. <...> | <coder/writer/ux-designer> |
+| B-01 | <BLOCKER/MAJOR/MINOR> | <code> | <route> | <...> | <...> | 1. <...> | <coder/writer/ux-designer> |
 
-## Görsel kontrol
-<!-- Hücre başına GORSEL değeri: KONTROL EDILDI yalnız o ekran x görünümün görüntüsünü GERÇEKTEN gördüysen (betim + ağaç + ölçüm kanıtla); 2 yeniden denemeden sonra alınamazsa DOGRULANMADI. -->
-| Ekran | Masaüstü (GORSEL) | Mobil 375x812 (GORSEL) | Erişilebilirlik ağacı (etiket/başlık/odak sırası) | Konsol hatası, 4xx/5xx |
+## Visual check
+<!-- VISUAL value per cell: CHECKED only if you ACTUALLY saw the image of that screen x view (description + tree + measurement as evidence); UNVERIFIED if it cannot be obtained after 2 retries. -->
+| Screen | Desktop (VISUAL) | Mobile 375x812 (VISUAL) | Accessibility tree (label/heading/focus order) | Console errors, 4xx/5xx |
 |---|---|---|---|---|
 
-## Persona sesiyle notlar
-<!-- Persona başına en çok 3 cümle, birinci ağızdan. -->
-- <Kod>: "<not>"
+## Notes in the persona's voice
+<!-- At most 3 sentences per persona, first person. -->
+- <Code>: "<note>"
 
-## Kitleye özel gözlemler
-<!-- cocuk: okuma, dokunma hedefi, ödül tepkisi; genc: sabır, mobil akış; yetiskin: alan terimi, hız. -->
-<Gözlemler>
+## Audience-specific observations
+<!-- child: reading, touch target, reaction to rewards; teen: patience, mobile flow; adult: domain terms, speed. -->
+<Observations>
 
-## MANUEL gözlem formu (yalnız YONTEM: MANUEL)
-<!-- İki çağrı (agents/playtester.md). (1) MANUEL form: görev adımları, beklenen sonuç, BASARDI/ZORLANDI/BASARAMADI kutuları, cihaz modeli/ekran, serbest not; SONUC yazılmaz, dönüş `DURUM: NEEDS_REVIEW — kullanıcı bekleniyor`; lider YALNIZ bu bölümü kullanıcıya sunar. (2) MANUEL değerlendirme: kullanıcı yanıtı state/MANUEL-<p>.md'den okunur, matris ve bulgular ondan doldurulur, SONUC yazılır. Aşama K3/K4 ile bitiyorsa (P/A6, Ü/A4 orta-tam, Ü/A6) SONUC GECER → kapı GECER; form K3/K4 görsel onayının yerini tutmaz (kapıda kullanıcı görsel onayı yine alınır). Bitmiyorsa (tam modda P-A5; K3'süz Ü/A4) form o ekranlar için görsel onay sayılır: GECER ise PHASE kaydı ISTISNA (`kullanici: gorsel onay (MANUEL form); <rapor yolları>`). Diğer yöntemlerde "uygulanmaz". -->
-<form ya da "uygulanmaz">
+## MANUAL observation form (only METHOD: MANUAL)
+<!-- Two calls (agents/playtester.md). (1) MANUAL form: task steps, expected result, SUCCEEDED/STRUGGLED/UNABLE checkboxes, device model/screen, free note; RESULT is not written, return is `STATUS: NEEDS_REVIEW — waiting for the user`; the lead presents ONLY this section to the user. (2) MANUAL evaluation: the user's response is read from state/MANUAL-<p>.md, the matrix and findings are filled from it, RESULT is written. If the stage ends with K3/K4 (P/A6, U/A4 medium-full, U/A6) and RESULT is PASS -> the gate is PASS; the form does not replace the K3/K4 visual approval (the user's visual approval is still obtained at the gate). If it does not end there (P-A5 in full mode; U/A4 without K3) the form counts as visual approval for those screens: if PASS, the PHASE record is EXCEPTION (`user: visual approval (MANUAL form); <report paths>`). For other methods, "not applicable". -->
+<form or "not applicable">
 
-## SINIRLAMALAR (zorunlu)
-<!-- Doğrulanamayanları açık yaz: ses/animasyon hissi, refleks, FPS (oyunda K3'te kullanıcı oynar); görüntü alınamayan hücreler. Yapay oyuncu gerçek kullanıcı değildir. -->
-- Doğrulanamayan: <liste> · Yapay oyuncu gerçek kullanıcı yerine geçmez.
+## LIMITATIONS (mandatory)
+<!-- State what could not be verified: sound/animation feel, reflexes, FPS (in a game the user plays at K3); cells where no image could be obtained. An artificial player is not a real user. -->
+- Unverifiable: <list> · An artificial player does not replace a real user.
 
-## Karar önerisi
-<!-- Birden çok persona/tur varsa genel sonuç EN KÖTÜ sonuçtur (ENGEL > DUZELTILMELI > GECER). MANUEL form çağrısında (1) SONUC satırı yerine "kullanıcı bekleniyor (MANUEL form)" yazılır; SONUC'a yeni değer eklenmez. -->
-SONUC: <GECER/DUZELTILMELI/ENGEL> — <gerekçe, ilk 3 bulgu ID>
+## Decision proposal
+<!-- With multiple personas/rounds the overall result is the WORST result (BLOCKER > NEEDS_FIX > PASS). In MANUAL form call (1), write "waiting for the user (MANUAL form)" instead of the RESULT line; no new value is added to RESULT. -->
+RESULT: <PASS/NEEDS_FIX/BLOCKER> — <rationale, first 3 finding IDs>

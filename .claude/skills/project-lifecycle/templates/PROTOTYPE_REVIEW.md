@@ -1,40 +1,40 @@
-<!-- A6 (konu `a6-review`) | sahip: writer (kanıtlar tester ve playtester raporlarından; kaba ürün boyutu, önerilen mod ve ADR-000 önerisi planner'ın A6 `a6-k3-oneri` raporundan derlenir; karar üretmez, uydurmaz) | hedef: docs/PROTOTYPE_REVIEW.md (yalnız P hattı) | kapı: E-A6, T-A6, P-A6 -> K3 -->
-<!-- Yalnız P hattında yazılır (P'de VERIFICATION.md ve PLAYTEST.md yazılmaz). Tek sayfa; rapor içeriği kopyalanmaz, yolla atıf. K3 sunumu (≤15 satır) bu belgeden çıkar. P'de RETRO.md yazılmaz: "Retro notu" onun yerine geçer ve P/A8'de, son karardan (TERFI / RAFA-KALDIR) sonra doldurulur. Yer tutucu adı: <ad>. -->
-# PROTOTYPE_REVIEW <ad>
+<!-- A6 (topic `a6-review`) | owner: writer (evidence from tester and playtester reports; rough product size, proposed mode and ADR-000 proposal are compiled from the planner's A6 `a6-k3-proposal` report; makes no decisions, invents nothing) | target: docs/PROTOTYPE_REVIEW.md (P track only) | gate: E-A6, T-A6, P-A6 -> K3 -->
+<!-- Written only on the P track (VERIFICATION.md and PLAYTEST.md are not written in P). One page; report content is not copied, cite by path. The K3 presentation (<=15 lines) comes from this document. RETRO.md is not written in P: the "Retro note" replaces it and is filled in P/A8, after the final decision (PROMOTION / SHELVE). Placeholder name: <name>. -->
+# PROTOTYPE_REVIEW <name>
 
-## Hipotez ve sonuç
-<!-- doldurma talimatı: BRIEF'teki hipotez aynen + sonuç DOGRULANDI / KISMEN / CURUTULDU (yalnız bu üç yazım) + 2-3 cümle gerekçe. Kanıtsız hüküm yazma. -->
-Hipotez: <BRIEF'ten>
-Sonuç: <DOGRULANDI/KISMEN/CURUTULDU> - <gerekçe>
+## Hypothesis and result
+<!-- fill-in instruction: the hypothesis from BRIEF verbatim + result CONFIRMED / PARTIAL / REFUTED (only these three spellings) + 2-3 sentences of rationale. Do not write a verdict without evidence. -->
+Hypothesis: <from BRIEF>
+Result: <CONFIRMED/PARTIAL/REFUTED> - <rationale>
 
-## Çalıştırma
-<!-- doldurma talimatı: kullanıcının kendisinin deneyeceği komut ve adres; run.ps1 üzerinden. Komutu çalıştırıp doğrula (tester raporu). -->
-Komut: `<run.ps1 -Up>` | Adres: <http://localhost:...>
-Görsel onay (kullanıcı): K3'te kullanıcı ürünü kendisi açıp bakar; bakılacak ekranlar: <liste>. Ajanın `GORSEL:` değeri bilgidir, onayın yerini tutmaz.
+## Running it
+<!-- fill-in instruction: the command and address the user will try themselves; via run.ps1. Run the command and verify (tester report). -->
+Command: `<run.ps1 -Up>` | Address: <http://localhost:...>
+Visual approval (user): at K3 the user opens the product themselves and looks; screens to look at: <list>. The agent's `VISUAL:` value is informational and does not replace the approval.
 
-## Playtest ve test özeti
-<!-- doldurma talimatı: playtester SONUC / YONTEM / GORSEL alanları + ilk 3 bulgu (önem: ENGEL/BUYUK/KUCUK); tester sonucu (run.ps1 -Test/-Check/-E2E). Her satırda rapor yolu. Birden çok persona varsa SONUC en kötü sonuçtur. -->
-| Kaynak | Sonuç | Yöntem / Görsel | Rapor yolu |
+## Playtest and test summary
+<!-- fill-in instruction: playtester RESULT / METHOD / VISUAL fields + first 3 findings (severity: BLOCKER/MAJOR/MINOR); tester result (run.ps1 -Test/-Check/-E2E). A report path on each row. With multiple personas, RESULT is the worst result. -->
+| Source | Result | Method / Visual | Report path |
 |---|---|---|---|
-| playtester | <GECER/DUZELTILMELI/ENGEL> | <TARAYICI/HTTP/MANUEL> / <KONTROL EDILDI/DOGRULANMADI> | <projects/<ad>/reports/...> |
-| tester | <PASS/FAIL> | - | <projects/<ad>/reports/...> |
+| playtester | <PASS/NEEDS_FIX/BLOCKER> | <BROWSER/HTTP/MANUAL> / <CHECKED/UNVERIFIED> | <projects/<name>/reports/...> |
+| tester | <PASS/FAIL> | - | <projects/<name>/reports/...> |
 
-## Bilinen eksikler
-<!-- doldurma talimatı: en çok 3 madde (K3 sunumuyla aynı), her biri önem sınıfıyla. Prototipte bilerek yapılmayanlar ayrı işaretlenir. -->
-- <eksik> [<ENGEL/BUYUK/KUCUK>]
+## Known gaps
+<!-- fill-in instruction: at most 3 items (same as the K3 presentation), each with a severity class. Things deliberately not done in the prototype are marked separately. -->
+- <gap> [<BLOCKER/MAJOR/MINOR>]
 
-## Teknik fizibilite
-<!-- doldurma talimatı: 3-5 satır: teknoloji uygun mu, konteyner derleme/çalıştırma sorunsuz mu, performans/güvenlik engeli var mı. Son satır ADR-000 önerisi: prototip kodu KORU / YENIDEN YAZ + 1 cümle gerekçe (kaynak: planner K3 önerisi raporu; K3 sunumunda yer alır; A3 mimari critic'iyle kesinleşir). -->
-ADR-000 önerisi: <KORU/YENIDEN YAZ> - <gerekçe>
+## Technical feasibility
+<!-- fill-in instruction: 3-5 lines: is the technology suitable, does container build/run work smoothly, is there a performance/security obstacle. Last line is the ADR-000 proposal: prototype code KEEP / REWRITE + 1 sentence rationale (source: planner K3 proposal report; appears in the K3 presentation; finalized in A3 with the architecture critic). -->
+ADR-000 proposal: <KEEP/REWRITE> - <rationale>
 
-## Kaba ürün boyutu
-<!-- doldurma talimatı: tahmini parça sayısı, dilim sayısı, içerik hacmi; SKILL.md mod eşikleriyle karşılaştır (hafif ≤~12, orta 12-40, tam 40+). Kaynak: planner K3 önerisi raporu (yolla atıf). -->
-<~N parça, N dilim, içerik: ...>
+## Rough product size
+<!-- fill-in instruction: estimated number of tasks, number of slices, content volume; compare against the SKILL.md mode thresholds (light <=~12, medium 12-40, full 40+). Source: planner K3 proposal report (cite by path). -->
+<~N tasks, N slices, content: ...>
 
-## Önerilen karar ve mod
-<!-- doldurma talimatı: K3 (P) seçeneklerinden biri: TERFI / YINELE (≤2) / RAFA-KALDIR; TERFI ise mod (hafif/orta/tam) + 2 cümle gerekçe; mod önerisinin kaynağı planner K3 önerisi raporu. Karar kullanıcıya aittir; burada yalnız öneri. -->
-Öneri: <TERFI/YINELE/RAFA-KALDIR> / mod: <hafif/orta/tam/-> - <gerekçe>
+## Proposed decision and mode
+<!-- fill-in instruction: one of the K3 (P) options: PROMOTION / REPEAT (<=2) / SHELVE; if PROMOTION, mode (light/medium/full) + 2 sentences of rationale; the source of the mode proposal is the planner K3 proposal report. The decision belongs to the user; only a proposal here. -->
+Proposal: <PROMOTION/REPEAT/SHELVE> / mode: <light/medium/full/-> - <rationale>
 
-## Retro notu (≤10 satır)
-<!-- doldurma talimatı: P/A8'de, K3 son kararından (TERFI / RAFA-KALDIR) sonra doldurulur; kapı yok (E-A8 yok). Ne iyi gitti, ne gitmedi, süreç için 1-2 öneri; en çok 10 satır. Uygulanacak öneri varsa `ONERI:` satırı olarak işaretle; lider bunları projenin `state/LESSONS.md` dosyasına taşır. -->
-- <not>
+## Retro note (<=10 lines)
+<!-- fill-in instruction: filled in P/A8, after the K3 final decision (PROMOTION / SHELVE); no gate (no E-A8). What went well, what did not, 1-2 suggestions for the process; at most 10 lines. If there is a suggestion to apply, mark it as a `PROPOSAL:` line; the lead moves these into the project's `state/LESSONS.md` file. -->
+- <note>

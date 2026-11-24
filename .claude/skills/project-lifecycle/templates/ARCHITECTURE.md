@@ -1,47 +1,47 @@
-<!-- A3, planner doldurur (coder iskeleti kurarken gunceller), hedef: docs/ARCHITECTURE.md. P: yuruyen iskelet, yalniz §1, §4 · hafif: §1-5 · orta: + §8 · tam: + §6, §7. C-GUV kosullu ise §6, C-PERF kosullu ise §7 (gercek zamanli oyun) modu ne olursa olsun doldurulur -->
-# Mimari — <ad>
+<!-- A3, filled by planner (coder updates it while building the skeleton), target: docs/ARCHITECTURE.md. P: walking skeleton, only §1, §4 · light: §1-5 · medium: + §8 · full: + §6, §7. If C-SEC is conditional, §6 is filled; if C-PERF is conditional, §7 is filled (real-time game), whatever the mode -->
+# Architecture — <name>
 
-## 1. Yigin ve gerekce
-<!-- Her secim icin tek satir gerekce. Host kisiti: yalniz git, podman, PowerShell 5.1; her sey konteynerde derlenir ve calisir. -->
-| Katman | Secim | Gerekce |
+## 1. Stack and rationale
+<!-- One-line rationale per choice. Host constraint: only git, podman, PowerShell 5.1; everything is built and run in containers. -->
+| Layer | Choice | Rationale |
 |---|---|---|
-| Calisma ortami | podman, <imaj> | host'ta arac zinciri yok |
-| <backend / motor> | <secim> | <gerekce> |
-| <on yuz / istemci> | <secim> | <gerekce> |
-| <veri> | <secim> | <gerekce> |
+| Runtime | podman, <image> | no toolchain on the host |
+| <backend / engine> | <choice> | <rationale> |
+| <frontend / client> | <choice> | <rationale> |
+| <data> | <choice> | <rationale> |
 
-## 2. Modul haritasi ve sinirlar
-<!-- Her modul: sorumluluk, bagimli oldugu moduller, DOKUNULMAYACAK sinir. Dongusel bagimlilik yok. -->
-| Modul | Yol | Sorumluluk | Bagimlilik |
+## 2. Module map and boundaries
+<!-- For each module: responsibility, modules it depends on, the boundary that must NOT be touched. No circular dependencies. -->
+| Module | Path | Responsibility | Dependencies |
 |---|---|---|---|
-| <modul> | <src/...> | <tek cumle> | <modul listesi ya da yok> |
+| <module> | <src/...> | <one sentence> | <module list or none> |
 
-## 3. Veri modeli
-<!-- Varliklar, alanlar, iliskiler; kalici veri ile icerik dosyasi ayrimi. -->
-- <varlik>: <alanlar>; <iliski>
+## 3. Data model
+<!-- Entities, fields, relations; separation of persistent data from content files. -->
+- <entity>: <fields>; <relation>
 
-## 4. Sozlesmeler ve calistirma
-<!-- API.md icerigi: uc nokta/rota, istek-yanit bicimi, hata kodlari (arayuz parcalari dahil). Kod sozlesmeye uyar, tersi degil. -->
-- Sozlesmeler: `docs/contracts/CONTENT_SCHEMA.md` (icerik), `docs/contracts/API.md` (arayuz).
-- `run.ps1`: `-Build` imaj · `-Up` <adres> · `-Down` · `-Test` · `-Check` icerik dogrulama · `-E2E` smoke · `-Logs`
-- Calistirma alanlari (coder `run.ps1`'i yalniz profil + bu alanlarla yazar): Servis adi: <ad> · Port: <host:konteyner> · Test hedefi: <ayri test asamasi/imaji + komut> · Icerik dogrulama (`-Check`): <komut> · E2E senaryosu: <adim ozeti>
+## 4. Contracts and running
+<!-- API.md content: endpoint/route, request-response format, error codes (including interface slices). Code follows the contract, not the other way around. -->
+- Contracts: `docs/contracts/CONTENT_SCHEMA.md` (content), `docs/contracts/API.md` (interface).
+- `run.ps1`: `-Build` image · `-Up` <address> · `-Down` · `-Test` · `-Check` content validation · `-E2E` smoke · `-Logs`
+- Run fields (coder writes `run.ps1` only from the profile + these fields): Service name: <name> · Port: <host:container> · Test target: <separate test stage/image + command> · Content validation (`-Check`): <command> · E2E scenario: <step summary>
 
-## 5. Stub / kablo plani
-<!-- Paylasilan module dokunan paralel gruptan ONCE tek coder stub + kablolama yapar. Sirayla yaz. -->
-1. <modul>: <stub icerigi, kablo noktasi> -> sonra paralel: <modul A>, <modul B>
+## 5. Stub / wiring plan
+<!-- Before a parallel group that touches a shared module, a single coder does the stub + wiring. Write in order. -->
+1. <module>: <stub content, wiring point> -> then in parallel: <module A>, <module B>
 
-## 6. Guvenlik notlari / tehdit modeli (tam; C-GUV)
-<!-- Kullanici girdisi, hesap, ag, calistirilan kod icin tehdit + onlem; kontrol listesi guvenlik-sertlestirme.md. -->
-| Varlik / giris | Tehdit | Onlem | Kalan risk |
+## 6. Security notes / threat model (full; C-SEC)
+<!-- Threat + mitigation for user input, accounts, network, executed code; checklist security-hardening.md. -->
+| Asset / entry point | Threat | Mitigation | Residual risk |
 |---|---|---|---|
-| <kullanici girdisi, hesap, ag, calistirilan kod> | <tehdit> | <onlem> | <risk> |
+| <user input, account, network, executed code> | <threat> | <mitigation> | <risk> |
 
-## 7. Performans butcesi (tam; C-PERF)
-<!-- Olculebilir hedefler; tester bu komutlarla T-A6'da dogrular. -->
-| Olcut | Hedef | Olcum komutu |
+## 7. Performance budget (full; C-PERF)
+<!-- Measurable targets; tester verifies with these commands in T-A6. -->
+| Metric | Target | Measurement command |
 |---|---|---|
-| <ilk yukleme, yanit suresi, bellek, FPS> | <sayi + birim> | <komut> |
+| <first load, response time, memory, FPS> | <number + unit> | <command> |
 
-## 8. ADR listesi
-<!-- Her onemli secim icin docs/adr/ dosyasi; buraya tek satir ozet. -->
-`docs/adr/000-prototip-kodu.md` (P'den terfide) · `<NNN>-<konu>.md`: <tek satir karar>
+## 8. ADR list
+<!-- One docs/adr/ file per significant choice; a one-line summary here. -->
+`docs/adr/000-prototype-code.md` (on promotion from P) · `<NNN>-<topic>.md`: <one-line decision>

@@ -2,7 +2,7 @@
 # Usage: list-reports.ps1 [-Role researcher] [-Since yyyyMMdd] [-Project name]
 # File name: <yyyyMMdd-HHmm>-<role>-<topic>[-t<N>].md  (old suffixes -rN, -turN also accepted)
 # Without -Project: team/reports/. With -Project: projects/<name>/reports/.
-# "(!)" in the Not column: name stamp differs from file write time by more than 30 minutes.
+# "(!)" in the Note column: name stamp differs from file write time by more than 30 minutes.
 param(
     [string]$Role,
     [string]$Since,
@@ -11,7 +11,7 @@ param(
 
 if ($Project) {
     if ($Project -cnotmatch '^[a-z0-9_-]+$') {
-        Write-Error "Gecersiz -Project: '$Project' (yalniz kucuk ASCII harf, rakam, tire, alt cizgi)"
+        Write-Error "Invalid -Project: '$Project' (lowercase ASCII letters, digits, hyphen, underscore only)"
         exit 1
     }
     $reportsPath = Join-Path $PSScriptRoot ("..\..\projects\{0}\reports" -f $Project)
@@ -19,7 +19,7 @@ if ($Project) {
     $reportsPath = Join-Path $PSScriptRoot "..\reports"
 }
 if (-not (Test-Path -LiteralPath $reportsPath)) {
-    Write-Error "Rapor klasoru bulunamadi: $reportsPath"
+    Write-Error "Reports folder not found: $reportsPath"
     exit 1
 }
 $reportsPath = (Resolve-Path -LiteralPath $reportsPath).Path
@@ -28,7 +28,7 @@ if ($Since) {
     $parsed = [datetime]::MinValue
     $ok = ($Since -match '^\d{8}$') -and [datetime]::TryParseExact($Since, 'yyyyMMdd', [Globalization.CultureInfo]::InvariantCulture, 'None', [ref]$parsed)
     if (-not $ok) {
-        Write-Error "Gecersiz -Since: '$Since' (beklenen yyyyMMdd)"
+        Write-Error "Invalid -Since: '$Since' (expected yyyyMMdd)"
         exit 1
     }
 }
@@ -66,11 +66,11 @@ foreach ($f in Get-ChildItem -LiteralPath $reportsPath -File) {
     }
 
     # round suffix: -t<N>, -r<N>, -tur<N>; default 1
-    $tur = 1
+    $round = 1
     $tm = [regex]::Match($topic, '^(.+?)-(?:t|r|tur)(\d+)$')
     if ($tm.Success) {
         $topic = $tm.Groups[1].Value
-        $tur = [int]$tm.Groups[2].Value
+        $round = [int]$tm.Groups[2].Value
     }
 
     if ($Role -and ($r -ne $Role.ToLower())) { continue }
@@ -83,21 +83,21 @@ foreach ($f in Get-ChildItem -LiteralPath $reportsPath -File) {
     }
 
     $items += [pscustomobject]@{
-        Tarih = ('{0}-{1}-{2}' -f $d.Substring(0, 4), $d.Substring(4, 2), $d.Substring(6, 2))
-        Saat  = ('{0}:{1}' -f $t.Substring(0, 2), $t.Substring(2, 2))
-        Rol   = $r
-        Tur   = $tur
-        Konu  = $topic
-        Dosya = $f.Name
-        Not   = $note
+        Date  = ('{0}-{1}-{2}' -f $d.Substring(0, 4), $d.Substring(4, 2), $d.Substring(6, 2))
+        Time  = ('{0}:{1}' -f $t.Substring(0, 2), $t.Substring(2, 2))
+        Role  = $r
+        Round = $round
+        Topic = $topic
+        File  = $f.Name
+        Note  = $note
         Sort  = $d + $t
     }
 }
 
 if ($items.Count -eq 0) {
-    Write-Host "Rapor bulunamadi."
+    Write-Host "No reports found."
 } else {
-    $items | Sort-Object -Property @{Expression='Sort';Descending=$true}, @{Expression='Dosya';Descending=$false} |
-        Format-Table -Property Tarih, Saat, Rol, Tur, Konu, Dosya, Not -AutoSize
+    $items | Sort-Object -Property @{Expression='Sort';Descending=$true}, @{Expression='File';Descending=$false} |
+        Format-Table -Property Date, Time, Role, Round, Topic, File, Note -AutoSize
 }
-Write-Host ("Toplam: {0} rapor" -f $items.Count)
+Write-Host ("Total: {0} reports" -f $items.Count)

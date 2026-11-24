@@ -1,46 +1,46 @@
-<!-- A3, planner doldurur (learning-designer pedagojik girdiyi rapor olarak verir), hedef: docs/contracts/CONTENT_SCHEMA.md. P: asgari · hafif+: tam. Writer'lar bu sozlesmeye gore uretir. Hedef kimligi LH-01 (LEARNING_DESIGN) -->
-<!-- Duzen: gercek klasor adlarini yaz. Alanlar: her icerik turu icin ayri tablo. Ornek: -Check'ten GECEN tam bir birim. Surumleme: degisiklik politikasini tek satirda yaz -->
+<!-- A3, filled by planner (learning-designer provides pedagogical input as a report), target: docs/contracts/CONTENT_SCHEMA.md. P: minimal · light+: full. Writers produce content according to this contract. Objective ID LO-01 (LEARNING_DESIGN) -->
+<!-- Layout: write the real folder names. Fields: a separate table for each content type. Example: a complete unit that PASSES -Check. Versioning: write the change policy in one line -->
 
-# Icerik Semasi — <ad>
+# Content Schema — <name>
 
-Biçim: <TOML | YAML | Markdown + on yazi>, UTF-8. <cok satirli alan kurali, kacis tuzaklari>.
+Format: <TOML | YAML | Markdown + front matter>, UTF-8. <multi-line field rule, escaping pitfalls>.
 
-## Dosya / klasor duzeni
+## File / folder layout
 ```
 content/
-  <grup-1>/          # <ornek: seviye / modul / bolum>
-    <grup>.<uzanti>  # grup meta dosyasi
-    NN-<slug>.<uzanti>  # birimler, dosya adina gore siralanir
-  _fixture/          # test icerigi; oynanabilir listede gorunmez
+  <group-1>/          # <example: level / module / chapter>
+    <group>.<ext>     # group meta file
+    NN-<slug>.<ext>   # units, ordered by file name
+  _fixture/           # test content; does not appear in the playable list
 ```
 
-## Kimlik kurallari
-<!-- Yalniz ASCII kucuk harf, rakam, tire. Yayindan sonra kimlik DEGISMEZ (ilerleme kaydi buna baglidir). -->
-- Birim: `<grup>-<NN>` (NN dosya adindaki NN ile ayni) · Soru: `<grup>-q<K>` · <diger>
+## ID rules
+<!-- ASCII lowercase letters, digits, hyphens only. After release the ID NEVER CHANGES (progress records depend on it). -->
+- Unit: `<group>-<NN>` (NN is the same as the NN in the file name) · Question: `<group>-q<K>` · <other>
 
-## Birim alanlari
-| Alan | Tur | Zorunlu | Kural |
+## Unit fields
+| Field | Type | Required | Rule |
 |---|---|---|---|
-| id | string | evet | kimlik kurali; tekil |
-| title | string | evet | <uzunluk> |
-| objective | string | evet | LEARNING_DESIGN hedef kimligi (LH-01 biçimi) |
-| body_md | string | evet | <kelime araligi>; `#` (h1) yok; bolumler: <sira> |
-| <alan> | <tur> | <evet/hayir> | <kural> |
+| id | string | yes | ID rule; unique |
+| title | string | yes | <length> |
+| objective | string | yes | LEARNING_DESIGN objective ID (LO-01 format) |
+| body_md | string | yes | <word range>; no `#` (h1); sections: <order> |
+| <field> | <type> | <yes/no> | <rule> |
 
-## Dogrulama kurallari (`run.ps1 -Check`, ihlal = exit 1)
-- Klasor numarasi/meta id uyumu; tekrar eden id; id bicimi ve on eki
-- Zorunlu alan eksigi, bos alan; <tur kisiti, secenek sayisi, aralik>
-- Referanslar (hedef kimligi, onkosul) gercek bir kayda isaret eder
-- <projeye ozgu: ornek kodun derlenmesi, cozumun testleri gecmesi>
+## Validation rules (`run.ps1 -Check`, violation = exit 1)
+- Folder number / meta id consistency; duplicate id; id format and prefix
+- Missing required field, empty field; <type constraint, option count, range>
+- References (objective ID, prerequisite) point to a real record
+- <project-specific: example code compiles, solution passes the tests>
 
-## Ornek birim
-```<uzanti>
-id = "<grup>-01"
-title = "<baslik>"
-objective = "LH-01"
-body_md = '''<metin>'''
+## Example unit
+```<ext>
+id = "<group>-01"
+title = "<title>"
+objective = "LO-01"
+body_md = '''<text>'''
 ```
-Altin ornek: `<content/.../NN-slug.uzanti>` (A4'te onaylanir; writer'lar bunu kalip alir).
+Golden example: `<content/.../NN-slug.ext>` (approved in A4; writers use it as the template).
 
-## Surumleme
-`schema_version = <N>` meta dosyada; alan ekleme geriye uyumlu, silme/yeniden adlandirma surum artisi ve gocmen notu ister.
+## Versioning
+`schema_version = <N>` in the meta file; adding a field is backward compatible, deleting/renaming requires a version bump and a migration note.

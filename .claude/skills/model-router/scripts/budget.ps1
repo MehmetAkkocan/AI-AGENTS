@@ -1,10 +1,10 @@
-﻿# budget.ps1 — team/budget.json'daki limit durumunu okur veya günceller (Seviye 5).
+﻿# budget.ps1 - reads or updates the limit status in team/budget.json (Level 5).
 #
-# Kullanım:
-#   budget.ps1                     -> mevcut durumu yazdırır
-#   budget.ps1 -Claude tight       -> claude durumunu günceller
-#   budget.ps1 -Gemini exhausted   -> gemini durumunu günceller
-#   budget.ps1 -Reset              -> ikisini de ok yapar
+# Usage:
+#   budget.ps1                     -> prints the current status
+#   budget.ps1 -Claude tight       -> updates the claude status
+#   budget.ps1 -Gemini exhausted   -> updates the gemini status
+#   budget.ps1 -Reset              -> sets both to ok
 
 param(
     [ValidateSet("ok", "tight", "exhausted")][string]$Claude,
@@ -32,15 +32,15 @@ if ($changed) {
 }
 
 Write-Output "claude: $($obj.claude)"
-Write-Output "gemini (istege bagli ikinci gorus): $($obj.gemini)"
+Write-Output "gemini (optional second opinion): $($obj.gemini)"
 Write-Output "updated: $($obj.updated)"
 
-# Karar tablosu özeti
+# Decision table summary
 $c = $obj.claude
 Write-Output ""
 if ($c -eq "exhausted") {
-    Write-Output "Yonlendirme: ekip DUR; kullanici elle agy plan"
+    Write-Output "Routing: team STOPS; user runs agy plan manually"
 } else {
     $plan = if ($c -eq "ok") { "opus" } else { "sonnet" }
-    Write-Output "Yonlendirme: planlama/tasarim=$plan, elestiri (kapi)=$plan, elestiri (parca)=sonnet, kod/yazi/ux/playtest=sonnet, tarama/test=haiku"
+    Write-Output "Routing: planning/design=$plan, critique (gate)=$plan, critique (slice)=sonnet, code/writing/ux/playtest=sonnet, scan/test=haiku"
 }

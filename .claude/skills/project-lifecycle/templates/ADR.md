@@ -1,30 +1,30 @@
-<!-- A3 (ve sonrasi), planner yazar (karar planner/coder'dan), hedef: docs/adr/<NNN>-<konu>.md; NNN uc hane, 000 = 000-prototip-kodu.md. Tek karar, tek dosya. Mod: P yok (yalniz terfide 000) · hafif yok · orta/tam zorunlu -->
-# ADR <NNN>: <karar basligi>
+<!-- A3 (and later), written by planner (decision from planner/coder), target: docs/adr/<NNN>-<topic>.md; NNN is three digits, 000 = 000-prototype-code.md. One decision, one file. Mode: none in P (only 000 at promotion) · none in light · required in medium/full -->
+# ADR <NNN>: <decision title>
 
-## Durum
-<!-- Onerildi | Kabul | Reddedildi | Yerine gecildi (<NNN>) ; tarih yyyy-MM-dd -->
-<durum> — <yyyy-MM-dd>
+## Status
+<!-- Proposed | Accepted | Rejected | Superseded (<NNN>) ; date yyyy-MM-dd -->
+<status> — <yyyy-MM-dd>
 
-## Baglam
-<!-- Hangi sorun, hangi kisit (SPEC, CONSTRAINTS, host kisiti), neden simdi karar gerekiyor. 3-6 satir. -->
-<baglam>
+## Context
+<!-- Which problem, which constraint (SPEC, CONSTRAINTS, host constraint), why a decision is needed now. 3-6 lines. -->
+<context>
 
-## Karar
-<!-- Tek, net cumle ile basla; sonra kisa ayrinti. -->
-<karar>
+## Decision
+<!-- Start with a single clear sentence; then brief detail. -->
+<decision>
 
-## Secenekler
-<!-- En az iki secenek; secilen ilk satirda. Artilar/eksiler olculebilir olsun (maliyet, risk, bakim). -->
-| Secenek | Artilar | Eksiler |
+## Options
+<!-- At least two options; the chosen one on the first row. Pros/cons should be measurable (cost, risk, maintenance). -->
+| Option | Pros | Cons |
 |---|---|---|
-| <A (secilen)> | <arti> | <eksi> |
-| <B> | <arti> | <eksi> |
+| <A (chosen)> | <pro> | <con> |
+| <B> | <pro> | <con> |
 
-## Sonuclar
-<!-- Olumlu, olumsuz, izlenecek risk; etkilenen moduller ve belgeler (ARCHITECTURE, sozlesmeler). -->
-- <sonuc>
+## Consequences
+<!-- Positive, negative, risk to watch; affected modules and documents (ARCHITECTURE, contracts). -->
+- <consequence>
 
-<!-- ORNEK NOT — 000-prototip-kodu (yalniz hat terfisinde, K3 = TERFI sonrasi A3'te planner yazar; "koru / yeniden yaz" onerisi K3 sunumunda yer alir, A3'te mimari critic'iyle kesinlesir):
-Baglam: prototip-v0 etiketli kod hizli kuruldu; urun hattinda tutulup tutulmayacagi belirsiz.
-Karar: modul bazinda KORU ya da YENIDEN YAZ; tablo: modul / karar / gerekce.
-Sonuc: KORU modullerine test eklenir; YENIDEN YAZ modulleri stub ile degistirilir. -->
+<!-- EXAMPLE NOTE — 000-prototype-code (only at a track promotion, written by planner in A3 after K3 = PROMOTION; the "keep / rewrite" proposal appears in the K3 presentation and is finalized in A3 with the architecture critic):
+Context: the code tagged prototype-v0 was built quickly; it is unclear whether it will be kept on the product track.
+Decision: per module KEEP or REWRITE; table: module / decision / rationale.
+Consequence: tests are added to KEEP modules; REWRITE modules are replaced with stubs. -->

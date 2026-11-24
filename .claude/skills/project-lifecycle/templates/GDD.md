@@ -1,53 +1,53 @@
-<!-- A2 Tasarım | sahip: game-designer doldurur | hedef: docs/GDD.md | kapı: E-A2 (+ K2 orta/tam). Hafif mod: Ü/hafif'te ayrı GDD yok, içerik docs/DESIGN.md'ye yazılır; P'de yalnız §1-2 BRIEF içine yazılır. -->
-# GDD: <ad>
-Etiketler: tur=<oyun|egitim|ogrenme|kisisel-gelisim>[+oyun] | kitle=<cocuk|genc|yetiskin> | profil=<web|mobil|masaustu-motor>
+<!-- A2 Design | owner: game-designer fills | target: docs/GDD.md | gate: E-A2 (+ K2 medium/full). Light mode: no separate GDD in U/light, content goes into docs/DESIGN.md; in P only §1-2 are written into BRIEF. -->
+# GDD: <name>
+Labels: type=<game|education|learning|self-development>[+game] | audience=<child|teen|adult> | profile=<web|mobile|desktop-engine>
 
-## 1. Vizyon
-<!-- Tek cümle: oyuncu kim, ne yapar, ne hisseder. SPEC'teki ürün tanımıyla çelişmesin. -->
-<Tek cümlelik vizyon>
-## 2. Çekirdek döngü
-<!-- Üç ölçekte yaz; her ölçek: eylem -> sonuç -> ödül/geri bildirim -> sonraki eylem. -->
-- 30 sn: <eylem döngüsü> · 5 dk: <seviye/tur hedefi> · Oturum: <başı-sonu, devam noktası>
+## 1. Vision
+<!-- One sentence: who the player is, what they do, what they feel. Must not contradict the product definition in SPEC. -->
+<One-sentence vision>
+## 2. Core loop
+<!-- Write at three scales; each scale: action -> result -> reward/feedback -> next action. -->
+- 30 s: <action loop> · 5 min: <level/round goal> · Session: <start-end, continuation point>
 
-## 3. Mekanikler
-<!-- Her mekanik tek satır; SPEC özellik kimliğine (F-01 biçimi) bağla. Kural, girdi, sınır net olsun. -->
-| Mekanik | Kural | Girdi | Başarı/Başarısızlık | SPEC (F-xx) |
+## 3. Mechanics
+<!-- Each mechanic one row; link to the SPEC feature ID (F-01 format). Rule, input, boundary must be clear. -->
+| Mechanic | Rule | Input | Success/Failure | SPEC (F-xx) |
 |---|---|---|---|---|
-| <ad> | <kural> | <tuş/dokunma> | <sonuç> | F-01 |
+| <name> | <rule> | <key/touch> | <result> | F-01 |
 
-## 4. İlerleme ve ödül ekonomisi
-<!-- Kazanç/harcama kaynakları, sayısal aralıklar. Manipülatif desen yok (kitle cocuk ise zorunlu): sahte aciliyet, kayıp korkusu, satın alma. -->
-<Puan/yıldız/açılım kuralları ve sayılar>
+## 4. Progression and reward economy
+<!-- Sources of gain/spend, numeric ranges. No manipulative patterns (mandatory if audience is child): false urgency, fear of loss, purchases. -->
+<Points/stars/unlock rules and numbers>
 
-## 5. Zorluk eğrisi
-<!-- Seviye/dalga başına zorluk parametreleri (hız, süre, hata payı) ve artış kuralı; seed ile yeniden üretilebilir olsun. -->
-| Seviye | Parametre | Değer | Beklenen başarı oranı |
+## 5. Difficulty curve
+<!-- Difficulty parameters per level/wave (speed, time, margin of error) and the increase rule; should be reproducible with a seed. -->
+| Level | Parameter | Value | Expected success rate |
 |---|---|---|---|
 
-## 6. Geri bildirim
-<!-- Her olay için görsel / ses / metin üçlüsü; ses ve görsel kodla üretilir (bkz. ART_AUDIO.md). -->
-| Olay | Görsel | Ses | Metin |
+## 6. Feedback
+<!-- For each event a visual / sound / text triple; sound and visuals are produced in code (see ART_AUDIO.md). -->
+| Event | Visual | Sound | Text |
 |---|---|---|---|
 
-## 7. İçerik envanteri
-<!-- Sayılar kesin: seviye, birim, düşman, öğe. A5 iş planı bu sayılardan türer. -->
-<Seviye: N · birim: N · öğe: N>
-## 8. Kodla üretilecek görsel ve ses ihtiyaçları
-<!-- Yalnız liste ve amaç; ayrıntı ART_AUDIO.md'de (ux-designer yazar). Raster görsel ve kayıtlı ses yok. -->
-- Görsel: <SVG/CSS/canvas öğeleri> · Ses: <sentez ses olayları>
+## 7. Content inventory
+<!-- Exact numbers: levels, units, enemies, items. The A5 work plan derives from these numbers. -->
+<Levels: N · units: N · items: N>
+## 8. Visual and audio needs produced in code
+<!-- List and purpose only; details in ART_AUDIO.md (written by ux-designer). No raster images or recorded sound. -->
+- Visual: <SVG/CSS/canvas elements> · Sound: <synthesized sound events>
 
-## 9. SPEC eşlemesi (izlenebilirlik)
-<!-- Her SPEC özelliği (F-xx) en az bir mekanik/akışa; karşılıksız F-xx veya SPEC'siz özellik bırakma. Kabul ölçütü alt maddesi F-01.a biçiminde. -->
-| SPEC kimliği (F-xx) | GDD bölümü | Not |
+## 9. SPEC mapping (traceability)
+<!-- Each SPEC feature (F-xx) maps to at least one mechanic/flow; leave no unmatched F-xx or feature without SPEC. Acceptance criterion sub-item in the format F-01.a. -->
+| SPEC ID (F-xx) | GDD section | Note |
 |---|---|---|
-| F-01 | <§3 mekanik adı> | <not> |
+| F-01 | <§3 mechanic name> | <note> |
 
-## 10. Kapsam dışı
-<!-- SPEC "yapılmayacaklar" ile aynı; ek eleme varsa gerekçesiyle. -->
-- <madde>
-## 11. Test kancası gereksinimi
-<!-- Tarayıcı oyununda zorunlu: playtester ve tester oyunu bununla sürer. Refleks/FPS/his ölçülemez; K3'te kullanıcı oynar. -->
-- `?debug=1&seed=<N>` ile tohumlanabilir rastgelelik; `window.__game.getState()` ile durum okuma (<hangi alanlar>)
-## 12. Açık riskler
-<!-- K2 sunumuna girer: en çok 2 risk, "risk -> önlem". -->
-- <risk -> önlem>
+## 10. Out of scope
+<!-- Same as the SPEC "non-goals"; any extra exclusions with rationale. -->
+- <item>
+## 11. Test hook requirement
+<!-- Mandatory in a browser game: playtester and tester drive the game with this. Reflex/FPS/feel cannot be measured; at K3 the user plays. -->
+- Seedable randomness via `?debug=1&seed=<N>`; state reading via `window.__game.getState()` (<which fields>)
+## 12. Open risks
+<!-- Goes into the K2 presentation: at most 2 risks, "risk -> mitigation". -->
+- <risk -> mitigation>

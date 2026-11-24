@@ -1,15 +1,15 @@
-# TASKS <ad> — <hat> A<N> <Asama adi>
-<!-- Ilk baslik satirini lider doldurur (new-project.ps1 dokunmaz); scriptler bu satira bagli degildir. Ilk tablo satirlarini planner yazar, sonra yalniz lider gunceller. -->
+# TASKS <name> — <track> A<N> <Stage name>
+<!-- The lead fills the first heading line (new-project.ps1 does not touch it); scripts do not depend on this line. The planner writes the first table rows, afterwards only the lead updates. -->
 
-Dosyada TEK tablo, sabit 6 sutun; ikinci tablo ya da yeni baslik acilmaz. Satir TASINMAZ, silinmez.
-Gorev hucresi: `<tanim>; Kabul: <olcut>; Dosyalar: <yollar>; Dogrulama: <komut ya da ->`. A5'te `#` = `D<k>-<n>` (ornek `D2-3`).
-Durum: PENDING · RUNNING · NEEDS_REVIEW · DONE · FAILED. Hucrede `|` kullanma.
-Rapor = `stamp.ps1` ciktisi (`projects/<ad>/reports/...`; yol kurali sozluk.md phase-gate Denetim 7). DONE satirinin Rapor hucresi dolu olmali; raporu olmayan parca DONE sayilmaz.
-phase-gate: PENDING / RUNNING / NEEDS_REVIEW satiri acik sayilir ve FAIL verir; FAILED satiri yeni satirla yeniden acilir ya da nedeni proje HANDOFF'una (`projects/<ad>/state/HANDOFF.md`) yazilir.
+A SINGLE table in the file, fixed 6 columns; no second table or new heading is opened. Rows are NEVER moved or deleted.
+Task cell: `<definition>; Acceptance: <criterion>; Files: <paths>; Verification: <command or ->`. In A5, `#` = `D<k>-<n>` (example `D2-3`).
+Status: PENDING · RUNNING · NEEDS_REVIEW · DONE · FAILED. Do not use `|` in a cell.
+Report = `stamp.ps1` output (`projects/<name>/reports/...`; path rule is phase-gate Check 7 in glossary.md). The Report cell of a DONE row must be filled; a task without a report does not count as DONE.
+phase-gate: a PENDING / RUNNING / NEEDS_REVIEW row counts as open and gives FAIL; a FAILED row is reopened with a new row or its cause is written to the project HANDOFF (`projects/<name>/state/HANDOFF.md`).
 
-| # | Gorev | Rol | Model | Durum | Rapor |
+| # | Task | Role | Model | Status | Report |
 |---|---|---|---|---|---|
 
-## Arsiv
-Asama sonunda (phase-gate PASS sonrasi) lider tablonun tamamini `state/TASKS-ARSIV.md` dosyasina `## <hat> A<N>` basligiyla ekler ve bu tabloyu bosaltir.
-Dilim kapilari (A5) yalniz burada izlenir; PHASE.md'ye yalniz asama sonu kapilari yazilir.
+## Archive
+At the end of the stage (after phase-gate PASS) the lead appends the whole table to `state/TASKS-ARCHIVE.md` under the heading `## <track> A<N>` and empties this table.
+Slice gates (A5) are tracked only here; only end-of-stage gates are written to PHASE.md.

@@ -1,35 +1,35 @@
-# PHASE <ad>
-proje: <ad> | tur: ? | kitle: ? | profil: ?
-hat: <hat> | mod: <mod> | asama: A0 | durum: CALISIYOR
-kosullu: yok
+# PHASE <name>
+project: <name> | type: ? | audience: ? | profile: ?
+track: <track> | mode: <mode> | stage: A0 | status: IN_PROGRESS
+conditional: none
 
-## Cikis kriterleri
-| # | Hat | Asama | Kriter | Yol | Durum |
+## Exit criteria
+| # | Track | Stage | Criterion | Path | Status |
 |---|---|---|---|---|---|
 
-## Kapi kayitlari
-| Kapi | Hat | Asama | Denetleyen | Sonuc | Rapor | Tarih |
+## Gate records
+| Gate | Track | Stage | Reviewer | Result | Report | Date |
 |---|---|---|---|---|---|---|
 
-## Asama gecmisi
-| Hat | Asama | Baslangic | Bitis | Sonuc | Etiket |
+## Stage history
+| Track | Stage | Start | End | Result | Tag |
 |---|---|---|---|---|---|
 
-## Izinli degerler
-- durum: CALISIYOR · KAPI_BEKLIYOR (ajan kapisi) · KULLANICI_BEKLIYOR · BLOKE · TAMAM · RAFTA. asama: A0 ... A8
-- hat: prototip · urun. mod: hafif · orta · tam · - (prototip hattinda). tur: oyun · egitim · ogrenme · kisisel-gelisim (+oyun eki). kitle: cocuk · genc · yetiskin. profil: web · mobil · masaustu-motor
-- Kapi kimlikleri: kullanici K1 (A1) K2 (A2) K3 (hatta bagli: prototip A6 · urun A4) K4 (A6) · critic E-A0 ... E-A8 · tester T-A3 ... T-A7 · playtester P-A4, P-A5 (yalniz tam), P-A6 · kosullu C-COCUK, C-YAS, C-ALAN, C-GUV, C-ERISIM, C-PERF
-- Sonuc, critic kapilari (E-*, C-*): APPROVE · REVISE. tester (T-*): PASS · FAIL. playtester (P-*): GECER · DUZELTILMELI · ENGEL
-- Sonuc, K1: ONAY · DUZELT · DURDUR · ONAY-ONCEDEN. K2: ONAY · DUZELT · KUCULT. K4: YAYINLA · DUZELT · ERTELE
-- Sonuc, K3 prototip: TERFI · YINELE (en fazla 2) · RAFA-KALDIR. K3 urun: DEVAM · DUZELT · DURDUR
-- Her kapi: BEKLIYOR (sonuc yok) · ISTISNA (yalniz kullanici karariyla; Rapor hucresine `kullanici: <gerekce>`)
-- Kapiyi gecirir: APPROVE, PASS, GECER, ONAY, ONAY-ONCEDEN, TERFI, DEVAM, YAYINLA, ISTISNA. Digerleri (BEKLIYOR dahil) kapiyi acik birakir
-- Durum etkisi: DURDUR -> durum RAFTA · RAFA-KALDIR -> P/A8 retro notundan sonra RAFTA · ERTELE -> BLOKE · YINELE (prototip K3) -> asama A4, CALISIYOR · DUZELT, KUCULT, REVISE, FAIL, DUZELTILMELI, ENGEL -> ayni asamada CALISIYOR
-- Yeniden kosma: olumsuz karardan sonra yeniden kosacak HER kapi icin ayni (Kapi, Hat, Asama) anahtariyla hemen yeni BEKLIYOR satiri (eski gecer satir kapiyi acik birakamaz); kullanici kapisinda olumsuz kararda E-A<n>, etkilenen C-* ve K<n> yeniden BEKLIYOR. Istisna prototip K3 YINELE: hemen E-A4, T-A4; A6'ya yeniden giriste T-A6, P-A6, E-A6, (varsa) C-YAS, K3
-- Denetleyen: rol adi (critic, tester, playtester) ya da `kullanici`. Kullanici kapilarinda (K1-K4) Denetleyen = `kullanici`, Rapor = `-` (ya da sunumu hazirlayan rapor). Gecer sonuclu K3/K4 satirinda Rapor = `kullanici: gorsel onay; <sunum raporu yolu ya da ->` (ISTISNA'da `-` yerine gerekce)
-- Rapor: yol kurali sozluk.md phase-gate Denetim 7 (kanonik: stamp.ps1 ciktisi, projects/<ad>/reports/...). Tarih, Baslangic, Bitis: yyyy-MM-dd
-- Cikis kriterleri: Yol = proje kokune gore tek dosya ya da `-`; Durum = ACIK · TAMAM
-- Asama gecmisi: Sonuc = TAMAM · TERFI · RAFTA · BLOKE; Etiket = git etiketi ya da `-`
-- `tur/kitle/profil = ?` yalniz A0'da gecerli (A1'e gecmeden doldurulur). `proje:` klasor adiyla ayni. `hat: prototip` iken `mod: -` zorunlu. Gecersiz/yanlis yazimli deger phase-gate'te exit 2
-- Cift etiket: terfide once `p-asama-A6`, sonra `p-asama-A8`, sonra ayri checkpoint `prototip-v0`; A7'de once `vX.Y.Z`, sonra `u-asama-A7` (Asama gecmisi Etiket = `u-asama-A7`). Sira: lider PHASE / projects/PROJECTS.md / proje HANDOFF gunceller, SONRA coder checkpoint
-- Kosullu satiri yalniz tetiklenen kapilari yazar (C-...) ya da `yok`. Hucrede `|` yasak; satirlar tablo sonuna eklenir, silinmez
+## Allowed values
+- status: IN_PROGRESS · WAITING_GATE (agent gate) · WAITING_USER · BLOCKED · COMPLETE · SHELVED. stage: A0 ... A8
+- track: prototype · product. mode: light · medium · full · - (on the prototype track). type: game · education · learning · self-development (+game suffix). audience: child · teen · adult. profile: web · mobile · desktop-engine
+- Gate IDs: user K1 (A1) K2 (A2) K3 (track-dependent: prototype A6 · product A4) K4 (A6) · critic E-A0 ... E-A8 · tester T-A3 ... T-A7 · playtester P-A4, P-A5 (full only), P-A6 · conditional C-CHILD, C-AGE, C-DOMAIN, C-SEC, C-ACCESS, C-PERF
+- Result, critic gates (E-*, C-*): APPROVE · REVISE. tester (T-*): PASS · FAIL. playtester (P-*): PASS · NEEDS_FIX · BLOCKER
+- Result, K1: APPROVED · FIX · STOP · APPROVED-IN-ADVANCE. K2: APPROVED · FIX · DOWNSCOPE. K4: RELEASE · FIX · POSTPONE
+- Result, K3 prototype: PROMOTION · REPEAT (at most 2) · SHELVE. K3 product: CONTINUE · FIX · STOP
+- Every gate: PENDING (no result) · EXCEPTION (only by user decision; `user: <reason>` in the Report cell)
+- Passes the gate: APPROVE, PASS, APPROVED, APPROVED-IN-ADVANCE, PROMOTION, CONTINUE, RELEASE, EXCEPTION. The others (including PENDING) leave the gate open
+- Status effect: STOP -> status SHELVED · SHELVE -> SHELVED after the P/A8 retro note · POSTPONE -> BLOCKED · REPEAT (prototype K3) -> stage A4, IN_PROGRESS · FIX, DOWNSCOPE, REVISE, FAIL, NEEDS_FIX, BLOCKER -> IN_PROGRESS in the same stage
+- Re-run: for EVERY gate that will re-run after a negative decision, immediately add a new PENDING row with the same (Gate, Track, Stage) key (the old passing row cannot leave the gate open); on a negative decision at a user gate, E-A<n>, the affected C-* and K<n> go back to PENDING. Exception, prototype K3 REPEAT: immediately E-A4, T-A4; on re-entering A6, T-A6, P-A6, E-A6, (if any) C-AGE, K3
+- Reviewer: role name (critic, tester, playtester) or `user`. On user gates (K1-K4), Reviewer = `user`, Report = `-` (or the report that prepared the presentation). On a passing K3/K4 row, Report = `user: visual approval; <presentation report path or ->` (in EXCEPTION, the reason instead of `-`)
+- Report: path rule is phase-gate Check 7 in glossary.md (canonical: stamp.ps1 output, projects/<name>/reports/...). Date, Start, End: yyyy-MM-dd
+- Exit criteria: Path = a single file relative to the project root or `-`; Status = OPEN · COMPLETE
+- Stage history: Result = COMPLETE · PROMOTION · SHELVED · BLOCKED; Tag = git tag or `-`
+- `type/audience/profile = ?` is valid only in A0 (filled in before moving to A1). `project:` is the same as the folder name. When `track: prototype`, `mode: -` is mandatory. An invalid/misspelled value gives exit 2 in phase-gate
+- Double tag: on promotion first `p-stage-A6`, then `p-stage-A8`, then a separate checkpoint `prototype-v0`; in A7 first `vX.Y.Z`, then `u-stage-A7` (Stage history Tag = `u-stage-A7`). Order: the lead updates PHASE / projects/PROJECTS.md / project HANDOFF, THEN the coder does the checkpoint
+- The conditional line lists only the triggered gates (C-...) or `none`. `|` is forbidden in a cell; rows are appended to the end of the table, never deleted

@@ -1,44 +1,44 @@
-<!-- A2 | sahip: game-designer veya learning-designer (türe göre) yazar, SONRA ux-designer Ekran listesi / Akış / Görsel ve ses bölümlerini ekler (sırayla, aynı anda değil) | hedef: docs/DESIGN.md (yalnız Ü/hafif) | kapı: E-A2 + tetiklenen C-* (hafif modda K2 yok) -->
-<!-- Ü/hafif modda GDD + LEARNING_DESIGN + UX + ART_AUDIO özeti tek dosyada, ≈1-2 sayfa. Orta/tam modda bu şablon kullanılmaz; ayrı GDD / LEARNING_DESIGN / UX / ART_AUDIO yazılır. Yer tutucu adı: <ad>. -->
-# DESIGN <ad>
+<!-- A2 | owner: game-designer or learning-designer (by type) writes, THEN ux-designer adds the Screen list / Flow / Visual and audio sections (in sequence, not at the same time) | target: docs/DESIGN.md (U/light only) | gate: E-A2 + triggered C-* (no K2 in light mode) -->
+<!-- In U/light mode, a summary of GDD + LEARNING_DESIGN + UX + ART_AUDIO in a single file, about 1-2 pages. In medium/full mode this template is not used; separate GDD / LEARNING_DESIGN / UX / ART_AUDIO are written. Placeholder name: <name>. -->
+# DESIGN <name>
 
-## Tasarım özeti
-<!-- doldurma talimatı: 3 satır: ne deneyimi, kimin için, tek ayırt edici özellik. Kaynak: SPEC Hedefler. -->
-<özet>
+## Design summary
+<!-- fill-in instruction: 3 lines: what experience, for whom, the single distinguishing feature. Source: SPEC Goals. -->
+<summary>
 
-## Çekirdek döngü
-<!-- doldurma talimatı: oyun/oyunlaştırma varsa eylem -> geri bildirim -> ödül -> ilerleme (≤6 adım) + zorluk modeli 2 satır. Oyun değilse "yok". -->
-<döngü>
+## Core loop
+<!-- fill-in instruction: if there is a game/gamification: action -> feedback -> reward -> progression (<=6 steps) + difficulty model 2 lines. If not a game, "none". -->
+<loop>
 
-## Öğrenme hedefleri
-<!-- doldurma talimatı: eğitim/öğrenme/kişisel gelişim için 3-8 ölçülebilir hedef; kimlik LH-01, LH-02...; her biri bir etkinlik, bir ölçme ve en az bir SPEC kimliği (F-01) ile eşleşir; yaşa uygun dil notu. Aksi halde "yok". -->
-| Hedef kimliği | Hedef | Etkinlik | Ölçme | SPEC kimliği (F-xx) |
+## Learning objectives
+<!-- fill-in instruction: for education/learning/self-development, 3-8 measurable objectives; IDs LO-01, LO-02...; each maps to one activity, one assessment and at least one SPEC ID (F-01); age-appropriate language note. Otherwise "none". -->
+| Objective ID | Objective | Activity | Assessment | SPEC ID (F-xx) |
 |---|---|---|---|---|
-| LH-01 | <... yapabilir> | <etkinlik> | <ölçme> | F-01 |
+| LO-01 | <... can do> | <activity> | <assessment> | F-01 |
 
-## Davranış ve alışkanlık tasarımı (yalnız kisisel-gelisim; diğerlerinde "uygulanmaz" yaz)
-<!-- doldurma talimatı (LEARNING_DESIGN §8 ile aynı başlıklar): Tetikleyici, küçük adım, izleme; geri dönüş planı (kaçırılan günden sonra suçlamadan yeniden başlama). Manipülatif desen yasağı: sahte aciliyet, suçluluk, kayıp korkusu, bağımlılık döngüsü (seri kaybı cezası dahil). -->
-- Tetikleyici: <hatırlatma bağlamı> · Küçük adım: <≤2 dk eylem> · İzleme: <ölçüt, ceza yok>
+## Behavior and habit design (self-development only; write "not applicable" for others)
+<!-- fill-in instruction (same headings as LEARNING_DESIGN §8): Trigger, small step, tracking; recovery plan (restarting without blame after a missed day). Manipulative pattern ban: false urgency, guilt, fear of loss, addiction loops (including streak-loss penalties). -->
+- Trigger: <reminder context> · Small step: <action <=2 min> · Tracking: <metric, no penalty>
 
-## Ekran listesi
-<!-- doldurma talimatı (ux-designer): her ekran bir satır: ad, amaç, ana eylem, karşıladığı F-kimliği. Hafif modda 3-10 ekran; fazlaysa orta moda geçiş önerisini critic'e not et. -->
-| Ekran | Amaç | Ana eylem | SPEC kimliği (F-xx) |
+## Screen list
+<!-- fill-in instruction (ux-designer): one row per screen: name, purpose, main action, the F-ID it satisfies. 3-10 screens in light mode; if more, note a suggestion to move to medium mode for the critic. -->
+| Screen | Purpose | Main action | SPEC ID (F-xx) |
 |---|---|---|---|
-| <ekran> | <amaç> | <eylem> | F-01 |
+| <screen> | <purpose> | <action> | F-01 |
 
-## Akış
-<!-- doldurma talimatı (ux-designer): ana akış adım adım (≤10), her adımda ekran adı; en az 1 hata/boş durum yan akışı. -->
-1. <ekran> -> <ekran>
+## Flow
+<!-- fill-in instruction (ux-designer): main flow step by step (<=10), screen name at each step; at least 1 error/empty-state side flow. -->
+1. <screen> -> <screen>
 
-## Görsel ve ses yönü
-<!-- doldurma talimatı (ux-designer): renk, tipografi, ikon dili, ses; hepsi KODLA üretilebilir (SVG/CSS/prosedürel ya da sentez ses); raster/kayıtlı ses yok. Erişilebilirlik hedefi (kontrast, klavye, odak) 2 satır. -->
-<yön>
+## Visual and audio direction
+<!-- fill-in instruction (ux-designer): color, typography, icon language, sound; all producible IN CODE (SVG/CSS/procedural or synthesized sound); no raster/recorded sound. Accessibility target (contrast, keyboard, focus) 2 lines. -->
+<direction>
 
-## Koşullu kapı notları
-<!-- doldurma talimatı: C-COCUK, C-ALAN, C-ERISIM tetiklendiyse tasarımın ilgili kontrol listesine nasıl uyduğu, madde kimlikleriyle (CG-01...). Yoksa "yok". -->
-<not>
+## Conditional gate notes
+<!-- fill-in instruction: if C-CHILD, C-DOMAIN, C-ACCESS are triggered, how the design meets the relevant checklist, with item IDs (CG-01...). If none, "none". -->
+<note>
 
-## SPEC çapraz başvuru ve açık riskler
-<!-- doldurma talimatı: her F-kimliğinin hangi ekran/etkinlikte karşılandığı; karşılanmayan açıkça yazılır (critic çapraz tutarlılık yapar). Son satır: K2 ve E-A2 için en çok 3 açık risk. -->
-F-01: <ekran / LH-01>
-Açık riskler: <risk>
+## SPEC cross-reference and open risks
+<!-- fill-in instruction: on which screen/activity each F-ID is satisfied; unsatisfied ones are stated explicitly (the critic does cross-consistency). Last line: at most 3 open risks for K2 and E-A2. -->
+F-01: <screen / LO-01>
+Open risks: <risk>

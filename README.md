@@ -7,17 +7,17 @@ The main session is the **team lead**. It coordinates work and writes only state
 ## Quick start
 
 ```
-/proje yeni <ad> "<fikir>"
+/project new <name> "<idea>"
 ```
 Starts a discovery interview (≤7 questions). Then:
 
 ```
-/proje durum
-/proje ilerle
+/project status
+/project advance
 ```
-- `/proje durum`: summary of the active project. `/proje ilerle`: runs the next step and asks you at each gate; if the session is interrupted, the same command resumes it.
-- All project work goes through `/proje` (the only exception is maintaining the hub itself, described in `CLAUDE.md`). This folder is a general hub; everything project-specific lives under `projects/<ad>/`.
-- User guide: [docs/KULLANIM.md](docs/KULLANIM.md). Team lead rules: `CLAUDE.md`.
+- `/project status`: summary of the active project. `/project advance`: runs the next step and asks you at each gate; if the session is interrupted, the same command resumes it.
+- All project work goes through `/project` (the only exception is maintaining the hub itself, described in `CLAUDE.md`). This folder is a general hub; everything project-specific lives under `projects/<name>/`.
+- User guide: [docs/USER-GUIDE.md](docs/USER-GUIDE.md). Team lead rules: `CLAUDE.md`.
 
 ## Levels
 
@@ -28,21 +28,21 @@ Starts a discovery interview (≤7 questions). Then:
 | 3 | Roles + a model per role | `.claude/agents/` (10 agents) |
 | 4 | Mixed team | `.claude/skills/antigravity/` (Gemini in plan/suggestion mode only) |
 | 5 | Model choice based on limits | `team/budget.json` + `model-router` |
-| 6 | A lead that does no work itself | `/proje` + `project-lifecycle` (outer loop) + `team-lead` (inner loop) |
+| 6 | A lead that does no work itself | `/project` + `project-lifecycle` (outer loop) + `team-lead` (inner loop) |
 
 ## Folder structure
 
 ```
 CLAUDE.md                     Team lead rules (loaded in every session)
-docs/KULLANIM.md              User guide
+docs/USER-GUIDE.md            User guide
 .claude/agents/               10 agents: researcher planner game-designer learning-designer
                               ux-designer coder writer critic tester playtester
-.claude/commands/             /proje
+.claude/commands/             /project
 .claude/skills/
   team-lead/                  inner loop (task flow)
   model-router/               budget + model table (scripts/budget.ps1)
   antigravity/                Gemini bridge (scripts/agy-run.ps1)
-  project-lifecycle/          outer loop: SKILL.md, sozluk.md, gates.md
+  project-lifecycle/          outer loop: SKILL.md, glossary.md, gates.md, track-transitions.md
     phases/ templates/ checklists/ profiles/
 team/
   state/                      HANDOFF (hub state only)
@@ -50,8 +50,8 @@ team/
   reports/                    empty + README (hub-maintenance reports only)
   budget.json                 limit status (ok|tight|exhausted)
 projects/PROJECTS.md          project registry + active project
-projects/<ad>/                (created by /proje yeni) each project is its own git repo
-  state/                      PHASE, TASKS, TASKS-ARSIV, HANDOFF, INTAKE, LESSONS
+projects/<name>/              (created by /project new) each project is its own git repo
+  state/                      PHASE, TASKS, TASKS-ARCHIVE, HANDOFF, INTAKE, LESSONS
   docs/ reports/ ...          documents, agent reports, sources
 ```
 

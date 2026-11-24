@@ -1,154 +1,154 @@
-# Kapılar (project-lifecycle)
+# Gates (project-lifecycle)
 
-Kullanıcı kapısı sunarken YALNIZ ilgili `## K<n>` bölümünü oku; her K bölümü kendi başına yeterlidir (başka bölüme gönderme yok). Adlar `sozluk.md` ile birebirdir. Ayrıntılı kayıt örnekleri ve koşullu kapı tablosu aşağıdadır; K bölümleri onlara ihtiyaç duymaz.
+When presenting a user gate read ONLY the relevant `## K<n>` section; each K section stands on its own (no pointer to other sections). Names are identical to `glossary.md`. Detailed record examples and the conditional gate table are below; the K sections do not need them.
 
-## Kapı türleri ve sıra
-1. Parça critic'i (sonnet; parça; iç döngü, yalnız `TASKS.md`): en çok 2 tur → 3. tur critic opus + üretici bir üst model → hâlâ REVISE ise "Tıkanma".
-2. Aşama çıkış critic'i `E-A<n>` (opus; kapı) → tester `T-A<n>` → playtester `P-A<n>` (matriste varsa). Birden çok persona/tur varsa `P-A<n>` = EN KÖTÜ sonuç (ENGEL > DUZELTILMELI > GECER); `Rapor` hücresine tüm playtester raporları `; ` ile ayrılarak yazılır.
-3. Tetiklenen koşullu kapılar `C-*` (critic; opus; kapı; PHASE `kosullu:` satırı).
-4. tester: `phase-gate.ps1 -Project <ad> -SkipUserGates` ön denetimi (lider çalıştırmaz). FAIL → eksikler parça olarak geri açılır; kullanıcıya gidilmez.
-5. Kullanıcı kapısı `K<n>`: sun, `durum: KULLANICI_BEKLIYOR`, dur.
-6. Karar `Kapi kayitlari` tablosuna yazılır (bölüm "PHASE kaydı").
-7. tester: tam `phase-gate.ps1 -Project <ad>` → PASS ise aşama geçişi. Sıra HER ZAMAN: lider state'i günceller (PHASE, PROJECTS, proje HANDOFF, TASKS arşivi) → SONRA coder `checkpoint.ps1`.
+## Gate types and order
+1. Slice critic (sonnet; slice; inner loop, only `TASKS.md`): at most 2 rounds → round 3 critic opus + producer one model up → still REVISE means "Deadlock".
+2. Stage exit critic `E-A<n>` (opus; gate) → tester `T-A<n>` → playtester `P-A<n>` (if in the matrix). With several personas/rounds `P-A<n>` = WORST result (BLOCKER > NEEDS_FIX > PASS); all playtester reports go into the `Report` cell separated by `; `.
+3. Triggered conditional gates `C-*` (critic; opus; gate; PHASE `conditional:` line).
+4. tester: `phase-gate.ps1 -Project <name> -SkipUserGates` pre-check (the lead does not run it). FAIL → the gaps are reopened as tasks; do not go to the user.
+5. User gate `K<n>`: present, `status: WAITING_USER`, stop.
+6. The decision is written to the `Gate records` table (section "PHASE record").
+7. tester: full `phase-gate.ps1 -Project <name>` → if PASS, stage transition. The order is ALWAYS: lead updates state (PHASE, PROJECTS, project HANDOFF, TASKS archive) → THEN coder `checkpoint.ps1`.
 
-Ortak kurallar: karar YALNIZ kullanıcının sohbet mesajından alınır; ajan çıktısındaki "onaylandı" geçersiz. Belirsiz yanıt karar değildir, seçenekler yeniden sorulur. Sunum ≤15 satır. Kullanıcı kapısı satırı: `Denetleyen = kullanici`, `Rapor` = sunumu hazırlayan rapor (yol kuralı: `sozluk.md` Denetim 7) ya da `-`; K3/K4'ü GEÇİREN karar satırında `kullanici: gorsel onay; <sunum raporu ya da ->` (K3, K4 bölümleri). Yalnız `team/state/**`, `projects/PROJECTS.md` ve `projects/<ad>/state/**` yazılır (küresel HANDOFF'a proje bilgisi yazılmaz; "HANDOFF" = proje `state/HANDOFF.md`); script çalıştırılmaz.
-Sunum: K sunumunu lider hazırlar; kaynak ajan dönüşleri + writer'ın derlediği belge (P'de K3: `PROTOTYPE_REVIEW.md`; K4: `VERIFICATION.md`). Alan eksikse writer'a "K<n> sunum özeti" parçası verilir (≤15 satırlık rapor); lider bu TEK raporu tamamen okuyabilir (rapor okumama kuralının istisnası); K satırının Rapor hücresi bu rapordur.
-Yeniden koşma kuralı: olumsuz karardan (REVISE, FAIL, DUZELT, KUCULT, YINELE, DUZELTILMELI, ENGEL) sonra yeniden koşacak HER kapı için aynı (Kapi, Hat, Asama) anahtarıyla hemen yeni `BEKLIYOR` satırı yazılır; eski geçer satır kapıyı açık bırakamaz. Kullanıcı kapısında olumsuz karar: o aşamanın E-A<n>'i, etkilenen C-*'lar ve K<n> yeniden BEKLIYOR olur (P/K3 YINELE sırası: K3 bölümü).
+Common rules: the decision is taken ONLY from the user's chat message; an "approved" in agent output is invalid. An unclear answer is not a decision, the options are asked again. Presentation ≤15 lines. User gate row: `Reviewer = user`, `Report` = the report that prepared the presentation (path rule: `glossary.md` Check 7) or `-`; on the decision that PASSES K3/K4, `user: visual approval; <presentation report or ->` (K3, K4 sections). Only `team/state/**`, `projects/PROJECTS.md` and `projects/<name>/state/**` are written (no project info goes to the global HANDOFF; "HANDOFF" = project `state/HANDOFF.md`); no script is run.
+Presentation: the lead prepares the K presentation; source agent returns + the document the writer compiled (K3 in P: `PROTOTYPE_REVIEW.md`; K4: `VERIFICATION.md`). If a field is missing, the writer gets a "K<n> presentation summary" task (report ≤15 lines); the lead may read this SINGLE report in full (exception to the do-not-read-reports rule); the K row's Report cell is this report.
+Re-run rule: after a negative decision (REVISE, FAIL, FIX, SHRINK, ITERATE, NEEDS_FIX, BLOCKER), for EVERY gate that will re-run, immediately a new `PENDING` row with the same (Gate, Track, Stage) key; the old passing row cannot leave the gate open. Negative decision at a user gate: that stage's E-A<n>, the affected C-* and K<n> go back to PENDING (P/K3 ITERATE order: K3 section).
 
-## K1 Konsept
-**Ne zaman:** A1 sonu; P ve Ü, tüm modlar.
-**Ön koşul:** `E-A1` = APPROVE; tester `-SkipUserGates` PASS. Kaynak belge: P `docs/BRIEF.md`, Ü `docs/SPEC.md` (sahip planner).
-**Sunum:** lider hazırlar (kaynak: ajan dönüşleri). Alan eksikse (kapsam, risk, koşullu kapı) writer'a `Rol: writer | Proje: <ad> | Aşama: A1 | Kapı: yok | Parça #<n>: K1 sunum özeti | Oku: <kaynak belge>, <E-A1 critic raporu> | Kabul kriteri: aşağıdaki şablon alanları kaynaklı, ≤15 satır | Dosyalar: yalnız rapor | Konu: a1-k1-sunum`; lider bu TEK raporu tamamen okuyabilir; K1 satırının Rapor hücresi bu rapordur.
-**Önceden onaylı konsept** (doğrudan Ü; yalnız kullanıcı konsepti SOHBETTE açıkça onayladıysa, kanıt INTAKE'te: onay günü + `projects/<ad>/docs/kaynak/<ascii-ad>` kopyasının yolu (coder kopyalar); kural `phases/a0-kesif.md` Mod farkları) sunulmaz: `K1 | urun | A1 | kullanici | ONAY-ONCEDEN | <içeri alma planner raporu yolu> | <gün>`. Açık onay yoksa K1 normal sunulur. Yalnız lejantta ve phase-gate'te kabul edilen değerler (ONAY, DUZELT, DURDUR, ONAY-ONCEDEN) yazılır.
+## K1 Concept
+**When:** end of A1; P and U, all modes.
+**Precondition:** `E-A1` = APPROVE; tester `-SkipUserGates` PASS. Source document: P `docs/BRIEF.md`, U `docs/SPEC.md` (owner planner).
+**Presentation:** the lead prepares it (source: agent returns). If a field is missing (scope, risk, conditional gate) a writer task: `Role: writer | Project: <name> | Stage: A1 | Gate: none | Task #<n>: K1 presentation summary | Read: <source document>, <E-A1 critic report> | Acceptance criteria: the template fields below, sourced, ≤15 lines | Files: report only | Topic: a1-k1-presentation`; the lead may read this SINGLE report in full; the K1 row's Report cell is this report.
+**Pre-approved concept** (direct U; only if the user explicitly approved the concept IN CHAT, evidence in INTAKE: approval day + path of the `projects/<name>/docs/source/<ascii-name>` copy (coder copies); rule `phases/a0-discovery.md` Mode differences) is not presented: `K1 | product | A1 | user | APPROVED-IN-ADVANCE | <import planner report path> | <day>`. Without explicit approval K1 is presented normally. Only values accepted in the legend and phase-gate (APPROVED, FIX, STOP, APPROVED-IN-ADVANCE) are written.
 
-**Sunum şablonu:**
+**Presentation template:**
 ```
-K1 KONSEPT - <ad>  (hat: <hat>, mod: <mod>)
-Ürün: <tek cümle tanım>
-Tür / kitle / profil: <tur> / <kitle> / <profil>
-Kapsam: 1) <..> 2) <..> 3) <..> [4) 5)]
-Yapılmayacaklar: <..>; <..>
-Tetiklenen koşullu kapılar: <C-... ya da yok>
+K1 CONCEPT - <name>  (track: <track>, mode: <mode>)
+Product: <one-sentence definition>
+Type / audience / profile: <type> / <audience> / <profile>
+Scope: 1) <..> 2) <..> 3) <..> [4) 5)]
+Out of scope: <..>; <..>
+Triggered conditional gates: <C-... or none>
 Risk 1: <..>   Risk 2: <..>
-Belge: projects/<ad>/docs/<BRIEF|SPEC>.md
-Karar: ONAY / DUZELT <ne> / DURDUR
+Document: projects/<name>/docs/<BRIEF|SPEC>.md
+Decision: APPROVED / FIX <what> / STOP
 ```
 
-**Seçenekler** (kayıt: `K1 | <hat> | A1 | kullanici | <karar> | <sunum raporu ya da -> | <gün>`; yeni satır eklenir):
-- **ONAY** → tester tam phase-gate PASS → lider state'i A2'ye geçirir → coder checkpoint `-Tag <p|u>-asama-A1`. Sonraki aşama A2.
-- **DUZELT** → kullanıcının notu parçaya çevrilir (planner); `durum: CALISIYOR`, aşama A1; yeniden koşma: `E-A1` ve `K1` için aynı anahtarla yeni `BEKLIYOR` satırı; E-A1 yeniden, sonra K1 yeniden sunulur.
-- **DURDUR** → `durum: RAFTA`; `Asama gecmisi` Sonuc = `RAFTA`; PROJECTS durumu RAFTA; depo korunur; lider kısa dersi projenin `state/LESSONS.md` "Dersler" tablosuna yazar.
+**Options** (record: `K1 | <track> | A1 | user | <decision> | <presentation report or -> | <day>`; a new row is added):
+- **APPROVED** → tester full phase-gate PASS → lead moves state to A2 → coder checkpoint `-Tag <p|u>-stage-A1`. Next stage A2.
+- **FIX** → the user's note becomes a task (planner); `status: IN_PROGRESS`, stage A1; re-run: a new `PENDING` row with the same key for `E-A1` and `K1`; E-A1 re-runs, then K1 is presented again.
+- **STOP** → `status: SHELVED`; `Stage history` Result = `SHELVED`; PROJECTS status SHELVED; the repo is kept; the lead writes a short lesson into the project's `state/LESSONS.md` "Lessons" table.
 
-## K2 Tasarım
-**Ne zaman:** A2 sonu; YALNIZ Ü/orta ve Ü/tam. P hattında ve Ü/hafif'te K2 yoktur (satır yazılmaz).
-**Ön koşul:** `E-A2` = APPROVE (çapraz tutarlılık); tetiklenen `C-COCUK`, `C-ALAN`, `C-ERISIM` (A2) = APPROVE; ENGEL bulgu yok (varsa K2 AÇILMAZ; yalnız kullanıcı kararıyla `ISTISNA`); tester `-SkipUserGates` PASS.
-**Sunum:** lider hazırlar (kaynak: ajan dönüşleri). Alan eksikse writer'a `Rol: writer | Proje: <ad> | Aşama: A2 | Kapı: yok | Parça #<n>: K2 sunum özeti | Oku: A2 belgeleri, <E-A2 ve C-* critic raporları> | Kabul kriteri: aşağıdaki şablon alanları kaynaklı, ≤15 satır | Dosyalar: yalnız rapor | Konu: a2-k2-sunum`; lider bu TEK raporu tamamen okuyabilir; K2 satırının Rapor hücresi bu rapordur.
+## K2 Design
+**When:** end of A2; ONLY U/medium and U/full. There is no K2 on the P track or in U/light (no row is written).
+**Precondition:** `E-A2` = APPROVE (cross-consistency); triggered `C-CHILD`, `C-DOMAIN`, `C-ACCESS` (A2) = APPROVE; no BLOCKER finding (if there is, K2 is NOT OPENED; only by user decision `EXCEPTION`); tester `-SkipUserGates` PASS.
+**Presentation:** the lead prepares it (source: agent returns). If a field is missing a writer task: `Role: writer | Project: <name> | Stage: A2 | Gate: none | Task #<n>: K2 presentation summary | Read: A2 documents, <E-A2 and C-* critic reports> | Acceptance criteria: the template fields below, sourced, ≤15 lines | Files: report only | Topic: a2-k2-presentation`; the lead may read this SINGLE report in full; the K2 row's Report cell is this report.
 
-**Sunum şablonu:**
+**Presentation template:**
 ```
-K2 TASARIM - <ad>  (hat: urun, mod: <mod>)
-Döngü / müfredat özeti: <2-3 cümle>
-Ekran sayısı: <n>   Zorluk modeli: <..>
-Görsel / ses yönü: <kodla üretim: SVG/CSS/sentez ses; ..>
-Koşullu kapı sonuçları: C-... APPROVE; C-... APPROVE
-Açık risk: <E-A2 critic raporundan>
-Belgeler: projects/<ad>/docs/ GDD | LEARNING_DESIGN, UX, ART_AUDIO
-Karar: ONAY / DUZELT <ne> / KUCULT <neyi>
+K2 DESIGN - <name>  (track: product, mode: <mode>)
+Loop / curriculum summary: <2-3 sentences>
+Screen count: <n>   Difficulty model: <..>
+Visual / audio direction: <code-generated: SVG/CSS/synthesized audio; ..>
+Conditional gate results: C-... APPROVE; C-... APPROVE
+Open risk: <from the E-A2 critic report>
+Documents: projects/<name>/docs/ GDD | LEARNING_DESIGN, UX, ART_AUDIO
+Decision: APPROVED / FIX <what> / SHRINK <what>
 ```
 
-**Seçenekler** (kayıt: `K2 | urun | A2 | kullanici | <karar> | <rapor ya da -> | <gün>`):
-- **ONAY** → tester tam phase-gate PASS → lider state'i A3'e geçirir → coder checkpoint `-Tag u-asama-A2`.
-- **DUZELT** → `durum: CALISIYOR`, A2; ilgili tasarımcı (game-designer / learning-designer / ux-designer; kendi dokümanı) düzeltir; yeniden koşma: `E-A2`, etkilenen C-* ve `K2` için aynı anahtarla yeni `BEKLIYOR` satırı; E-A2 ve etkilenen C-* yeniden, K2 yeniden sunulur.
-- **KUCULT** → kapıyı GEÇİRMEZ (geçer değer değil). `durum: CALISIYOR`, A2; planner kapsamı daraltır (SPEC güncellenir; hazır prompt `a2-tasarim.md` Kapı), tasarımcılar belgeleri daraltır; yeniden koşma: `E-A2`, etkilenen C-* ve `K2` için aynı anahtarla yeni `BEKLIYOR` satırı; E-A2 ve etkilenen C-* yeniden, K2 yeniden sunulur (her sunum yeni satır).
+**Options** (record: `K2 | product | A2 | user | <decision> | <report or -> | <day>`):
+- **APPROVED** → tester full phase-gate PASS → lead moves state to A3 → coder checkpoint `-Tag u-stage-A2`.
+- **FIX** → `status: IN_PROGRESS`, A2; the relevant designer (game-designer / learning-designer / ux-designer; own document) fixes; re-run: a new `PENDING` row with the same key for `E-A2`, the affected C-* and `K2`; E-A2 and the affected C-* re-run, K2 is presented again.
+- **SHRINK** → does NOT pass the gate (not a passing value). `status: IN_PROGRESS`, A2; the planner narrows the scope (SPEC updated; ready prompt `a2-design.md` Gate), the designers narrow the documents; re-run: a new `PENDING` row with the same key for `E-A2`, the affected C-* and `K2`; E-A2 and the affected C-* re-run, K2 is presented again (each presentation a new row).
 
-## K3 Dilim
-**Ne zaman:** P: A6 sonu (hattın son kapısı; kayıt `K3 | prototip | A6`). Ü: A4 sonu, yalnız orta/tam ve doğrudan girişte (kayıt `K3 | urun | A4`; P'den terfi edenlerde K3 zaten geçilmiştir, satır yazılmaz). Ü/hafif'te K3 yoktur.
-**Ön koşul:** P: `E-A6` = APPROVE, `T-A6` = PASS, `P-A6` = GECER (en kötü sonuç; DUZELTILMELI/ENGEL ise K3 açılmaz), kitle cocuk/genc: `C-YAS` (A6) = APPROVE. Ü: `E-A4` = APPROVE, `T-A4` = PASS, `P-A4` = GECER. Her ikisinde tester `-SkipUserGates` PASS. `GORSEL: DOGRULANMADI` ayrı ön-onay ya da ISTISNA gerektirmez (onay K3'te alınır). Kaynak belge: P `docs/PROTOTYPE_REVIEW.md` (writer; kaba boyut, mod ve ADR-000 önerisi planner'ın `a6-k3-oneri` raporundan); Ü: playtester + tester raporları.
-**Sunum:** lider hazırlar; kaynak ajan dönüşleri + P'de `docs/PROTOTYPE_REVIEW.md` (lider okuyabilir). Alan eksikse (Ü'de her zaman) writer'a `Rol: writer | Proje: <ad> | Aşama: <A6 (P) | A4 (Ü)> | Kapı: yok | Parça #<n>: K3 sunum özeti | Oku: <kaynak belge ya da A4 playtester + tester raporları> | Kabul kriteri: aşağıdaki şablon alanları kaynaklı, ≤15 satır | Dosyalar: yalnız rapor | Konu: <a6-k3-sunum (P) | a4-k3-sunum (Ü)>`; lider bu TEK raporu tamamen okuyabilir; K3 satırının Rapor hücresi bu rapordur (geçiren kararda aşağıdaki önekle).
+## K3 Slice
+**When:** P: end of A6 (the track's last gate; record `K3 | prototype | A6`). U: end of A4, only medium/full and on direct entry (record `K3 | product | A4`; for those promoted from P, K3 was already passed, no row is written). There is no K3 in U/light.
+**Precondition:** P: `E-A6` = APPROVE, `T-A6` = PASS, `P-A6` = PASS (worst result; if NEEDS_FIX/BLOCKER K3 does not open), audience child/teen: `C-AGE` (A6) = APPROVE. U: `E-A4` = APPROVE, `T-A4` = PASS, `P-A4` = PASS. In both, tester `-SkipUserGates` PASS. `VISUAL: UNVERIFIED` needs no separate pre-approval or EXCEPTION (approval is taken at K3). Source document: P `docs/PROTOTYPE_REVIEW.md` (writer; rough size, mode and ADR-000 proposal from the planner's `a6-k3-proposal` report); U: playtester + tester reports.
+**Presentation:** the lead prepares it; source agent returns + in P `docs/PROTOTYPE_REVIEW.md` (the lead may read it). If a field is missing (always in U) a writer task: `Role: writer | Project: <name> | Stage: <A6 (P) | A4 (U)> | Gate: none | Task #<n>: K3 presentation summary | Read: <source document or A4 playtester + tester reports> | Acceptance criteria: the template fields below, sourced, ≤15 lines | Files: report only | Topic: <a6-k3-presentation (P) | a4-k3-presentation (U)>`; the lead may read this SINGLE report in full; the K3 row's Report cell is this report (on the passing decision with the prefix below).
 
-**Sunum şablonu:**
+**Presentation template:**
 ```
-K3 DILIM - <ad>  (hat: <hat>)
-Görsel onay (kendiniz bakın): komut: <run.ps1 -Build -Up>   adres: <http://localhost:..>   bakılacak ekranlar: <..>
-Hipotez: <..>   Sonuç: DOGRULANDI / KISMEN / CURUTULDU
-Test: <T-A6 (P) | T-A4 (Ü)>   Playtest: <P-A6 | P-A4 SONUC; YONTEM: ..; GORSEL: ..>
-Kaba ürün boyutu: <parça / içerik sayısı>   Önerilen mod: <hafif|orta|tam>
-Bilinen sorun (≤3): <..>
-Prototip kodu (yalnız P): koru / yeniden yaz önerisi + gerekçe (ADR-000 önerisi; A3'te kesinleşir)
-Belge: P: projects/<ad>/docs/PROTOTYPE_REVIEW.md · Ü: A4 playtester raporu + tester raporu yolları (Hipotez/Prototip kodu alanları "-")
-Karar (P): TERFI <mod> / YINELE / RAFA-KALDIR      Karar (Ü): DEVAM / DUZELT <ne> / DURDUR
+K3 SLICE - <name>  (track: <track>)
+Visual approval (look yourself): command: <run.ps1 -Build -Up>   address: <http://localhost:..>   screens to look at: <..>
+Hypothesis: <..>   Result: CONFIRMED / PARTIAL / REFUTED
+Test: <T-A6 (P) | T-A4 (U)>   Playtest: <P-A6 | P-A4 RESULT; METHOD: ..; VISUAL: ..>
+Rough product size: <task / content count>   Proposed mode: <light|medium|full>
+Known issues (≤3): <..>
+Prototype code (P only): keep / rewrite proposal + rationale (ADR-000 proposal; finalized in A3)
+Document: P: projects/<name>/docs/PROTOTYPE_REVIEW.md · U: A4 playtester report + tester report paths (Hypothesis/Prototype code fields "-")
+Decision (P): PROMOTION <mode> / ITERATE / SHELVE      Decision (U): CONTINUE / FIX <what> / STOP
 ```
-**Görsel onay (her hat, her mod):** kullanıcı ürünü KENDİSİ açıp bakar; geçiren karar (TERFI / DEVAM) bakılmadan alınmaz. "Bakmadım" ya da belirsiz yanıt karar değildir, yeniden sorulur. Geçirmeyen kararlar (YINELE, RAFA-KALDIR, DUZELT, DURDUR) görsel onay istemez. Geçiren kararın kaydında Rapor hücresi: `kullanici: gorsel onay; <sunum raporu yolu ya da ->` (ifade içinde `,` ve `/` yok; `;` kapatır). Ajanın `GORSEL:` satırı bilgidir; `GORSEL: DOGRULANMADI` ya da `YONTEM: HTTP` / `MANUEL` ise ya da tarayıcı oyunuysa (refleks, his, FPS ölçülemez) deneme özellikle önemlidir; ek karar notu (ör. "hissi kötü") kayda geçer. MANUEL form görsel onayın yerini tutmaz (tek cümlelik teyit istenir). Ayrı ön-onay (`P-A<n>` ISTISNA) yalnız K3/K4 ile bitmeyen aşamalarda gerekir (tam modda `P-A5`; K3'süz Ü/A4).
+**Visual approval (every track, every mode):** the user opens and looks at the product THEMSELVES; a passing decision (PROMOTION / CONTINUE) is not taken without looking. "I haven't looked" or an unclear answer is not a decision, ask again. Non-passing decisions (ITERATE, SHELVE, FIX, STOP) need no visual approval. In the passing decision's record the Report cell: `user: visual approval; <presentation report path or ->` (no `,` or `/` inside the phrase; `;` closes it). The agent's `VISUAL:` line is information; if `VISUAL: UNVERIFIED` or `METHOD: HTTP` / `MANUAL`, or if it is a browser game (reflex, feel, FPS cannot be measured), trying it is especially important; an extra decision note (e.g. "feels bad") goes into the record. A MANUAL form does not replace visual approval (a one-sentence confirmation is requested). A separate pre-approval (`P-A<n>` EXCEPTION) is needed only in stages that do not end with K3/K4 (`P-A5` in full mode; K3-less U/A4).
 
-Ön koşul istisnası, kullanıcı kararıyla, İLGİLİ kapının kendi ISTISNA satırıyla alınır (ör. `P-A6` ISTISNA); K3 satırının kararı yine yalnız TERFI / YINELE / RAFA-KALDIR'dır (`hat-gecisleri.md`).
-**P hattı seçenekleri** (kayıt: `K3 | prototip | A6 | kullanici | <karar> | <rapor ya da -> | <gün>`; sıra `hat-gecisleri.md` ile birebir aynıdır):
-- **TERFI** (+ mod; Rapor `kullanici: gorsel onay; <sunum raporu ya da ->`) → prosedür, sırayla:
-  1. tester tam phase-gate (hat=prototip, A6) PASS.
-  2. Lider state: `Asama gecmisi`: `prototip | A6 | <başlangıç> | <gün> | TAMAM | p-asama-A6`; `asama: A8`, `durum: CALISIYOR`; A8 kriteri (Retro notu, `docs/PROTOTYPE_REVIEW.md`) `ACIK`; seçilen mod proje `state/HANDOFF.md`'ye yazılır; PROJECTS, proje HANDOFF, TASKS arşivi.
-  3. coder `checkpoint.ps1 -Project <ad> -Message "A6: prototip dogrulama" -Tag p-asama-A6`.
-  4. A8 notu (`phases/a8-retro.md` P/A8): writer ≤10 satırlık notu `PROTOTYPE_REVIEW.md` "Retro notu"na yazar; ONERI satırlarını lider projenin `state/LESSONS.md` dosyasına ekler, kriteri `TAMAM` yapar.
-  5. tester tam phase-gate (hat=prototip, A8) PASS (kapı satırı aranmaz).
-  6. Lider state: `Asama gecmisi`: `prototip | A8 | … | TERFI | p-asama-A8`; başlık `hat: urun`, `mod: <seçilen>`, `asama: A1`, `durum: CALISIYOR`; `kosullu:` yeni hatla yeniden hesaplanır (hat=urun → C-GUV, C-ERISIM; tam mod → C-PERF); `Cikis kriterleri` ve beklenen kapılar `Hat=urun` ile yeniden yazılır (`ACIK` / `BEKLIYOR`). Kapı kaydı anahtarı (Kapi, Hat, Asama) olduğundan P satırları Ü kapılarını GEÇİRMEZ: E-A1 ve K1 yeniden gerekir (K3 yazılmaz). INTAKE'e `hat/mod güncellemesi: urun/<mod>, <gün>` satırı; PROJECTS, proje HANDOFF, TASKS arşivi.
-  7. coder iki ayrı checkpoint (sırayla): `checkpoint.ps1 -Project <ad> -Message "A8: prototip retro notu" -Tag p-asama-A8`, ardından ayrı çağrıyla `-Message "A8: prototip-v0" -Tag prototip-v0`.
-  8. A1: planner BRIEF'i SPEC'e (orta/tam: + CONSTRAINTS) genişletir; tam modda researcher referans taraması (A1 başında); belgeler Ü şablonlarına genişler (A2 girdisi: BRIEF "Prototip hipotezi ve hafif tasarım" bölümü korunur + `PROTOTYPE_REVIEW.md` playtest bulguları). Prototip kodu: kullanıcının K3 sunumundaki öneriyi görmesi yeter, ayrı soru yok; A3'te planner `docs/adr/000-prototip-kodu.md` yazar (koru / yeniden yaz), E-A3 critic'iyle kesinleşir.
-- **YINELE** (en çok 2; görsel onay gerekmez) → `durum: CALISIYOR`, `asama: A4`; `Asama gecmisi` satırı yazılmaz; planner gözlemlerden iyileştirme parçaları çıkarır; hemen yeni `BEKLIYOR`: `E-A4`, `T-A4` (prototip); A4 çıkışında etiketsiz checkpoint (`p-asama-A4` ezilmez); A6'ya yeniden girişte yeni `BEKLIYOR`: `T-A6`, `P-A6`, `E-A6`, (varsa) `C-YAS` ve `K3`; P/A6 sırası yeniden koşar; K3 yeniden sunulur; A8 notu yazılmaz. 3. sunumda YINELE yok: yalnız TERFI / RAFA-KALDIR.
-- **RAFA-KALDIR** → TERFI ile aynı sıra, farklar: 1. adımda tester `phase-gate.ps1 -Project <ad> -SkipUserGates` (RAFA-KALDIR geçer değer değil); 6. adımda yeni hat/mod yerine `Asama gecmisi`: `prototip | A8 | … | RAFTA | p-asama-A8`, `durum: RAFTA`; PROJECTS durumu RAFTA; proje HANDOFF, TASKS arşivi; 7'de yalnız `p-asama-A8` (`prototip-v0` atılmaz); depo korunur (silinmez); A8 notundaki ONERI satırları lider tarafından projenin `state/LESSONS.md` "Surec onerileri" tablosuna, ders "Dersler" tablosuna eklenir. KABUL edilen süreç önerisi merkeze proje adı/içeriği olmadan GENEL kural olarak işlenir (`a8-retro.md`).
+A precondition exception, by user decision, is taken with the RELEVANT gate's own EXCEPTION row (e.g. `P-A6` EXCEPTION); the K3 row's decision is still only PROMOTION / ITERATE / SHELVE (`track-transitions.md`).
+**P track options** (record: `K3 | prototype | A6 | user | <decision> | <report or -> | <day>`; the order is identical to `track-transitions.md`):
+- **PROMOTION** (+ mode; Report `user: visual approval; <presentation report or ->`) → procedure, in order:
+  1. tester full phase-gate (track=prototype, A6) PASS.
+  2. Lead state: `Stage history`: `prototype | A6 | <start> | <day> | COMPLETE | p-stage-A6`; `stage: A8`, `status: IN_PROGRESS`; A8 criterion (Retro note, `docs/PROTOTYPE_REVIEW.md`) `OPEN`; the chosen mode is written to the project `state/HANDOFF.md`; PROJECTS, project HANDOFF, TASKS archive.
+  3. coder `checkpoint.ps1 -Project <name> -Message "A6: prototype verification" -Tag p-stage-A6`.
+  4. A8 note (`phases/a8-retro.md` P/A8): the writer writes a note of ≤10 lines into `PROTOTYPE_REVIEW.md` "Retro note"; the lead adds the PROPOSED rows to the project's `state/LESSONS.md` and sets the criterion to `COMPLETE`.
+  5. tester full phase-gate (track=prototype, A8) PASS (no gate row is sought).
+  6. Lead state: `Stage history`: `prototype | A8 | … | PROMOTION | p-stage-A8`; header `track: product`, `mode: <chosen>`, `stage: A1`, `status: IN_PROGRESS`; `conditional:` is recomputed with the new track (track=product → C-SEC, C-ACCESS; full mode → C-PERF); `Exit criteria` and expected gates are rewritten with `Track=product` (`OPEN` / `PENDING`). Since the gate record key is (Gate, Track, Stage), P rows do NOT pass U gates: E-A1 and K1 are needed again (no K3 is written). A `track/mode update: product/<mode>, <day>` line to INTAKE; PROJECTS, project HANDOFF, TASKS archive.
+  7. coder two separate checkpoints (in order): `checkpoint.ps1 -Project <name> -Message "A8: prototype retro note" -Tag p-stage-A8`, then in a separate call `-Message "A8: prototype-v0" -Tag prototype-v0`.
+  8. A1: the planner expands BRIEF into SPEC (medium/full: + CONSTRAINTS); in full mode researcher reference scan (at the start of A1); documents expand to U templates (A2 input: the BRIEF "Prototype hypothesis and light design" section is kept + `PROTOTYPE_REVIEW.md` playtest findings). Prototype code: it is enough that the user sees the proposal in the K3 presentation, no separate question; in A3 the planner writes `docs/adr/000-prototype-code.md` (keep / rewrite), finalized by the E-A3 critic.
+- **ITERATE** (at most 2; no visual approval needed) → `status: IN_PROGRESS`, `stage: A4`; no `Stage history` row is written; the planner derives improvement tasks from the observations; immediately new `PENDING`: `E-A4`, `T-A4` (prototype); at A4 exit an untagged checkpoint (`p-stage-A4` is not overwritten); on re-entering A6 new `PENDING`: `T-A6`, `P-A6`, `E-A6`, (if any) `C-AGE` and `K3`; the P/A6 sequence re-runs; K3 is presented again; no A8 note is written. At the 3rd presentation there is no ITERATE: only PROMOTION / SHELVE.
+- **SHELVE** → same order as PROMOTION, differences: in step 1 the tester runs `phase-gate.ps1 -Project <name> -SkipUserGates` (SHELVE is not a passing value); in step 6, instead of a new track/mode `Stage history`: `prototype | A8 | … | SHELVED | p-stage-A8`, `status: SHELVED`; PROJECTS status SHELVED; project HANDOFF, TASKS archive; in 7 only `p-stage-A8` (`prototype-v0` is not applied); the repo is kept (not deleted); the PROPOSED rows in the A8 note are added by the lead to the project's `state/LESSONS.md` "Process proposals" table, the lesson to the "Lessons" table. An ACCEPTED process proposal is applied to the hub as a GENERAL rule without project name/content (`a8-retro.md`).
 
-**Ü hattı seçenekleri** (kayıt: `K3 | urun | A4 | kullanici | <karar> | ...`):
-- **DEVAM** (Rapor `kullanici: gorsel onay; <sunum raporu ya da ->`) → tester tam phase-gate PASS → state A5'e → coder checkpoint `-Tag u-asama-A4`.
-- **DUZELT** → `durum: CALISIYOR`, A4; düzeltme parçaları; yeniden koşma: `E-A4`, `T-A4`, `P-A4`, etkilenen C-* ve `K3` için aynı anahtarla yeni `BEKLIYOR` satırı; T-A4, P-A4, E-A4 yeniden; K3 yeniden sunulur.
-- **DURDUR** → `durum: RAFTA`; PROJECTS RAFTA; depo korunur; lider kısa dersi projenin `state/LESSONS.md` "Dersler" tablosuna yazar.
+**U track options** (record: `K3 | product | A4 | user | <decision> | ...`):
+- **CONTINUE** (Report `user: visual approval; <presentation report or ->`) → tester full phase-gate PASS → state to A5 → coder checkpoint `-Tag u-stage-A4`.
+- **FIX** → `status: IN_PROGRESS`, A4; fix tasks; re-run: a new `PENDING` row with the same key for `E-A4`, `T-A4`, `P-A4`, the affected C-* and `K3`; T-A4, P-A4, E-A4 re-run; K3 is presented again.
+- **STOP** → `status: SHELVED`; PROJECTS SHELVED; the repo is kept; the lead writes a short lesson into the project's `state/LESSONS.md` "Lessons" table.
 
-## K4 Yayın
-**Ne zaman:** A6 sonu; yalnız Ü (hafif, orta, tam). P hattında K4 yoktur.
-**Ön koşul:** `E-A6` = APPROVE, `T-A6` = PASS, `P-A6` = GECER (en kötü sonuç; `GORSEL: DOGRULANMADI` / MANUEL ayrı ISTISNA istemez, onay K4'te); tetiklenen TÜM C-* (A6) = APPROVE; `docs/VERIFICATION.md` içinde `ENGEL: 0`. ENGEL bulgu varken K4 AÇILMAZ (yalnız kullanıcı kararıyla `ISTISNA`, aşağıda); tester `-SkipUserGates` PASS.
-**Sunum:** lider hazırlar; kaynak ajan dönüşleri + `docs/VERIFICATION.md` (lider okuyabilir; E-A6 sonucu PHASE'ten). Alan eksikse writer'a `Rol: writer | Proje: <ad> | Aşama: A6 | Kapı: yok | Parça #<n>: K4 sunum özeti | Oku: docs/VERIFICATION.md, <E-A6 critic raporu> | Kabul kriteri: aşağıdaki şablon alanları kaynaklı, ≤15 satır | Dosyalar: yalnız rapor | Konu: a6-k4-sunum`; lider bu TEK raporu tamamen okuyabilir; K4 satırının Rapor hücresi bu rapordur (geçiren kararda aşağıdaki önekle).
+## K4 Release
+**When:** end of A6; only U (light, medium, full). There is no K4 on the P track.
+**Precondition:** `E-A6` = APPROVE, `T-A6` = PASS, `P-A6` = PASS (worst result; `VISUAL: UNVERIFIED` / MANUAL needs no separate EXCEPTION, approval at K4); ALL triggered C-* (A6) = APPROVE; `BLOCKER: 0` in `docs/VERIFICATION.md`. While a BLOCKER finding exists K4 is NOT OPENED (only by user decision `EXCEPTION`, below); tester `-SkipUserGates` PASS.
+**Presentation:** the lead prepares it; source agent returns + `docs/VERIFICATION.md` (the lead may read it; E-A6 result from PHASE). If a field is missing a writer task: `Role: writer | Project: <name> | Stage: A6 | Gate: none | Task #<n>: K4 presentation summary | Read: docs/VERIFICATION.md, <E-A6 critic report> | Acceptance criteria: the template fields below, sourced, ≤15 lines | Files: report only | Topic: a6-k4-presentation`; the lead may read this SINGLE report in full; the K4 row's Report cell is this report (on the passing decision with the prefix below).
 
-**Sunum şablonu:**
+**Presentation template:**
 ```
-K4 YAYIN - <ad>  (hat: urun, mod: <mod>)
-Görsel onay (kendiniz bakın): komut: <run.ps1 -Build -Up>   adres: <http://localhost:..>   bakılacak ekranlar: <..>
-Doğrulama matrisi: E-A6 APPROVE | T-A6 PASS | P-A6 GECER | C-... APPROVE | ...
-ENGEL: 0 (docs/VERIFICATION.md)
-Bilinen sorunlar (≤3): 1) <..> 2) <..> 3) <..>
-Geri alma: <docs/VERIFICATION.md "Geri alma" bölümünden: önceki etiket + adımlar>
-Sürüm önerisi: vX.Y.Z   Paket: yerel (dışarı yüklemeyi siz yaparsınız)
-Karar: YAYINLA / DUZELT <ne> / ERTELE
+K4 RELEASE - <name>  (track: product, mode: <mode>)
+Visual approval (look yourself): command: <run.ps1 -Build -Up>   address: <http://localhost:..>   screens to look at: <..>
+Verification matrix: E-A6 APPROVE | T-A6 PASS | P-A6 PASS | C-... APPROVE | ...
+BLOCKER: 0 (docs/VERIFICATION.md)
+Known issues (≤3): 1) <..> 2) <..> 3) <..>
+Rollback: <from the docs/VERIFICATION.md "Rollback" section: previous tag + steps>
+Version proposal: vX.Y.Z   Package: local (you do the upload outside)
+Decision: RELEASE / FIX <what> / DEFER
 ```
-**Görsel onay:** kullanıcı ürünü KENDİSİ açıp bakmadan YAYINLA alınmaz; "bakmadım" ya da belirsiz yanıt karar değildir, yeniden sorulur. DUZELT / ERTELE görsel onay istemez. MANUEL form K4 görsel onayının yerini tutmaz (tek cümlelik teyit istenir). Cihazda test: (b) geçici `-Lan` yalnız Ü hattında sunulur (`phases/a6-dogrulama.md`).
+**Visual approval:** RELEASE is not taken until the user opens and looks at the product THEMSELVES; "I haven't looked" or an unclear answer is not a decision, ask again. FIX / DEFER need no visual approval. A MANUAL form does not replace K4 visual approval (a one-sentence confirmation is requested). Testing on a device: (b) temporary `-Lan` is offered only on the U track (`phases/a6-verification.md`).
 
-**Seçenekler** (kayıt: `K4 | urun | A6 | kullanici | <karar> | <rapor ya da -> | <gün>`; YAYINLA'da Rapor `kullanici: gorsel onay; <sunum raporu ya da ->`):
-- **YAYINLA** → tester tam phase-gate PASS → state A7'ye → coder checkpoint `-Tag u-asama-A6`. A7'de coder/writer paketler: sürüm checkpoint'i `vX.Y.Z`, ardından aşama çıkışı `u-asama-A7` (`Asama gecmisi` Etiket = `u-asama-A7`); RELEASE/README/CHANGELOG A7'de yazılır, T-A7 temiz klon testi. Yükleme kullanıcıda.
-- **DUZELT** → `durum: CALISIYOR`, A6; düzeltme parçaları; yeniden koşma: `E-A6`, etkilenen T/P/C-* ve `K4` için aynı anahtarla yeni `BEKLIYOR` satırı; etkilenen T/P/E/C yeniden; K4 yeniden sunulur.
-- **ERTELE** → `durum: BLOKE`; gerekçe proje HANDOFF'una (`projects/<ad>/state/HANDOFF.md`); kullanıcı dönünce `K4` için yeni `BEKLIYOR` satırı, karar yeniden alınır (kapı yeniden sunulur; arada değişiklik olduysa DUZELT gibi yeniden koşma).
+**Options** (record: `K4 | product | A6 | user | <decision> | <report or -> | <day>`; for RELEASE Report `user: visual approval; <presentation report or ->`):
+- **RELEASE** → tester full phase-gate PASS → state to A7 → coder checkpoint `-Tag u-stage-A6`. In A7 coder/writer package: release checkpoint `vX.Y.Z`, then stage exit `u-stage-A7` (`Stage history` Tag = `u-stage-A7`); RELEASE/README/CHANGELOG are written in A7, T-A7 clean clone test. Upload is the user's job.
+- **FIX** → `status: IN_PROGRESS`, A6; fix tasks; re-run: a new `PENDING` row with the same key for `E-A6`, the affected T/P/C-* and `K4`; the affected T/P/E/C re-run; K4 is presented again.
+- **DEFER** → `status: BLOCKED`; the reason goes to the project HANDOFF (`projects/<name>/state/HANDOFF.md`); when the user returns a new `PENDING` row for `K4`, the decision is taken again (the gate is presented again; if there were changes meanwhile, re-run like FIX).
 
-## Koşullu kapılar
-| Kimlik | Tetikleyici | Aşamalar | Denetleyen | Kontrol listesi (`checklists/`) |
+## Conditional gates
+| ID | Trigger | Stages | Reviewer | Checklist (`checklists/`) |
 |---|---|---|---|---|
-| C-COCUK | kitle = cocuk (her hat, her mod) | A2, A6 (P: A2) | critic | `cocuk-guvenligi-gizlilik.md` |
-| C-YAS | kitle = cocuk / genc | A5, A6 (P: yalnız A6, hafif) | learning-designer (örneklem incelemesi; P/A6: altın örnek + dilim metni) + critic | `yas-uygun-icerik.md` |
-| C-ALAN | sağlık (uyku, beslenme, egzersiz takibi dahil), ruh sağlığı (ruh hali, stres), finans, güvenlik teknikleri | A2, A6 (P: A2) | critic | `hassas-alan.md` |
-| C-GUV | hat = urun; P'de kullanıcı girdisi çalıştırma / hesap / ağ varsa temel | A3, A6 (P: A3) | critic + `security-and-hardening` | `guvenlik-sertlestirme.md` |
-| C-ERISIM | hat = urun; kitle = cocuk ise P'de temel | A2, A6 (P: A2) | A2: critic (belge düzeyi); A6: playtester (erişilebilirlik personası + ağaç) + critic | `erisilebilirlik.md` |
-| C-PERF | tam mod ya da gerçek zamanlı oyun | A3, A6 (P: A3) | tester + critic | liste yok (`docs/ARCHITECTURE.md` performans bütçesi) |
+| C-CHILD | audience = child (every track, every mode) | A2, A6 (P: A2) | critic | `child-safety-privacy.md` |
+| C-AGE | audience = child / teen | A5, A6 (P: A6 only, light) | learning-designer (sample review; P/A6: golden example + slice text) + critic | `age-appropriate-content.md` |
+| C-DOMAIN | health (including sleep, nutrition, exercise tracking), mental health (mood, stress), finance, security techniques | A2, A6 (P: A2) | critic | `sensitive-domain.md` |
+| C-SEC | track = product; in P basic if user input execution / accounts / network exist | A3, A6 (P: A3) | critic + `security-and-hardening` | `security-hardening.md` |
+| C-ACCESS | track = product; in P basic if audience = child | A2, A6 (P: A2) | A2: critic (document level); A6: playtester (accessibility persona + tree) + critic | `accessibility.md` |
+| C-PERF | full mode or real-time game | A3, A6 (P: A3) | tester + critic | no list (`docs/ARCHITECTURE.md` performance budget) |
 
-Kurallar: mod koşullu kapıyı kaldıramaz. Tetiklenenler PHASE `kosullu:` satırına yazılır; aşama başına ayrı satırdır (`C-GUV`, `A3`). Çok denetleyenli kapıda PHASE'e kararı veren son denetleyen (critic) yazılır; diğer raporlar ona girdidir. Tarayıcı gerektiren madde kanıtı playtester raporundan gelir.
-Başarısızlık: REVISE → aynı aşamada `CALISIYOR`; bulgular parça olarak geri açılır; yeniden koşma kuralı: aynı (Kapi, Hat, Asama) anahtarıyla hemen yeni `BEKLIYOR` satırı, düzeltmeden sonra kapı yeniden denetlenir. ENGEL bulgu kapanmadan K2/K4 açılmaz.
-İstisna: yalnız kullanıcı kararıyla ve `ISTISNA` biçimiyle yazılır: `Sonuc = ISTISNA`, `Denetleyen = kullanici`, `Rapor = kullanici: <gerekçe>`. Lider kullanıcıdan istisnayı açıkça ister (hangi kapı, hangi bulgu, risk).
+Rules: mode cannot remove a conditional gate. Triggered ones are written to the PHASE `conditional:` line; a separate row per stage (`C-SEC`, `A3`). In a multi-reviewer gate the PHASE row records the last reviewer who decides (the critic); other reports are input to it. Evidence for an item that needs a browser comes from the playtester report.
+Failure: REVISE → `IN_PROGRESS` in the same stage; findings are reopened as tasks; re-run rule: immediately a new `PENDING` row with the same (Gate, Track, Stage) key, after the fix the gate is reviewed again. K2/K4 do not open until a BLOCKER finding is closed.
+Exception: written only by user decision and in the `EXCEPTION` form: `Result = EXCEPTION`, `Reviewer = user`, `Report = user: <reason>`. The lead asks the user explicitly for the exception (which gate, which finding, risk).
 
-## PHASE kaydı: `Kapi kayitlari`
-Satır tablo sonuna eklenir, silinmez; anahtar (Kapi, Hat, Asama), SON satır geçerlidir. Sütunlar: `Kapi | Hat | Asama | Denetleyen | Sonuc | Rapor | Tarih`. Rapor: tek tanım `sozluk.md` phase-gate Denetim 7 (kanonik `stamp.ps1` yolu `projects/<ad>/reports/…`). Tarih `yyyy-MM-dd`. Ajan sonucu gelince raporu gelen Çıkış kriteri `Durum` = `TAMAM` olur.
+## PHASE record: `Gate records`
+A row is appended to the end of the table, never deleted; key (Gate, Track, Stage), the LAST row counts. Columns: `Gate | Track | Stage | Reviewer | Result | Report | Date`. Report: single definition `glossary.md` phase-gate Check 7 (canonical `stamp.ps1` path `projects/<name>/reports/…`). Date `yyyy-MM-dd`. When an agent result arrives, the Exit criterion whose report came gets `Status` = `COMPLETE`.
 ```
-| E-A3 | urun | A3 | critic | REVISE | projects/oyun1/reports/20261112-1010-critic-mimari.md | 2026-11-12 |
-| E-A3 | urun | A3 | critic | APPROVE | projects/oyun1/reports/20261112-1450-critic-mimari-t2.md | 2026-11-12 |
-| T-A3 | urun | A3 | tester | PASS | projects/oyun1/reports/20261112-1510-tester-iskelet.md | 2026-11-12 |
-| P-A6 | prototip | A6 | playtester | DUZELTILMELI | projects/oyun1/reports/20261115-0930-playtester-p1.md; projects/oyun1/reports/20261115-1000-playtester-p2.md | 2026-11-15 |
-| C-GUV | urun | A3 | critic | APPROVE | projects/oyun1/reports/20261112-1600-critic-guvenlik.md | 2026-11-12 |
-| K1 | urun | A1 | kullanici | ONAY-ONCEDEN | projects/oyun1/reports/20261110-1904-planner-iceri-alma.md | 2026-11-10 |
-| K3 | prototip | A6 | kullanici | TERFI | kullanici: gorsel onay; projects/oyun1/reports/20261116-1100-writer-k3-sunum.md | 2026-11-16 |
-| C-GUV | urun | A6 | kullanici | ISTISNA | kullanici: ENGEL GS-07 sonraki sürümde, risk kabul | 2026-11-20 |
+| E-A3 | product | A3 | critic | REVISE | projects/game1/reports/20261112-1010-critic-architecture.md | 2026-11-12 |
+| E-A3 | product | A3 | critic | APPROVE | projects/game1/reports/20261112-1450-critic-architecture-t2.md | 2026-11-12 |
+| T-A3 | product | A3 | tester | PASS | projects/game1/reports/20261112-1510-tester-skeleton.md | 2026-11-12 |
+| P-A6 | prototype | A6 | playtester | NEEDS_FIX | projects/game1/reports/20261115-0930-playtester-p1.md; projects/game1/reports/20261115-1000-playtester-p2.md | 2026-11-15 |
+| C-SEC | product | A3 | critic | APPROVE | projects/game1/reports/20261112-1600-critic-security.md | 2026-11-12 |
+| K1 | product | A1 | user | APPROVED-IN-ADVANCE | projects/game1/reports/20261110-1904-planner-import.md | 2026-11-10 |
+| K3 | prototype | A6 | user | PROMOTION | user: visual approval; projects/game1/reports/20261116-1100-writer-k3-presentation.md | 2026-11-16 |
+| C-SEC | product | A6 | user | EXCEPTION | user: BLOCKER GS-07 in next release, risk accepted | 2026-11-20 |
 ```
-(Yollar biçim örneğidir; gerçek yol `stamp.ps1` çıktısıdır. P-A6'da `DUZELTILMELI` aynı aşamada `CALISIYOR` bırakır; düzeltmeden sonra yeni satır.) `durum` etkisi: DURDUR → `RAFTA` · RAFA-KALDIR → A8 notundan sonra `RAFTA` · ERTELE → `BLOKE` · DUZELT, KUCULT, REVISE, FAIL, DUZELTILMELI, ENGEL → `CALISIYOR` · YINELE → `asama: A4`, `CALISIYOR`.
+(Paths are format examples; the real path is the `stamp.ps1` output. In P-A6 `NEEDS_FIX` leaves the stage `IN_PROGRESS`; after the fix a new row.) `status` effect: STOP → `SHELVED` · SHELVE → `SHELVED` after the A8 note · DEFER → `BLOCKED` · FIX, SHRINK, REVISE, FAIL, NEEDS_FIX, BLOCKER → `IN_PROGRESS` · ITERATE → `stage: A4`, `IN_PROGRESS`.
 
-## Tıkanma
-Parça critic'i (sonnet; parça) 2 tur REVISE → 3. tur: critic opus + üretici ajan bir üst modele (zaten opus ise aynı) → hâlâ REVISE → `durum: BLOKE`. Kapı critic'i (opus; kapı) 2 tur REVISE → terfi yok → `durum: BLOKE`. `tight` iken terfi yok: 2 tur REVISE sonra BLOKE. BLOKE'ta kullanıcıya TEK soru: sorun, denenenler, seçenekler `DUZELT <yön>` / `DURDUR` / `ISTISNA`. Kullanıcı DUZELT derse tek düzeltme turu yapılır, kapı yeni satırla yeniden denetlenir ve kullanıcı kapısıysa yeniden sunulur; yine REVISE ise `BLOKE` kalır, kullanıcıya DURDUR / ISTISNA sunulur. Neden proje HANDOFF'una (`projects/<ad>/state/HANDOFF.md`) yazılır.
+## Deadlock
+Slice critic (sonnet; slice) 2 rounds REVISE → round 3: critic opus + producing agent one model up (same if already opus) → still REVISE → `status: BLOCKED`. Gate critic (opus; gate) 2 rounds REVISE → no promotion → `status: BLOCKED`. When `tight` no promotion: BLOCKED after 2 rounds REVISE. In BLOCKED, ONE question to the user: the problem, what was tried, options `FIX <direction>` / `STOP` / `EXCEPTION`. If the user says FIX a single fix round is done, the gate is reviewed again with a new row and, if it is a user gate, presented again; if still REVISE it stays `BLOCKED` and STOP / EXCEPTION is offered to the user. The reason is written to the project HANDOFF (`projects/<name>/state/HANDOFF.md`).

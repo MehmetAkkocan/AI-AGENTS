@@ -1,5 +1,5 @@
-# Raporlar (merkez)
+# Reports (hub)
 
-Bu klasör boş başlar. Merkez raporları (`<YYYYMMDD-HHmm>-<rol>-<konu>.md`) yalnız merkez bakımı işlerinde (süreç dosyası, ajan, script değişiklikleri) oluşur.
-Proje raporları `projects/<ad>/reports/` altındadır; bu klasöre proje adı ya da içeriği yazılmaz (`stamp.ps1 -Merkez`).
-Lider bu dosyaları tamamen okumaz; sadece ajanın döndürdüğü 10 satırlık özeti alır.
+This folder starts empty. Hub reports (`<YYYYMMDD-HHmm>-<role>-<topic>.md`) are created only during hub maintenance work (changes to process files, agents, scripts).
+Project reports live under `projects/<name>/reports/`; no project name or content is written to this folder (`stamp.ps1 -Hub`).
+The lead does not read these files in full; it only takes the 10-line summary the agent returns.

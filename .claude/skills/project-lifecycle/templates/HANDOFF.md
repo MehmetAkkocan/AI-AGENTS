@@ -1,27 +1,27 @@
-# Devir Notu <ad> (compaction / yeni oturum icin)
-<!-- Proje HANDOFF iskeleti; yalniz lider yazar, <=40 satir. Yeni oturumda kuresel team/state/HANDOFF.md ve projects/PROJECTS.md'den sonra ilk is: bunu oku. Proje bilgisi yalniz burada ve projects/ altinda tutulur; kuresel team/state/HANDOFF.md'ye proje bilgisi yazilmaz. -->
+# Handoff Note <name> (for compaction / a new session)
+<!-- Project HANDOFF skeleton; only the lead writes it, <=40 lines. In a new session, after the global team/state/HANDOFF.md and projects/PROJECTS.md, the first task: read this. Project information is kept only here and under projects/; no project information is written to the global team/state/HANDOFF.md. -->
 
-## Son guncelleme
-<yyyy-MM-dd> — <tek cumle: ne oldu>. Aktif: hat <hat>, mod <mod>, asama A<N>, durum <durum>.
+## Last update
+<yyyy-MM-dd> — <one sentence: what happened>. Active: track <track>, mode <mode>, stage A<N>, status <status>.
 
-## Su an
-- <calisan parca / ajan; TASKS.md satir no>
+## Right now
+- <running task / agent; TASKS.md row no>
 
-## Siradaki adim
-- <bir sonraki somut is ve rolu>
+## Next step
+- <the next concrete task and its role>
 
-## Bekleyen kullanici kapisi
-- <K1-K4 kimligi + sunum durumu> ya da `yok`
+## Pending user gate
+- <K1-K4 ID + presentation status> or `none`
 
-## Acik sorular / kullanicidan beklenen
-- <acik soru, kullanici talimati / karari (tarihli)> ya da `yok`
+## Open questions / awaited from the user
+- <open question, user instruction / decision (dated)> or `none`
 
-## Proje kararlari (kalici)
-- <karar + gerekce + tarih; ADR varsa yolu>
-- Etiketler: tur <tur>, kitle <kitle>, profil <profil>, kosullu <C-... ya da yok>
+## Project decisions (permanent)
+- <decision + rationale + date; ADR path if any>
+- Labels: type <type>, audience <audience>, profile <profile>, conditional <C-... or none>
 
-## Protokol notlari
-- Yalniz lider state/ yazar; ajanlar commit atmaz (checkpoint.ps1 -> coder, sirayla).
-- Raporlar `projects/<ad>/reports/` (stamp.ps1 -Project <ad>); raporsuz parca DONE degil.
-- phase-gate.ps1 -> tester; lider script calistirmaz.
-- <projeye ozgu not>
+## Protocol notes
+- Only the lead writes state/; agents do not commit (checkpoint.ps1 -> coder, in sequence).
+- Reports go to `projects/<name>/reports/` (stamp.ps1 -Project <name>); a task without a report is not DONE.
+- phase-gate.ps1 -> tester; the lead does not run scripts.
+- <project-specific note>

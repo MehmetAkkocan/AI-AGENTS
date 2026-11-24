@@ -1,41 +1,41 @@
-<!-- A3, planner doldurur, hedef: docs/TEST_PLAN.md; komutlari tester kosar. Yalniz Ü/orta-tam: P ve Ü/hafif'te yok (playtest gorevleri PLAYTEST_REPORT'ta BRIEF/SPEC'ten turetilir). Playtest gorevlerinin tek kaynagi §3 -->
-<!-- Eşleme kimligi: SPEC `F-01` ozelligi, kabul olcutu `F-01.a`; LEARNING_DESIGN hedefi `LH-01` -->
-<!-- §1: katman ekle/cikar (icerik yoksa -Check satiri "yok"). §4: her F-xx.a ve LH-xx en az bir teste/etkinlige baglanir; VERIFICATION bu tabloyu anar -->
+<!-- A3, planner fills, target: docs/TEST_PLAN.md; the tester runs the commands. Only U/medium-full: not present in P and U/light (playtest tasks are derived from BRIEF/SPEC in PLAYTEST_REPORT). The single source of playtest tasks is §3 -->
+<!-- Mapping ID: SPEC feature `F-01`, acceptance criterion `F-01.a`; LEARNING_DESIGN objective `LO-01` -->
+<!-- §1: add/remove layers (if there is no content, the -Check row is "none"). §4: every F-xx.a and LO-xx is linked to at least one test/activity; VERIFICATION cites this table -->
 
-# Test Plani — <ad>
+# Test Plan — <name>
 
-## 1. Test piramidi
-| Katman | Kapsam | Komut | Gecme olcutu |
+## 1. Test pyramid
+| Layer | Scope | Command | Pass criterion |
 |---|---|---|---|
-| Birim | <modul mantigi> | `run.ps1 -Test` | exit 0, <kapsam hedefi> |
-| Entegrasyon | <modul arasi, veri katmani> | `run.ps1 -Test` | exit 0 |
-| Icerik dogrulama | CONTENT_SCHEMA kurallari | `run.ps1 -Check` | exit 0, 0 hata |
-| E2E (smoke) | calisan urun, ana akis | `run.ps1 -E2E` | exit 0 |
-Basarili komut exit 0 verir; A3'te bos urunle hepsi yesil olmali (T-A3).
+| Unit | <module logic> | `run.ps1 -Test` | exit 0, <coverage target> |
+| Integration | <between modules, data layer> | `run.ps1 -Test` | exit 0 |
+| Content validation | CONTENT_SCHEMA rules | `run.ps1 -Check` | exit 0, 0 errors |
+| E2E (smoke) | running product, main flow | `run.ps1 -E2E` | exit 0 |
+A successful command gives exit 0; in A3 everything must be green with the empty product (T-A3).
 
-## 2. E2E senaryolari
-<!-- Ilk smoke A3'te bos urunle kosar; her dilim sonunda yeniden kosar, senaryo eklenir. -->
-| # | Senaryo | Adimlar | Beklenen |
+## 2. E2E scenarios
+<!-- The first smoke runs in A3 with the empty product; it re-runs at the end of every slice, and scenarios are added. -->
+| # | Scenario | Steps | Expected |
 |---|---|---|---|
-| E1 | Smoke (bos urun) | 1. `-Up` 2. ana adrese istek 3. durum kodu ve baslik kontrolu 4. `-Down` | 200, <beklenen metin> |
-| E2 | <dilim akisi> | 1. <adim> 2. <adim> 3. <adim> | <sonuc> |
+| E1 | Smoke (empty product) | 1. `-Up` 2. request to the main address 3. check status code and title 4. `-Down` | 200, <expected text> |
+| E2 | <slice flow> | 1. <step> 2. <step> 3. <step> | <result> |
 
-## 3. Playtest gorevleri
-<!-- Persona = BRIEF/SPEC kitlesinden; her sette bir erisilebilirlik personasi. Yontem: TARAYICI > HTTP > MANUEL (profil dosyasi). -->
-| Persona | Gorev | Basari olcutu |
+## 3. Playtest tasks
+<!-- Persona = from the BRIEF/SPEC audience; each set has one accessibility persona. Method: BROWSER > HTTP > MANUAL (profile file). -->
+| Persona | Task | Success criterion |
 |---|---|---|
-| <persona-1> | <gorev, kullanicinin dilinde> | <sure / adim sayisi / yardimsiz tamamlama> |
-| <erisilebilirlik personasi> | <gorev> | klavye ile tamamlanir, etiketler okunur |
+| <persona-1> | <task, in the user's language> | <time / step count / unassisted completion> |
+| <accessibility persona> | <task> | completed with keyboard, labels are read |
 
-## 4. Kabul olcutu - test esleme
-| Kabul olcutu (F-01.a) | Olcut | Test (katman + ad) | Durum |
+## 4. Acceptance criterion - test mapping
+| Acceptance criterion (F-01.a) | Criterion | Test (layer + name) | Status |
 |---|---|---|---|
-| <F-01.a> | <olcut> | <E2E E2 / birim ...> | ACIK |
-| <LH-01 (ogrenme hedefi varsa)> | <olcut> | <test / etkinlik> | ACIK |
+| <F-01.a> | <criterion> | <E2E E2 / unit ...> | OPEN |
+| <LO-01 (if there is a learning objective)> | <criterion> | <test / activity> | OPEN |
 
-## 5. Kosullu kapi denetimleri
-<!-- Yalniz PHASE kosullu: satirinda olanlar. Kontrol listesi: checklists/. -->
-| Kapi | Denetim | Arac / kanit |
+## 5. Conditional gate checks
+<!-- Only those in the PHASE conditional: line. Checklist: checklists/. -->
+| Gate | Check | Tool / evidence |
 |---|---|---|
-| <C-GUV> | <girdi dogrulama, calistirma siniri> | <test adi + critic raporu> |
-| <C-PERF> | ARCHITECTURE performans butcesi | <olcum komutu + tester raporu> |
+| <C-SEC> | <input validation, execution boundary> | <test name + critic report> |
+| <C-PERF> | ARCHITECTURE performance budget | <measurement command + tester report> |

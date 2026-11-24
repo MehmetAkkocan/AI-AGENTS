@@ -1,46 +1,46 @@
 # A8 Retro
 
-## Amaç
-Projeden çıkan dersleri sürece geri beslemek: kapı istatistikleri, RETRO, projenin `state/LESSONS.md` dosyasındaki öneriler ve dersler (dersler projeye özeldir). Süreç değişikliği yalnız kullanıcı onayıyla.
+## Purpose
+Feed the lessons from the project back into the process: gate statistics, RETRO, the proposals and lessons in the project's `state/LESSONS.md` file (lessons are project-specific). A process change only with the user's approval.
 
-## Girdiler
-projects/<ad>/ altında: state/PHASE.md (Kapi kayitlari, Asama gecmisi), state/TASKS-ARSIV.md, reports/, docs/VERIFICATION.md, docs/BACKLOG.md; state/LESSONS.md (bu projenin önceki önerileri ve dersleri).
+## Inputs
+Under projects/<name>/: state/PHASE.md (Gate records, Stage history), state/TASKS-ARCHIVE.md, reports/, docs/VERIFICATION.md, docs/BACKLOG.md; state/LESSONS.md (this project's earlier proposals and lessons).
 
-## Adımlar
-`<PL>` = `.claude/skills/project-lifecycle`. Her prompt'a eklenir: `Rapor yolunu şu komutla üret: powershell -NoProfile -ExecutionPolicy Bypass -File team/scripts/stamp.ps1 -Role <rol> -Topic <konu> -Project <ad> [-Round <N>]` + `Cevabın ≤10 satır, RAPOR: <yol> zorunlu.` Prompt'lar aşağıdaki tek blokta:
-1. **researcher** (Araştırma; haiku) — kapı istatistiği; yalnız olgu, yorum yok.
-2. **writer** (İçerik) — RETRO'yu derler; researcher rapor yolunu lider prompt'a yazar.
-3. **critic** (opus; kapı; Eleştiri; skill doubt-driven-development) — öneriler istatistikle destekli mi; lider script çalıştırdı mı / state dışına yazdı mı denetimi.
-4. **lider** (yalnız state/ yazar): RETRO'daki süreç önerilerini projenin `state/LESSONS.md` "Süreç önerileri" tablosuna `ONERI` satırı olarak, çıkan dersleri "Dersler" tablosuna ekler (kaynak RETRO yolu `Oneri` / `Ders` hücresinin sonuna `(kaynak: <yol>)`); ONERI → KABUL / RED kararı yalnız kullanıcı sohbet mesajıyla; öneriyi ≤15 satırda sun. KABUL edilen öneri merkez bakımı yoluyla (CLAUDE.md istisnası; yalnız kullanıcı onayıyla) merkez süreç dosyalarına GENEL kural olarak işlenir: merkez dosyalarına, küresel HANDOFF'a ve `team/reports/` raporlarına proje adı/içeriği yazılmaz; lider merkez bakımı prompt'una öneriyi proje adından arındırarak yazar (kanıt yolu projede kalır); "Uygulandigi yer" hücresini lider doldurur. Onaysız değiştirme.
+## Steps
+`<PL>` = `.claude/skills/project-lifecycle`. Added to every prompt: `Produce the report path with this command: powershell -NoProfile -ExecutionPolicy Bypass -File team/scripts/stamp.ps1 -Role <role> -Topic <topic> -Project <name> [-Round <N>]` + `Reply is at most 10 lines, REPORT: <path> is mandatory.` Prompts are in the single block below:
+1. **researcher** (Research; haiku) — gate statistics; facts only, no commentary.
+2. **writer** (Content) — compiles the RETRO; the lead writes the researcher report path into the prompt.
+3. **critic** (opus; gate; Review; skill doubt-driven-development) — are the proposals backed by statistics; review of whether the lead ran a script / wrote outside state.
+4. **lead** (writes only state/): adds the process proposals in the RETRO to the project's `state/LESSONS.md` "Process proposals" table as `PROPOSAL` rows, and the lessons that came out to the "Lessons" table (the source RETRO path at the end of the `Proposal` / `Lesson` cell as `(source: <path>)`); the PROPOSAL → ACCEPTED / REJECTED decision only by the user's chat message; present the proposal in ≤15 lines. An ACCEPTED proposal is applied to the hub process files as a GENERAL rule through hub maintenance (CLAUDE.md exception; only with the user's approval): no project name/content is written to the hub files, the global HANDOFF and the `team/reports/` reports; the lead writes the proposal into the hub maintenance prompt stripped of the project name (the evidence path stays in the project); the lead fills in the "Applied in" cell. No change without approval.
 ```
-Rol: researcher | Proje: <ad> | Aşama: A8 | Parça #<n>: kapı istatistikleri | Konu: a8-istatistik | Kapı: yok
-Kabul kriteri: kapı başına tur sayısı, REVISE/FAIL oranı, model terfisi, ilk E2E FAIL'in yakalandığı aşama, raporsuz DONE sayısı, ENGEL bulguların ilk görüldüğü aşama; kaynak yolu satır başına | Dosyalar: yok (salt okunur) | Doğrulama komutu: yok | Kontrol listesi: yok
-Rol: writer | Proje: <ad> | Aşama: A8 | Parça #<n>: RETRO | Konu: a8-retro | Kapı: yok
-Kabul kriteri: ne işledi / ne işlemedi, istatistik tablosu (<researcher raporu yolu>), ≥3 somut süreç önerisi (sorun → öneri → etki) | Dosyalar: docs/RETRO.md | Doğrulama komutu: yok | Kontrol listesi: yok | Oku: <PL>/templates/RETRO.md
-Rol: critic | Proje: <ad> | Aşama: A8 | Parça #<n>: RETRO incelemesi | Konu: a8-e-a8 | Kapı: E-A8
-Kabul kriteri: öneriler ölçülebilir ve istatistikle destekli; istatistik ham verilerle tutarlı; lider ihlali var/yok kanıtlı; APPROVE/REVISE + 3 madde | Dosyalar: yok | Doğrulama komutu: yok | Kontrol listesi: yok
+Role: researcher | Project: <name> | Stage: A8 | Task #<n>: gate statistics | Topic: a8-statistics | Gate: none
+Acceptance: rounds per gate, REVISE/FAIL rate, model promotion, the stage where the first E2E FAIL was caught, count of DONE without a report, the stage where BLOCKER findings were first seen; source path on each line | Files: none (read-only) | Verification command: none | Checklist: none
+Role: writer | Project: <name> | Stage: A8 | Task #<n>: RETRO | Topic: a8-retro | Gate: none
+Acceptance: what worked / what did not, statistics table (<researcher report path>), ≥3 concrete process proposals (problem → proposal → effect) | Files: docs/RETRO.md | Verification command: none | Checklist: none | Read: <PL>/templates/RETRO.md
+Role: critic | Project: <name> | Stage: A8 | Task #<n>: RETRO review | Topic: a8-e-a8 | Gate: E-A8
+Acceptance: proposals measurable and backed by statistics; statistics consistent with the raw data; lead violation present/absent with evidence; APPROVE/REVISE + 3 items | Files: none | Verification command: none | Checklist: none
 ```
 
-## Mod farkları
-Matris: SKILL.md. Yukarıdaki adım 1-4 ve Kapı bölümü Ü içindir. Ü/hafif: adım 1 yalnız PHASE + TASKS-ARSIV, RETRO kısa. Ü/orta ve tam: tüm adımlar, reports/ taraması dahil.
+## Mode differences
+Matrix: SKILL.md. Steps 1-4 above and the Gate section are for U. U/light: step 1 only PHASE + TASKS-ARCHIVE, RETRO short. U/medium and full: all steps, including the reports/ scan.
 
-## Prototip hattı (P/A8)
-Yalnız SON K3 kararından (TERFI ya da RAFA-KALDIR) sonra; YINELE'de yazılmaz. Sıra, kayıt ve etiketler `hat-gecisleri.md` "K3 kararından sonra" bölümünde kesindir (burada kopyalanmaz). Adımlar:
-1. **writer** (sonnet) — ≤10 satırlık notu `docs/PROTOTYPE_REVIEW.md` "Retro notu" bölümüne yazar (RAFA-KALDIR dersi de burada); E-A8 yok, researcher / critic adımı yok.
+## Prototype track (P/A8)
+Only after the FINAL K3 decision (PROMOTION or SHELVE); not written on ITERATE. The order, records and labels are definitive in the `track-transitions.md` "After the K3 decision" section (not copied here). Steps:
+1. **writer** (sonnet) — writes a note of ≤10 lines into the `docs/PROTOTYPE_REVIEW.md` "Retro note" section (the SHELVE lesson also goes here); no E-A8, no researcher / critic step.
 ```
-Rol: writer | Proje: <ad> | Aşama: A8 | Parça #<n>: prototip retro notu | Konu: a8-retro-notu | Kapı: yok | Oku: docs/PROTOTYPE_REVIEW.md, state/PHASE.md (Kapi kayitlari), K3 kararı
-Kabul kriteri: ≤10 satır: ne işledi / ne işlemedi, kapı olgusu (tur sayısı, YINELE), süreç önerileri `ONERI:` satırı olarak (kaynakta olmayan yazılmaz) | Dosyalar: projects/<ad>/docs/PROTOTYPE_REVIEW.md ("Retro notu" bölümü) | Doğrulama komutu: yok | Kontrol listesi: yok
+Role: writer | Project: <name> | Stage: A8 | Task #<n>: prototype retro note | Topic: a8-retro-note | Gate: none | Read: docs/PROTOTYPE_REVIEW.md, state/PHASE.md (Gate records), K3 decision
+Acceptance: ≤10 lines: what worked / what did not, gate facts (round count, ITERATE), process proposals as `PROPOSAL:` lines (nothing that is not in the source is written) | Files: projects/<name>/docs/PROTOTYPE_REVIEW.md ("Retro note" section) | Verification command: none | Checklist: none
 ```
-2. **Lider**: `ONERI` satırlarını projenin `state/LESSONS.md` "Süreç önerileri" tablosuna taşır (`Oneri` hücresinin sonuna `(kaynak: <PROTOTYPE_REVIEW yolu>)`; ders varsa "Dersler"e); kriteri `TAMAM` yapar; KABUL / RED yalnız kullanıcı sohbet mesajıyla.
-3. Çıkış: tester tam phase-gate (prototip, A8) PASS (kapı satırı aranmaz) → lider state (TERFI: Asama gecmisi `TERFI`; RAFA-KALDIR: `RAFTA`) → coder `p-asama-A8`; TERFI'de ardından ayrı çağrıyla `prototip-v0`.
+2. **Lead**: moves the `PROPOSAL` lines to the project's `state/LESSONS.md` "Process proposals" table (`(source: <PROTOTYPE_REVIEW path>)` at the end of the `Proposal` cell; to "Lessons" if there is a lesson); sets the criterion to `COMPLETE`; ACCEPTED / REJECTED only by the user's chat message.
+3. Exit: tester full phase-gate (prototype, A8) PASS (no gate row is looked for) → the lead state (PROMOTION: Stage history `PROMOTION`; SHELVE: `SHELVED`) → coder `p-stage-A8`; on PROMOTION, then `prototype-v0` in a separate call.
 
-## Çıkış kriterleri
-PHASE Cikis kriterleri (Asama=A8):
-| Kriter | Yol |
+## Exit criteria
+PHASE Exit criteria (Stage=A8):
+| Criterion | Path |
 |---|---|
-| Ü: Retrospektif | docs/RETRO.md |
-| Ü: E-A8 | - |
-| P: "Retro notu" dolu (E-A8 yok) | docs/PROTOTYPE_REVIEW.md |
+| U: Retrospective | docs/RETRO.md |
+| U: E-A8 | - |
+| P: "Retro note" filled (no E-A8) | docs/PROTOTYPE_REVIEW.md |
 
-## Kapı
-P: kapı yok (yukarıdaki "Prototip hattı"). Ü: BEKLIYOR yaz: yalnız E-A8 (kullanıcı kapısı yok → -SkipUserGates yok). APPROVE işlenince tester'a `powershell -NoProfile -ExecutionPolicy Bypass -File team/scripts/phase-gate.ps1 -Project <ad>` (çıktı aynen). PASS → ÖNCE state: PHASE durum TAMAM + Asama gecmisi, PROJECTS durum TAMAM, proje HANDOFF, TASKS arşivi; SONRA coder'a `powershell -NoProfile -ExecutionPolicy Bypass -File team/scripts/checkpoint.ps1 -Project <ad> -Message "A8: retro" -Tag u-asama-A8`. Olumsuz: REVISE/FAIL → writer'a geri (2 tur REVISE → BLOKE, gates.md Tıkanma), `CALISIYOR`. Yeniden koşma kuralı: olumsuz karardan sonra yeniden koşacak her kapı için aynı (Kapi, Hat, Asama) anahtarıyla hemen yeni `BEKLIYOR` satırı (eski geçer satır kapıyı açık bırakamaz). Kullanıcı bir öneriyi reddederse RED yazılır; kapıyı etkilemez.
+## Gate
+P: no gate (the "Prototype track" above). U: write PENDING: only E-A8 (no user gate → no -SkipUserGates). After APPROVE is processed, give the tester `powershell -NoProfile -ExecutionPolicy Bypass -File team/scripts/phase-gate.ps1 -Project <name>` (output verbatim). PASS → FIRST state: PHASE status COMPLETE + Stage history, PROJECTS status COMPLETE, project HANDOFF, TASKS archive; THEN to the coder `powershell -NoProfile -ExecutionPolicy Bypass -File team/scripts/checkpoint.ps1 -Project <name> -Message "A8: retro" -Tag u-stage-A8`. Negative: REVISE/FAIL → back to the writer (2 REVISE rounds → BLOCKED, gates.md Deadlock), `IN_PROGRESS`. Rerun rule: for every gate that will rerun after a negative decision, immediately a new `PENDING` row with the same (Gate, Track, Stage) key (the old passing row cannot leave the gate open). If the user rejects a proposal, REJECTED is written; it does not affect the gate.

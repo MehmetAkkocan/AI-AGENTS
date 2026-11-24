@@ -1,54 +1,54 @@
-# Profil: web
-Okuyucu: planner, coder, tester, playtester. Ortam: host'ta yalnız git, podman, PowerShell 5.1; her şey konteynerde derlenir/çalışır.
+# Profile: web
+Readers: planner, coder, tester, playtester. Environment: the host has only git, podman, PowerShell 5.1; everything is built/run in containers.
 
-## Kapsam
-Tarayıcıda çalışan eğitim, öğrenme ve oyun ürünleri. Dağıtım yok: yayın = yerel paket + etiket + sürüm notu. Mobil görünüm (375×812) bu profilde sınanır; yerel uygulama: `mobil.md`.
+## Scope
+Education, learning and game products that run in the browser. No deployment: release = local package + tag + release notes. Mobile view (375×812) is tested in this profile; native app: `mobile.md`.
 
-## Konteyner ve teknoloji varsayılanları
-Tüm aileler TEK konteynerde (tek `Containerfile` + `compose.yaml`); seçim A1/A3'te ADR'ye yazılır (Ü/hafif: ARCHITECTURE §1 gerekçesinde).
-| Aile | Ne zaman | Not |
+## Container and technology defaults
+All families in ONE container (single `Containerfile` + `compose.yaml`); the choice is written to the ADR in A1/A3 (U/light: in the ARCHITECTURE §1 rationale).
+| Family | When | Note |
 |---|---|---|
-| Sunucu taraflı + HTMX (FastAPI/Jinja2, Rust/axum + şablon vb.) | Hesap/ilerleme kaydı, sunucuda değerlendirme gerekir | İlerleme: SQLite/dosya, `./data` birimi. Örnek yığın: FastAPI + HTMX + Jinja2 + SQLite |
-| Saf statik HTML/JS | Sunucu verisi yok, içerik sabit; küçük prototip | Ayrıcalıksız statik sunucu (ayrıcalıksız nginx varyantı ya da tek ikili) + gerekli yollara tmpfs; resmi nginx imajının `cap_drop: ALL` + `read_only` ile açılışta çökmesi beklenir (doğrulanmadı) |
-| Canvas oyunu | Gerçek zamanlı oyun | Statik sunum + `masaustu-motor.md` test kancaları ZORUNLU |
-Compose: `build.dockerfile: Containerfile` açık yaz; port yalnız `127.0.0.1:<port>:<port>` (tek istisna: `mobil.md` "Cihazda test" (b), kullanıcı ISTISNA'sıyla geçici `run.ps1 -Lan`, varsayılan kapalı); `read_only: true`, `cap_drop: [ALL]`, `no-new-privileges`, `tmpfs: /tmp`, `mem_limit`/`pids_limit`; kalıcı veri `./data:/app/data:Z`. Kullanıcı kodu çalıştıran ürün (C-GUV): kaynak sınırı yetmez; `guvenlik-sertlestirme.md` GS-05'in beş özelliği sağlanır ve düşmanca denemeleri `run.ps1 -Test`'te koşar; bu projede yazılabilir `./data` dizini kullanıcı kodundan yalıtılmalıdır (okuyamaz, yazamaz; GS-05; mekanizma A3'te ADR'de) (kodu uygulamayla aynı konteynerde derleyip ağı kapatmayan tasarım GS-05'i geçmeyebilir; doğrulanmadı).
-Görsel/ses KODLA: SVG, CSS, canvas, WebAudio sentezi; raster görsel ve kayıtlı ses yok. Tasarım belirteçleri tek CSS değişken dosyasında.
+| Server-side + HTMX (FastAPI/Jinja2, Rust/axum + template etc.) | Account/progress saving, server-side evaluation needed | Progress: SQLite/file, `./data` volume. Example stack: FastAPI + HTMX + Jinja2 + SQLite |
+| Pure static HTML/JS | No server data, fixed content; small prototype | Unprivileged static server (unprivileged nginx variant or a single binary) + tmpfs for needed paths; the official nginx image is expected to crash at startup with `cap_drop: ALL` + `read_only` (unverified) |
+| Canvas game | Real-time game | Static serving + `desktop-engine.md` test hooks MANDATORY |
+Compose: write `build.dockerfile: Containerfile` explicitly; port only `127.0.0.1:<port>:<port>` (the single exception: `mobile.md` "Testing on a device" (b), temporary `run.ps1 -Lan` by user EXCEPTION, default off); `read_only: true`, `cap_drop: [ALL]`, `no-new-privileges`, `tmpfs: /tmp`, `mem_limit`/`pids_limit`; persistent data `./data:/app/data:Z`. A product that runs user code (C-SEC): a resource limit is not enough; the five properties of `security-hardening.md` GS-05 are met and its hostile attempts run in `run.ps1 -Test`; in this project the writable `./data` directory must be isolated from user code (cannot read, cannot write; GS-05; mechanism in the ADR in A3) (a design that compiles the code in the same container as the app and does not cut the network may fail GS-05; unverified).
+Visuals/audio BY CODE: SVG, CSS, canvas, WebAudio synthesis; no raster images and no recorded audio. Design tokens in a single CSS variable file.
 
-## run.ps1 eşlemesi
-Standart anahtarlar; başarı exit 0; her `podman` çağrısından sonra `$LASTEXITCODE` denetlenir. Anahtarsız = `-Build -Up`. Komutları tester koşar; playtester yalnız `-Up`/`-Down`/`-Logs`.
-| Anahtar | Komut (örüntü) |
+## run.ps1 mapping
+Standard switches; success exit 0; `$LASTEXITCODE` is checked after every `podman` call. No switch = `-Build -Up`. The tester runs the commands; the playtester only `-Up`/`-Down`/`-Logs`.
+| Switch | Command (pattern) |
 |---|---|
-| `-Build` | `podman build -f Containerfile -t <ad>:latest .` |
-| `-Up` | imaj yoksa build; `podman compose up -d`; adresi yazdır (`podman-compose` yedeği) |
+| `-Build` | `podman build -f Containerfile -t <name>:latest .` |
+| `-Up` | build if there is no image; `podman compose up -d`; print the address (`podman-compose` fallback) |
 | `-Down` | `podman compose down` |
-| `-Test` | çalışma imajında DEĞİL: `Containerfile`'da ayrı `test` aşaması (`podman build --target test` + `podman run --rm`) ya da ayrı test servisi/imajı; sebep: çalışma imajı yalnız ikili/içerik taşır, kök `read_only`. Doğrulanmadı; ADR'ye yaz (Ü/hafif: ARCHITECTURE §1) |
-| `-Check` | `podman compose run --rm <servis> <içerik doğrulama komutu>` |
-| `-E2E` | kendisi `-Up` çağırır, HTTP senaryosunu koşar; `-Up` sonrası sağlık ucu 200 dönmezse exit 1 + mesaj; kendi başlattığını tester durdurur |
-| `-Logs` | `podman compose logs -f <servis>` |
-`-Test` ve `-E2E` her yeni projede A3'te yazılır; servis adı, port, test/check komutu ARCHITECTURE'da tanımlanır.
+| `-Test` | NOT in the runtime image: a separate `test` stage in the `Containerfile` (`podman build --target test` + `podman run --rm`) or a separate test service/image; reason: the runtime image carries only binary/content, root is `read_only`. Unverified; write it to the ADR (U/light: ARCHITECTURE §1) |
+| `-Check` | `podman compose run --rm <service> <content validation command>` |
+| `-E2E` | calls `-Up` itself, runs the HTTP scenario; if the health endpoint does not return 200 after `-Up`, exit 1 + message; the tester stops what it started |
+| `-Logs` | `podman compose logs -f <service>` |
+`-Test` and `-E2E` are written in A3 of every new project; the service name, port, test/check command are defined in ARCHITECTURE.
 
-## Test kancaları
-- Sağlık ucu (200 + kısa gövde) ve `-Check` iskelette zorunlu.
-- E2E Playwright'sız: Windows yerleşik `curl.exe` (PS 5.1'de `curl` takma adı değil) ile senaryo: ana sayfa 200 → çerez kavanozlu (`-c/-b`) oturum → görev/ilerleme POST'u → beklenen metin. Her adımda durum kodu + gövdede anahtar metin. `Invoke-WebRequest` kullanılırsa `-UseBasicParsing`.
-- HTMX POST'a `HX-Request: true` ekle (CSRF koruması bu başlığı zorunlu tutar; `Origin` varsa `Host` ile aynı).
-- Canvas oyunu: `?debug=1&seed=N`, `window.__game.getState()` (`masaustu-motor.md`).
+## Test hooks
+- A health endpoint (200 + short body) and `-Check` are mandatory in the skeleton.
+- E2E without Playwright: the Windows built-in `curl.exe` (not the `curl` alias in PS 5.1) scenario: home page 200 → session with a cookie jar (`-c/-b`) → task/progress POST → expected text. At each step status code + key text in the body. If `Invoke-WebRequest` is used, `-UseBasicParsing`.
+- Add `HX-Request: true` to an HTMX POST (CSRF protection requires this header; `Origin`, if present, must equal `Host`).
+- Canvas game: `?debug=1&seed=N`, `window.__game.getState()` (`desktop-engine.md`).
 
-## Playtest yöntemi
-Sıra: TARAYICI → HTTP → MANUEL (kullanıcı gözlemi); `YONTEM:` raporda yazılır.
-1. TARAYICI: tarayıcı paneli araçları alt ajanda ÇALIŞIR (smoke doğruladı: navigate, read_page, get_page_text, read_console_messages, read_network_requests, resize_window, javascript_tool). önce çalışıyor mu bak, çalışmıyorsa `run.ps1 -Up` → yerel adres; `Oturum: acik-birak` ise ürünü açık bırak, `kapat` ise YALNIZ kendi başlattığını `-Down` (başkasının açtığına dokunma); her ekran masaüstü + 375×812 (`resize_window`); konsol hataları, 4xx/5xx, erişilebilirlik ağacı (etiket, başlık sırası, odak); yatay taşma `javascript_tool` ile ölçülür (salt-okunur).
-2. Ekran görüntüsü DOSYAYA kaydedilemez; panel gizliyken 5 sn zaman aşımı olur → lider kullanıcıdan Browser panelini görünür tutmasını ister. `GORSEL: KONTROL EDILDI` yalnız ajan o ekran × görünümün görüntüsünü GERÇEKTEN gördüyse; kanıt = görüntünün metin betimi + ağaç alıntısı + gerekirse JS ölçümü (boyut, taşma, renk). 2 yeniden denemeden sonra alınamazsa hücre `DOGRULANMADI`. `reports/shots/` isteğe bağlıdır, hiçbir kapı ona bağlı değil.
-3. HTTP: çerezli `curl.exe`, HTMX için `HX-Request: true`; `GORSEL: DOGRULANMADI` (bilgi); K3/K4'te kullanıcının görsel onayı her zaman alınır; aşama K3/K4 ile bitmiyorsa (tam modda P-A5; K3'süz Ü/A4) kullanıcı görsel onayı + kapı kaydı ISTISNA.
-4. MANUEL: kullanıcı gözlemi; iki çağrılı akış (`agents/playtester.md`, `a6-dogrulama.md` adım 4; P: `a6-dogrulama-p.md` adım 2: form → kullanıcı yanıtı `state/MANUEL-<p>.md` → değerlendirme); `GORSEL: DOGRULANMADI`; form K3/K4 görsel onayının yerini tutmaz; aşama K3/K4 ile bitmiyorsa kullanıcının formu görsel onay sayılır (ISTISNA).
-Ses, animasyon hissi, refleks ölçülemez ("doğrulanmadı" yaz).
+## Playtest method
+Order: BROWSER → HTTP → MANUAL (user observation); `METHOD:` is written in the report.
+1. BROWSER: browser pane tools WORK in a sub-agent (smoke verified: navigate, read_page, get_page_text, read_console_messages, read_network_requests, resize_window, javascript_tool). First check whether it is running, if not `run.ps1 -Up` → local address; if `Session: leave-open` leave the product open, if `close` `-Down` ONLY what it started (do not touch what someone else opened); each screen desktop + 375×812 (`resize_window`); console errors, 4xx/5xx, accessibility tree (label, heading order, focus); horizontal overflow is measured with `javascript_tool` (read-only).
+2. A screenshot CANNOT be saved to a FILE; while the pane is hidden a 5 s timeout occurs → the lead asks the user to keep the Browser pane visible. `VISUAL: CHECKED` only if the agent ACTUALLY saw the image of that screen × view; evidence = text description of the image + tree excerpt + JS measurement if needed (size, overflow, color). If it cannot be obtained after 2 retries the cell is `UNVERIFIED`. `reports/shots/` is optional, no gate depends on it.
+3. HTTP: `curl.exe` with cookies, `HX-Request: true` for HTMX; `VISUAL: UNVERIFIED` (information); at K3/K4 the user's visual approval is always taken; if the stage does not end with K3/K4 (P-A5 in full mode; K3-less U/A4) user visual approval + EXCEPTION on the gate record.
+4. MANUAL: user observation; two-call flow (`agents/playtester.md`, `a6-verification.md` step 4; P: `a6-verification-p.md` step 2: form → user answer `state/MANUAL-<p>.md` → evaluation); `VISUAL: UNVERIFIED`; the form does not replace K3/K4 visual approval; if the stage does not end with K3/K4 the user's form counts as visual approval (EXCEPTION).
+Sound, animation feel, reflex cannot be measured (write "unverified").
 
-## Sınırlar
-Bilinen tuzaklar:
-- `dockerfile: Containerfile` açık yazılı; açık yazmak her durumda güvenli (varsayılan aramanın sağlayıcıya göre değiştiği doğrulanmadı).
-- Port yalnız `127.0.0.1`'e bağlı (`compose.yaml`); `0.0.0.0` yapma (tek istisna: `mobil.md` "Cihazda test" (b), kullanıcı ISTISNA'sıyla geçici `run.ps1 -Lan`, varsayılan kapalı).
-- CSRF: POST'ta `HX-Request` yoksa istek reddedilir; test istemcisi de göndermeli.
-- PS 5.1 BOM'suz UTF-8 betiği ANSI okur (`run.ps1` BOM'suz, ASCII): `run.ps1` ve mesajlar ASCII; Türkçe karakter yalnız `.md`/içerikte.
-- `restart: unless-stopped` + açılışta çöken uygulama = sessiz restart döngüsü; `-Up` sonrası `podman ps` + `-Logs` bak (genel davranış; doğrulanmadı).
-- `-Up` yalnız imaj yoksa build eder; kod değişince `-Build` şart (temiz klon testi `-Build -Up`).
+## Limits
+Known pitfalls:
+- `dockerfile: Containerfile` is written explicitly; writing it explicitly is safe in every case (that the default lookup varies by provider is unverified).
+- The port is bound only to `127.0.0.1` (`compose.yaml`); do not make it `0.0.0.0` (the single exception: `mobile.md` "Testing on a device" (b), temporary `run.ps1 -Lan` by user EXCEPTION, default off).
+- CSRF: if a POST lacks `HX-Request` the request is rejected; the test client must send it too.
+- PS 5.1 reads a BOM-less UTF-8 script as ANSI (`run.ps1` BOM-less, ASCII): `run.ps1` and messages are ASCII; non-ASCII characters only in `.md`/content.
+- `restart: unless-stopped` + an app that crashes at startup = a silent restart loop; after `-Up` check `podman ps` + `-Logs` (general behavior; unverified).
+- `-Up` builds only if there is no image; after a code change `-Build` is required (clean clone test `-Build -Up`).
 
-## Yayın paketi
-`README.md` (tek komut `run.ps1 -Build -Up`, adres, `-Down`) + `CHANGELOG.md` + git etiketi `vX.Y.Z`. Doğrulama: temiz klon → `run.ps1 -Build -Up` → `-E2E` PASS (T-A7). Yükleme kullanıcıda.
+## Release package
+`README.md` (single command `run.ps1 -Build -Up`, address, `-Down`) + `CHANGELOG.md` + git tag `vX.Y.Z`. Verification: clean clone → `run.ps1 -Build -Up` → `-E2E` PASS (T-A7). Upload is the user's job.

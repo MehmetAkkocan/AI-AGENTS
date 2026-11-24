@@ -1,12 +1,12 @@
-# Dersler ve Surec Onerileri — <ad>
-<!-- Projeye ozgu; yalniz lider yazar. A8 Retro'da guncellenir; ayni projede terfi sonrasi A1'de okunur. Projeler yalitiktir: baska projenin dersleri okunmaz. -->
+# Lessons and Process Proposals — <name>
+<!-- Project-specific; only the lead writes. Updated in A8 Retro; read in A1 after a promotion within the same project. Projects are isolated: other projects' lessons are not read. -->
 
-Surec degisikligi yalniz kullanici onayiyla merkez surec dosyalarina islenir. Satir silinmez.
+A process change is applied to the hub process files only with user approval. Rows are never deleted.
 
-## Surec onerileri
-| # | Tarih | Oneri | Karar (ONERI / KABUL / RED) | Uygulandigi yer |
+## Process proposals
+| # | Date | Proposal | Decision (PROPOSED / ACCEPTED / REJECTED) | Applied in |
 |---|---|---|---|---|
 
-## Dersler
-| # | Tarih | Asama | Ders |
+## Lessons
+| # | Date | Stage | Lesson |
 |---|---|---|---|
