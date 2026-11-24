@@ -1,82 +1,80 @@
-# AI Agent Team — 6 Seviye + Proje Yaşam Döngüsü
+# AI Agent Team — 6 Levels + Project Lifecycle
 
-Avenox'un ["Tek Ajandan Yapay Zeka Ekibine: 6 Seviye"](https://www.youtube.com/watch?v=zE_ggoUn7ao) videosundaki
-yapının Claude Code (+ isteğe bağlı Antigravity/Gemini) ile Windows üzerinde kurulumu. Üstüne bir proje yaşam
-döngüsü eklidir: fikirden yayına ve retroya dokuz aşama (A0-A8), dört kullanıcı kapısı (K1-K4).
+A Windows setup of a six-level AI agent team built on Claude Code (with optional Antigravity/Gemini). On top of it sits a project lifecycle: nine stages from idea to release and retrospective (A0–A8), and four user gates (K1–K4).
 
-Ana oturum **ekip lideridir**: yönetir, yalnız durum (state) dosyalarını yazar, script çalıştırmaz. Ajanlar üretir; critic, tester ve playtester denetler.
+The main session is the **team lead**. It coordinates work and writes only state files; it does not run scripts. Agents produce the output, and the critic, tester, and playtester review it.
 
-## Hızlı başlangıç
+## Quick start
 
 ```
 /proje yeni <ad> "<fikir>"
 ```
-Keşif görüşmesini başlatır (≤7 soru). Sonrası:
+Starts a discovery interview (≤7 questions). Then:
 
 ```
 /proje durum
 /proje ilerle
 ```
-- `/proje durum`: aktif projenin özeti. `/proje ilerle`: sıradaki adımı yürütür, kapıda size sorar; oturum kesilirse de aynı komutla sürer.
-- Bütün proje işi `/proje` ile yürür (tek istisna: merkez bakımı, `CLAUDE.md`); bu klasör genel bir merkezdir, projeye özel her şey `projects/<ad>/` altındadır.
-- Ayrıntılı kullanıcı kılavuzu: [docs/KULLANIM.md](docs/KULLANIM.md). Lider anayasası: `CLAUDE.md`.
+- `/proje durum`: summary of the active project. `/proje ilerle`: runs the next step and asks you at each gate; if the session is interrupted, the same command resumes it.
+- All project work goes through `/proje` (the only exception is maintaining the hub itself, described in `CLAUDE.md`). This folder is a general hub; everything project-specific lives under `projects/<ad>/`.
+- User guide: [docs/KULLANIM.md](docs/KULLANIM.md). Team lead rules: `CLAUDE.md`.
 
-## Seviyeler
+## Levels
 
-| Seviye | Fikir | Nerede |
+| Level | Idea | Where |
 |---|---|---|
-| 1 | Tek ajan | Normal Claude Code oturumu |
-| 2 | Paralel alt ajanlar | Aynı mesajda çoklu Agent çağrısı (Workflow yalnız siz isterseniz) |
-| 3 | Roller + role göre model | `.claude/agents/` (10 ajan) |
-| 4 | Karma ekip | `.claude/skills/antigravity/` (Gemini yalnız plan/öneri modu) |
-| 5 | Limite göre model seçimi | `team/budget.json` + `model-router` |
-| 6 | Hiç iş yapmayan lider | `/proje` + `project-lifecycle` (dış döngü) + `team-lead` (iç döngü) |
+| 1 | Single agent | A normal Claude Code session |
+| 2 | Parallel sub-agents | Several Agent calls in one message (Workflow only if you ask for it) |
+| 3 | Roles + a model per role | `.claude/agents/` (10 agents) |
+| 4 | Mixed team | `.claude/skills/antigravity/` (Gemini in plan/suggestion mode only) |
+| 5 | Model choice based on limits | `team/budget.json` + `model-router` |
+| 6 | A lead that does no work itself | `/proje` + `project-lifecycle` (outer loop) + `team-lead` (inner loop) |
 
-## Klasör yapısı
+## Folder structure
 
 ```
-CLAUDE.md                     Lider anayasası (her oturumda yüklenir)
-docs/KULLANIM.md              Kullanıcı kılavuzu
-.claude/agents/               10 ajan: researcher planner game-designer learning-designer
+CLAUDE.md                     Team lead rules (loaded in every session)
+docs/KULLANIM.md              User guide
+.claude/agents/               10 agents: researcher planner game-designer learning-designer
                               ux-designer coder writer critic tester playtester
 .claude/commands/             /proje
 .claude/skills/
-  team-lead/                  iç döngü (parça akışı)
-  model-router/               bütçe + model tablosu (scripts/budget.ps1)
-  antigravity/                Gemini köprüsü (scripts/agy-run.ps1)
-  project-lifecycle/          dış döngü: SKILL.md, sozluk.md, gates.md
+  team-lead/                  inner loop (task flow)
+  model-router/               budget + model table (scripts/budget.ps1)
+  antigravity/                Gemini bridge (scripts/agy-run.ps1)
+  project-lifecycle/          outer loop: SKILL.md, sozluk.md, gates.md
     phases/ templates/ checklists/ profiles/
 team/
-  state/                      HANDOFF (yalnız merkezin durumu)
-  scripts/ (+ tests/)         ekip scriptleri
-  reports/                    boş + README (yalnız merkez bakımı raporları)
-  budget.json                 limit durumu (ok|tight|exhausted)
-projects/PROJECTS.md          kayıt defteri + Aktif proje
-projects/<ad>/                (/proje yeni ile oluşur) her proje kendi git deposu
+  state/                      HANDOFF (hub state only)
+  scripts/ (+ tests/)         team scripts
+  reports/                    empty + README (hub-maintenance reports only)
+  budget.json                 limit status (ok|tight|exhausted)
+projects/PROJECTS.md          project registry + active project
+projects/<ad>/                (created by /proje yeni) each project is its own git repo
   state/                      PHASE, TASKS, TASKS-ARSIV, HANDOFF, INTAKE, LESSONS
-  docs/ reports/ ...          belgeler, ajan raporları, kaynak
+  docs/ reports/ ...          documents, agent reports, sources
 ```
 
-## Gereksinimler
+## Requirements
 
-- Claude Code ve Claude desktop Browser paneli (playtest sırasında görünür tutulur).
-- git, podman, Windows PowerShell 5.1 (host'ta başka bir şey gerekmez; Node/Python yok).
-- İsteğe bağlı: Antigravity CLI `<USERPROFILE>\.gemini\bin\agy.exe` (ilk kullanımda bir kez `agy` ile giriş).
+- Claude Code and the Claude desktop Browser pane (kept visible during playtests).
+- git, podman, Windows PowerShell 5.1. Nothing else is needed on the host; no Node or Python.
+- Optional: Antigravity CLI at `<USERPROFILE>\.gemini\bin\agy.exe` (sign in once with `agy` on first use).
 
-## Scriptler
+## Scripts
 
-| Script | Ne yapar | Kim çalıştırır |
+| Script | What it does | Who runs it |
 |---|---|---|
-| `team/scripts/stamp.ps1` | Rapor yolunu (damgalı ad) üretir | her ajan kendi |
-| `team/scripts/new-project.ps1` | Yeni proje iskeleti + ilk commit | coder |
-| `team/scripts/checkpoint.ps1` | Proje deposunda commit + etiket | coder |
-| `team/scripts/phase-gate.ps1` | Aşama çıkış kapısı denetimi | tester |
-| `team/scripts/list-reports.ps1` | Raporları listeler (`-Role`, `-Since`, `-Project`) | kullanıcı / ajan |
-| `.claude/skills/model-router/scripts/budget.ps1` | `team/budget.json` durumunu yazar/okur | kullanıcı ya da tester |
-| `.claude/skills/antigravity/scripts/agy-run.ps1` | Gemini'ye plan/öneri sorusu | tester |
-| `team/scripts/tests/phase-gate.tests.ps1` | phase-gate testleri | tester |
-| `team/scripts/tests/stamp.tests.ps1` | stamp testleri | tester |
+| `team/scripts/stamp.ps1` | Generates a timestamped report path | each agent, for its own report |
+| `team/scripts/new-project.ps1` | Creates a new project skeleton and its first commit | coder |
+| `team/scripts/checkpoint.ps1` | Commits and tags in the project repo | coder |
+| `team/scripts/phase-gate.ps1` | Checks the exit gate of a stage | tester |
+| `team/scripts/list-reports.ps1` | Lists reports (`-Role`, `-Since`, `-Project`) | user or agent |
+| `.claude/skills/model-router/scripts/budget.ps1` | Writes or reads `team/budget.json` | user or tester |
+| `.claude/skills/antigravity/scripts/agy-run.ps1` | Asks Gemini a plan or suggestion question | tester |
+| `team/scripts/tests/phase-gate.tests.ps1` | Tests for phase-gate | tester |
+| `team/scripts/tests/stamp.tests.ps1` | Tests for stamp | tester |
 
-## Kapsam dışı (ileride)
+## Out of scope (future)
 
-Codex, Kimi, DeepSeek skill'leri: `antigravity` skill'i şablon olarak kopyalanıp aynı kalıpla eklenebilir.
+Codex, Kimi, and DeepSeek skills: the `antigravity` skill can be copied as a template and extended with the same pattern.
