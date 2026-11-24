@@ -1,0 +1,7 @@
+﻿{
+    "claude":  "ok",
+    "gemini":  "ok",
+    "updated":  "2026-11-07 18:27",
+    "values":  "ok | tight | exhausted",
+    "note":  "Limit uyarisi gorunce guncelle: .claude/skills/model-router/scripts/budget.ps1 -Claude tight"
+}
